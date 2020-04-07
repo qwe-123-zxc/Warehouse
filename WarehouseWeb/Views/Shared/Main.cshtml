@@ -1,0 +1,138 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>条码仓库管理系统</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <style>
+        .nav {
+            width:100%;
+            height:50px;
+            background-color:rgb(35,36,38);
+            /*border:1px solid red;*/
+            position:fixed;
+        }
+        .sidebar {
+            width:160px;
+            height:100%;
+            background-color:rgb(55,56,56);
+            /*border:1px solid red;*/
+            margin-top:50px;
+            position:fixed;
+        }
+        .menuBar {
+            width:100%;
+            height:40px;
+            background-color:rgb(239, 239, 239);
+            /*border:1px solid red;*/
+            margin-top:50px;
+            margin-left:160px;
+            position:fixed;
+            z-index:-1;
+        }
+        .mainBody {
+            width:100%;
+            height:100%;
+            background-color: gray;
+            /*border:1px solid red;*/
+            margin-top:90px;
+            margin-left:160px;
+            position:fixed;
+            z-index:-1;
+        }
+        .logo {
+            width: 140px;
+            color: white;
+            font-size:20px;
+            margin-left:20px;
+            margin-top:10px;
+            /*border:1px solid red;*/
+        }
+        .nav_right {
+            width: 120px;
+            height:40px;
+            margin-top:-35px;  
+            margin-right:20px;
+            float:right;
+            padding:10px 5px;
+        }
+        .nav_right:hover {
+            background-color:rgb(51, 51, 51);
+            border-radius:5px;
+        }
+        .xl_img {
+            position:fixed;
+            margin-left:1300px;
+            margin-top:2px;
+        }
+        .xiala {
+            position:fixed;
+            width:160px;
+            height:100px;
+            /*border:1px solid rgb(157, 157, 157);*/
+            margin-left:1187px;
+            margin-top:15px;
+            background-color:white;
+            border-radius:3px;
+        }
+        .xiala > ul > li {
+            margin:10px 0px;    
+        }
+    </style>
+</head>
+<body>
+    <div class="all" style="overflow-y:scroll;">
+        <div class="nav">
+            <div class="logo">仓储管理系统</div>
+            <div class="nav_right">
+                <div>
+                    <img src="~/Image/ren.png" width="20" height="20"/>
+                    <span style="color:white;">当前登录</span>
+                    <img src="~/Image/xiala.png" width="20" height="20"/>
+                </div>
+            </div>
+            <img src="~/Image/xiangshang.png" class="xl_img" width="20" height="20"/>
+            <div class="xiala">
+                <ul type="none">
+                    <li>admin</li>
+                    <li>修改密码</li>
+                    <li>退出系统</li>
+                </ul>
+            </div>
+        </div>
+        <div class="sidebar ">
+
+        </div>
+        <div class="menuBar"></div>
+        <div class="mainBody">
+            @RenderBody()
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            //获取侧边栏数据
+            GetSidebarData();
+        });
+
+        function GetSidebarData() {
+            $.ajax({
+                url: "",
+                data: "",
+                type: "",
+                dataType: "",
+                success: function (result) {
+
+                }
+            });
+        }
+    </script>
+</body>
+</html>

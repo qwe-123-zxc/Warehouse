@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/MasterPage/Main.cshtml";
+}
+
+<div class="menuBar" style="border-bottom:1px solid #ddd;">
+    <div style="margin-top:10px;margin-left:30px;">
+        <img src="~/Image/fangzi01-copy.png" width="13" height="10" />
+        <a href="~/Warehouse/Index" style="margin-top:20px;">首页</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="javascript:void(0);" style="margin-top:20px;">系统设置</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="~/Supplier/Index" style="margin-top:20px;">权限分配</a>
+    </div>
+</div>
+<div class="menuContent">
+    <div style="width:560px;padding-bottom: 30px;background-color:#f9f9f9;border:1px solid #ddd;border-radius:3px;margin:20px 25px;">
+        <div style="height:35px;background-color:#efefef;">
+            <img src="~/Image/fenpeishebei.png" style="float: left;margin-top: 10px;margin-left: 15px;" />
+            <span style="margin: 7px 5px;float: left;font-weight: bold;">未分配的权限</span>
+        </div>
+    </div>
+    <div style="width:560px;padding-bottom: 30px;background-color:#f9f9f9;border:1px solid #ddd;border-radius:3px;margin-top: -87px;margin-left: 610px;">
+        <div style="height:35px;background-color:#efefef;">
+            <img src="~/Image/yunfenpei.png" style="float: left;margin-top: 10px;margin-left: 15px;" />
+            <span style="margin: 7px 5px;float: left;font-weight: bold;">已分配的权限</span>
+            <button style="background-color:white;border:1px solid #ddd;float:right;margin:5px 10px;">保存</button>
+        </div>
+    </div>
+</div>
