@@ -198,6 +198,12 @@
     <Compile Include="SystemSetup\KuweiController.cs" />
     <Compile Include="SystemSetup\MenuController.cs" />
     <Compile Include="SystemSetup\RoleController.cs" />
+    <Compile Include="TheWarehouseOperation\BadReportsController.cs" />
+    <Compile Include="TheWarehouseOperation\CheckStocksController.cs" />
+    <Compile Include="TheWarehouseOperation\InStoragesController.cs" />
+    <Compile Include="TheWarehouseOperation\MoveReportsController.cs" />
+    <Compile Include="TheWarehouseOperation\OutStoragesController.cs" />
+    <Compile Include="TheWarehouseOperation\ReturnOrderStocksController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -303,6 +309,18 @@
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Menu\Index.cshtml" />
+    <Content Include="Views\BadReports\ListBadReport.cshtml" />
+    <Content Include="Views\BadReports\ListAdd.cshtml" />
+    <Content Include="Views\CheckStocks\ListCheckStock.cshtml" />
+    <Content Include="Views\CheckStocks\ListAdd.cshtml" />
+    <Content Include="Views\InStorages\List.cshtml" />
+    <Content Include="Views\InStorages\ListAdd.cshtml" />
+    <Content Include="Views\MoveReports\ListMoveReport.cshtml" />
+    <Content Include="Views\MoveReports\ListAdd.cshtml" />
+    <Content Include="Views\OutStorages\ListOutStorage.cshtml" />
+    <Content Include="Views\OutStorages\ListAdd.cshtml" />
+    <Content Include="Views\ReturnOrderStocks\ListReturnOrderStock.cshtml" />
+    <Content Include="Views\ReturnOrderStocks\ListAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,203 @@
+﻿
+@{
+    ViewBag.Title = "ListAdd";
+    Layout = "~/Views/MasterPage/Main.cshtml";
+}
+
+<head>
+    <style>
+        #Info {
+            margin: 25px;
+            background-color: rgb(239, 239, 239);
+            border: 1px solid #c1b5b5;
+            border-radius: 5px;
+        }
+
+        .ZhuTiXinZen {
+            border: 1px solid #c1b5b5;
+            margin: 15px 5px 15px;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .ChanPinTianJia {
+            border: 1px solid #c1b5b5;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 3px;
+        }
+
+        #personal {
+            display: none;
+            width: 350px;
+            position: absolute;
+            top: 30px;
+            left: 380px;
+            z-index: 2;
+            background: white;
+            border: 1px solid #ddd;
+        }
+
+        .ChaKanBiaoTi {
+            border: 1px solid #c1b5b5;
+            background: #3a3939;
+        }
+
+        .XinZenChanPingDiBu {
+            background-color: #d7d3d3;
+            padding: 5px;
+        }
+    </style>
+</head>
+<div class="menuBar" style="margin-bottom:15px;">
+    <div style="padding-top:10px;padding-left:30px;">
+        <img src="../../Image/fangzi01-copy.png" style="width:13px;height:10px;" />
+        <a href="javascript:void(0);" style="margin-top:20px;">首页</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="#" style="margin-top:20px;">仓库作业</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="/Product/List" style="margin-top:20px;">入库管理</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="#" style="margin-top:20px;">新增入库</a>
+    </div>
+</div>
+
+<div class="menuContent">
+    <div id="Info" class="container">
+        <div class="row">
+            <div class="col-md-12" style="border-bottom:1px solid #c1b5b5">
+                <h5 style="font-weight:bold;">新增入库单</h5>
+            </div>
+        </div>
+        <div class="ZhuTiXinZen">
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    入库单编号
+                    <input class="form-control" type="text" />
+                </div>
+                <div class="col-md-3 form-group">
+                    入库单类型
+                    <input class="form-control" type="text" />
+                </div>
+                <div class="col-md-3 form-group">
+                    制单人
+                    <input class="form-control" type="text" />
+                </div>
+                <div class="col-md-3 form-group">
+                    供应商编号
+                    <input class="form-control" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    制单时间
+                    <input class="form-control" type="text" />
+                </div>
+                <div class="col-md-5 form-group">
+                    备注
+                    <input class="form-control" type="text" />
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover table-responsive">
+            <thead>
+                <tr>
+                    <td>产品名称</td>
+                    <td>产品条码</td>
+                    <td>规格</td>
+                    <td>单价</td>
+                    <td>数量</td>
+                    <td>总价</td>
+                    <td>库位</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div class="row ChanPinTianJia">
+            <div class="col-md-4">
+                <a href="javascript:ChaKan()">
+                    <span class="btn btn-primary">新增产品</span>
+                </a>
+                <button class="btn btn-primary">保存</button>
+                <button class="btn btn-default">取消</button>
+            </div>
+        </div>
+    </div>
+    @*新增产品*@
+    <div id="personal">
+        <div class="container">
+            <div class="row ChaKanBiaoTi">
+                <div class="col-md-6">
+                    <span style="color:white">新增产品</span>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a href="javascript:ChaKanGuanBi()" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
+                </div>
+            </div>
+            <div style="margin:8px;">
+                <div class="row form-inline form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">产品编码</label>&nbsp;&nbsp;
+                        <input type="text" class="form-control" style="width:200px;" />
+                    </div>
+                </div>
+                <div class="row form-inline form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">产品名称</label>&nbsp;&nbsp;
+                        <input type="text" class="form-control" style="width:200px;" />
+                    </div>
+                </div>
+                <div class="row form-inline form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">产品规格</label>&nbsp;&nbsp;
+                        <input type="text" class="form-control" style="width:200px;" />
+                    </div>
+                </div>
+                <div class="row form-inline form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">产品单价</label>&nbsp;&nbsp;
+                        <input type="text" class="form-control" style="width:200px;" />
+                        <label class="control-label">元</label>
+                    </div>
+                </div>
+                <div class="row form-inline form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">入库库位</label>&nbsp;&nbsp;
+                        <input type="text" class="form-control" style="width:200px;" />
+                    </div>
+                </div>
+                <div class="row form-inline form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">入库数量</label>&nbsp;&nbsp;
+                        <input type="text" class="form-control" style="width:150px;" />
+                        <label class="control-label">千克</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row XinZenChanPingDiBu">
+                <div class="col-md-12 text-right">
+                    <span class="btn btn-default" id="btnAdd">确定</span>&nbsp;&nbsp;<span class="btn btn-default" id="btnCancel">取消</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        $("#btnCancel").click(function () {
+            $("#personal").hide();
+        });
+    });
+
+    function ChaKan() {
+        $("#personal").show();
+    }
+
+    function ChaKanGuanBi() {
+        $("#personal").hide();
+    }
+</script>
+
+

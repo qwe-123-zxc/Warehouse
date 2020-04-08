@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "ListOutStorage";
+    Layout = "~/Views/MasterPage/Main.cshtml";
+}
+
+<head>
+    <style>
+        #Info {
+            margin: 25px;
+            background-color: rgb(239, 239, 239);
+            border: 1px solid #c1b5b5;
+            border-radius: 5px;
+        }
+
+        .btn {
+            border: 1px solid #c1b5b5;
+        }
+
+        .qd {
+            width: 70px;
+        }
+
+        .ipt {
+            width: 180px;
+        }
+
+        .GaoJiChaXun {
+            border: 1px solid #c1b5b5;
+            padding: 15px;
+            margin: 2px 6px 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<div class="menuBar" style="margin-bottom:15px;">
+    <div style="padding-top:10px;padding-left:30px;">
+        <img src="../../Image/fangzi01-copy.png" style="width:13px;height:10px;" />
+        <a href="javascript:void(0);" style="margin-top:20px;">首页</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="#" style="margin-top:20px;">仓库作业</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="#" style="margin-top:20px;">出库管理</a>
+    </div>
+</div>
+
+<div class="menuContent">
+    <div id="Info" class="container">
+        <div class="row">
+            <div class="col-md-12" style="border-bottom:1px solid #c1b5b5">
+                <h5 style="font-weight:bold;">出库单管理</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 margin-bottom-10" style="margin:8px;">
+                <div class="btn-group">
+                    <button class="btn">所有</button>
+                    <button class="btn">待审核</button>
+                    <button class="btn">审核通过</button>
+                    <button class="btn">审核失败</button>
+                </div>
+            </div>
+            <div class="col-md-3 navbar-right" style="margin:8px;padding:0px;">
+                <a href="@Url.Action("ListAdd")">
+                    <button class="btn btn-primary qd">新增</button>
+                </a>
+                <button class="btn btn-danger qd">删除</button>
+                <button class="btn btn-info qd">导出</button>
+            </div>
+        </div>
+        @*条件查询*@
+        <div class="row" style="padding:5px;">
+            <div class="col-md-2 form-group form-inline">
+                <input class="form-control" type="text" placeholder="请输入出库单号" />
+            </div>
+            <div class="col-md-5 form-group form-inline">
+                <label class="control-label">时间</label>
+                <input type="date" class="form-control" style="width:150px;" /> 到 <input type="date" class="form-control" style="width:150px;" />
+            </div>
+            <div class="col-md-2 form-group form-inline">
+                <button class="btn btn-info">搜索</button>&nbsp;&nbsp;
+                <button class="btn btn-primary" id="GJSS">高级搜索</button>
+            </div>
+        </div>
+        @*高级搜索*@
+        <div class="row GaoJiChaXun" style="display:none;">
+            <div class="col-md-2 form-group">
+                客户
+                <input class="form-control" type="text" />
+            </div>
+            <div class="col-md-2 form-group">
+                单据类型
+                <input class="form-control" type="text" />
+            </div>
+            <div class="col-md-2 form-group">
+                <button class="btn btn-info" style="margin:20px 0px 0px;">搜索</button>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover table-responsive">
+            <thead>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>出库单号</td>
+                    <td>出库类型</td>
+                    <td>客户名称</td>
+                    <td>总数量</td>
+                    <td>总金额</td>
+                    <td>状态</td>
+                    <td>制单人</td>
+                    <td>操作方式</td>
+                    <td>创建时间</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div class="row form-inline" style="margin:10px;">
+            <button class="btn btn-success" type="submit" name="first">首页</button>
+            <button class="btn btn-success" type="submit" name="up">上一页</button>
+            <input style="width:70px;" class="form-control" value="@ViewBag.PageIndex" type="text" name="PageIndex" />
+            <button class="btn btn-success" type="submit" name="go">Go</button>
+            <button class="btn btn-success" type="submit" name="next">下一页</button>
+            <button class="btn btn-success" type="submit" name="last">尾页</button>
+            <label>共计  条 /  页</label>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        $("#GJSS").click(function () {
+            $(".GaoJiChaXun").toggle();
+        });
+    });
+</script>
+

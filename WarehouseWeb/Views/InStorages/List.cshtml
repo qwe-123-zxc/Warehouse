@@ -1,0 +1,419 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/MasterPage/Main.cshtml";
+}
+<head>
+    <style>
+        #Info {
+            margin: 25px;
+            background-color: rgb(239, 239, 239);
+            border: 1px solid #c1b5b5;
+            border-radius: 5px;
+        }
+
+        .btn {
+            border: 1px solid #c1b5b5;
+        }
+
+        .qd {
+            width: 70px;
+        }
+
+        .ipt {
+            width: 180px;
+        }
+
+        .GaoJiChaXun {
+            border: 1px solid #c1b5b5;
+            padding: 15px;
+            margin: 2px 6px 15px;
+            border-radius: 5px;
+        }
+
+        /*查看明细*/
+        #personal {
+            display: none;
+            width: 680px;
+            /*height: 400px;*/
+            position: absolute;
+            top: 50px;
+            left: 250px;
+            z-index: 2;
+            background: white;
+            border: 1px solid #ddd;
+        }
+
+        .ChaKanBiaoTi {
+            border: 1px solid #c1b5b5;
+            background: #3a3939;
+        }
+
+        .XinZenChanPingDiBu {
+            background-color: #d7d3d3;
+            padding: 5px;
+        }
+
+        .InfoGDT {
+            display: block;
+            height: 100px;
+            overflow-y: scroll;
+        }
+
+            .BTGDT, .InfoGDT tr {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
+            }
+        /*滚动条默认宽度是16px 将thead的宽度减16px*/
+        .BTGDT {
+            width: calc( 100% - 1em);
+        }
+
+        /*入库单审核*/
+        #personal_1 {
+            display: none;
+            width: 680px;
+            /*height: 400px;*/
+            position: absolute;
+            top: 50px;
+            left: 250px;
+            z-index: 2;
+            background: white;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<div class="menuBar" style="margin-bottom:15px;">
+    <div style="padding-top:10px;padding-left:30px;">
+        <img src="../../Image/fangzi01-copy.png" style="width:13px;height:10px;" />
+        <a href="javascript:void(0);" style="margin-top:20px;">首页</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="#" style="margin-top:20px;">仓库作业</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="#" style="margin-top:20px;">入库管理</a>
+    </div>
+</div>
+
+<div class="menuContent">
+    <div id="Info" class="container">
+        <div class="row">
+            <div class="col-md-12" style="border-bottom:1px solid #c1b5b5">
+                <h5 style="font-weight:bold;">入库单管理</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 margin-bottom-10" style="margin:8px;">
+                <div class="btn-group">
+                    <button class="btn">所有</button>
+                    <button class="btn">待审核</button>
+                    <button class="btn">审核通过</button>
+                    <button class="btn">审核失败</button>
+                </div>
+            </div>
+            <div class="col-md-3 navbar-right" style="margin:8px;padding:0px;">
+                <a href="@Url.Action("ListAdd")">
+                    <button class="btn btn-primary qd">新增</button>
+                </a>
+                <button class="btn btn-danger qd">删除</button>
+                <button class="btn btn-info qd">导出</button>
+            </div>
+        </div>
+        @*条件查询*@
+        <div class="row" style="padding:5px;">
+            <div class="col-md-2 form-group form-inline">
+                <input class="form-control" type="text" placeholder="请输入入库单号" />
+            </div>
+            <div class="col-md-5 form-group form-inline">
+                <label class="control-label">时间</label>
+                <input type="date" class="form-control" style="width:150px;" /> 到 <input type="date" class="form-control" style="width:150px;" />
+            </div>
+            <div class="col-md-2 form-group form-inline">
+                <button class="btn btn-info">搜索</button>&nbsp;&nbsp;
+                <button class="btn btn-primary" id="GJSS">高级搜索</button>
+            </div>
+        </div>
+        @*高级搜索*@
+        <div class="row GaoJiChaXun" style="display:none;">
+            <div class="col-md-2 form-group">
+                供应商
+                <input class="form-control" type="text" />
+            </div>
+            <div class="col-md-2 form-group">
+                单据类型
+                <input class="form-control" type="text" />
+            </div>
+            <div class="col-md-2 form-group">
+                <button class="btn btn-info" style="margin:20px 0px 0px;">搜索</button>
+            </div>
+        </div>
+        @*表内容查询*@
+        <table class="table table-bordered table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" /></th>
+                    <th>入库单号</th>
+                    <th>入库类型</th>
+                    <th>供应商</th>
+                    <th>入库数</th>
+                    <th>总金额</th>
+                    <th>状态</th>
+                    <th>制单人</th>
+                    <th>操作方式</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>123123</td>
+                    <td>生产产品入库</td>
+                    <td>小米游戏代练工作室</td>
+                    <td>20</td>
+                    <td>297480元</td>
+                    <td>等待审核</td>
+                    <td>阿三大苏打</td>
+                    <td>电脑</td>
+                    <td>2020-02-22</td>
+                    <td>
+                        <a title="编辑" href="#"><img src="~/Image/Write.png" /></a>
+                        <a title="删除" href="#"><img src="~/Image/cha.png" /></a>
+                        <a title="查看" href="javascript:ChaKan()"><img src="~/Image/yanjing.png" /></a>
+                        <a title="审核" href="javascript:Shenhe()"><img src="~/Image/icon.png" /></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        @*分页*@
+        <div class="row form-inline" style="margin:10px;">
+            <button class="btn btn-success" type="submit" name="first">首页</button>
+            <button class="btn btn-success" type="submit" name="up">上一页</button>
+            <input style="width:70px;" class="form-control" value="1" type="text" name="PageIndex" />
+            <button class="btn btn-success" type="submit" name="go">Go</button>
+            <button class="btn btn-success" type="submit" name="next">下一页</button>
+            <button class="btn btn-success" type="submit" name="last">尾页</button>
+            <label>共计  条 /  页</label>
+        </div>
+    </div>
+
+    @*查看操作*@
+    <div id="personal">
+        <div class="container">
+            <div class="row ChaKanBiaoTi">
+                <div class="col-md-6">
+                    <span style="color:white" id="mc">入库单明细</span>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a href="javascript:ChaKanGuanBi()" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
+                </div>
+            </div>
+            <div class="row ChaKanZhuTi">
+                <table class="table table-bordered table-responsive">
+                    <tbody>
+                        <tr>
+                            <td class="bt">入库单号</td>
+                            <td>123123</td>
+                            <td class="bt">类型</td>
+                            <td>生产产品入库</td>
+                            <td class="bt">状态</td>
+                            <td>等待审核</td>
+                        </tr>
+                        <tr>
+                            <th class="bt">供应商编号</th>
+                            <td>000011</td>
+                            <th class="bt">供应商名称</th>
+                            <td>小米游戏带练工作室</td>
+                            <th class="bt">联系人</th>
+                            <td>左冷禅</td>
+                        </tr>
+                        <tr>
+                            <th>创建人</th>
+                            <td>阿三大苏打</td>
+                            <th>创建时间</th>
+                            <td>2020-02-22</td>
+                            <th>电话</th>
+                            <td>12345678910</td>
+                        </tr>
+                        <tr>
+                            <th>备注</th>
+                            <td colspan="5">asdasd</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <table class="table table-bordered table-hover table-responsive">
+                    <thead class="BTGDT">
+                        <tr>
+                            <th>产品名称</th>
+                            <th>产品条码</th>
+                            <th>规格</th>
+                            <th>单价</th>
+                            <th>入库数</th>
+                            <th>总价</th>
+                            <th>库位</th>
+                        </tr>
+                    </thead>
+                    <tbody class="InfoGDT">
+                        <tr>
+                            <td>三星 WB200F正品无线w...</td>
+                            <td>545657667</td>
+                            <td>6767</td>
+                            <td>67.00 <span>元</span></td>
+                            <td>20</td>
+                            <td>297480.00 <span>元</span></td>
+                            <td>成品库位</td>
+                        </tr>
+                        <tr>
+                            <td>三星 WB200F正品无线w...</td>
+                            <td>545657667</td>
+                            <td>6767</td>
+                            <td>67.00 <span>元</span></td>
+                            <td>20</td>
+                            <td>297480.00 <span>元</span></td>
+                            <td>成品库位</td>
+                        </tr>
+                        <tr>
+                            <td>三星 WB200F正品无线w...</td>
+                            <td>545657667</td>
+                            <td>6767</td>
+                            <td>67.00 <span>元</span></td>
+                            <td>20</td>
+                            <td>297480.00 <span>元</span></td>
+                            <td>成品库位</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row XinZenChanPingDiBu">
+                <div class="col-md-12 text-right">
+                    <span class="btn btn-default btnClose">关闭</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*审核确认*@
+    <div id="personal_1">
+        <div class="container">
+            <div class="row ChaKanBiaoTi">
+                <div class="col-md-6">
+                    <span style="color:white" id="mc">入库单审核</span>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a href="javascript:ChaKanGuanBi()" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
+                </div>
+            </div>
+            <div class="row ChaKanZhuTi">
+                <table class="table table-bordered table-responsive">
+                    <tbody>
+                        <tr>
+                            <td class="bt">入库单号</td>
+                            <td>123123</td>
+                            <td class="bt">类型</td>
+                            <td>生产产品入库</td>
+                            <td class="bt">状态</td>
+                            <td>等待审核</td>
+                        </tr>
+                        <tr>
+                            <th class="bt">供应商编号</th>
+                            <td>000011</td>
+                            <th class="bt">供应商名称</th>
+                            <td>小米游戏带练工作室</td>
+                            <th class="bt">联系人</th>
+                            <td>左冷禅</td>
+                        </tr>
+                        <tr>
+                            <th>创建人</th>
+                            <td>阿三大苏打</td>
+                            <th>创建时间</th>
+                            <td>2020-02-22</td>
+                            <th>电话</th>
+                            <td>12345678910</td>
+                        </tr>
+                        <tr>
+                            <th>备注</th>
+                            <td colspan="5">asdasd</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <table class="table table-bordered table-hover table-responsive">
+                    <thead class="BTGDT">
+                        <tr>
+                            <th>产品名称</th>
+                            <th>产品条码</th>
+                            <th>规格</th>
+                            <th>单价</th>
+                            <th>入库数</th>
+                            <th>总价</th>
+                            <th>库位</th>
+                        </tr>
+                    </thead>
+                    <tbody class="InfoGDT">
+                        <tr>
+                            <td>三星 WB200F正品无线w...</td>
+                            <td>545657667</td>
+                            <td>6767</td>
+                            <td>67.00 <span>元</span></td>
+                            <td>20</td>
+                            <td>297480.00 <span>元</span></td>
+                            <td>成品库位</td>
+                        </tr>
+                        <tr>
+                            <td>三星 WB200F正品无线w...</td>
+                            <td>545657667</td>
+                            <td>6767</td>
+                            <td>67.00 <span>元</span></td>
+                            <td>20</td>
+                            <td>297480.00 <span>元</span></td>
+                            <td>成品库位</td>
+                        </tr>
+                        <tr>
+                            <td>三星 WB200F正品无线w...</td>
+                            <td>545657667</td>
+                            <td>6767</td>
+                            <td>67.00 <span>元</span></td>
+                            <td>20</td>
+                            <td>297480.00 <span>元</span></td>
+                            <td>成品库位</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row XinZenChanPingDiBu">
+                <div class="col-md-12 text-right">
+                    <span class="btn btn-default">审核通过</span>&nbsp;
+                    <span class="btn btn-default">审核不通过</span>&nbsp;
+                    <span class="btn btn-default btnClose">关闭</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        $("#GJSS").click(function () {
+            $(".GaoJiChaXun").toggle();
+        });
+        $(".btnClose").click(function () {
+            $("#personal").hide();
+            $("#personal_1").hide();
+        });
+    });
+    //查看明细
+    function ChaKan() {
+        $("#personal").show();
+    }
+    function ChaKanGuanBi() {
+        $("#personal").hide();
+        $("#personal_1").hide();
+    }
+    //审核入库单
+    function Shenhe() {
+        $("#personal_1").show();
+    }
+</script>
+
