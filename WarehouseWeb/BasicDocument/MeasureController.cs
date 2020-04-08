@@ -4,16 +4,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace WarehouseWeb.Controllers
+namespace WarehouseWeb.BasicDocument
 {
-    public class KuweiController : Controller
+    /// <summary>
+    /// 计量单位页面
+    /// </summary>
+    public class MeasureController : Controller
     {
-        // GET: Kuwei
+        // GET: Measure
         public ActionResult Index()
         {
-            return View();
-        }
-        public ActionResult yemian() {
             return View();
         }
     }

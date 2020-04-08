@@ -1,0 +1,436 @@
+﻿
+@{
+    ViewBag.Title = "ListReturnOrderStock";
+    Layout = "~/Views/MasterPage/Main.cshtml";
+}
+<head>
+    <style>
+
+        #Info {
+            margin: 25px;
+            background-color: white;
+            border: 1px solid #c1b5b5;
+            border-radius: 5px;
+        }
+
+        .btn {
+            border: 1px solid #c1b5b5;
+        }
+
+        .qd {
+            width: 70px;
+        }
+
+        .ipt {
+            width: 180px;
+        }
+
+        .GaoJiChaXun {
+            border: 1px solid #c1b5b5;
+            padding: 15px;
+            margin: 2px 6px 15px;
+            border-radius: 5px;
+        }
+
+        .ChaKanBiaoTi {
+            border: 1px solid #c1b5b5;
+            background: #3a3939;
+            padding: 5px 0px;
+        }
+
+        .XinZenChanPingDiBu {
+            background-color: #d7d3d3;
+            margin-top: -20px;
+            height: 35px;
+        }
+
+        .InfoGDT {
+            display: block;
+            height: 100px;
+            overflow-y: scroll;
+        }
+
+            .BTGDT, .InfoGDT tr {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
+            }
+        /*滚动条默认宽度是16px 将thead的宽度减16px*/
+        .BTGDT {
+            width: calc( 100% - 1em);
+        }
+
+        /*入库单审核*/
+        #personal_1 {
+            display: none;
+            width: 680px;
+            /*height: 400px;*/
+            position: absolute;
+            top: 50px;
+            left: 250px;
+            z-index: 2;
+            background: white;
+            border: 1px solid #ddd;
+        }
+
+        .first, .last {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            width: 50px;
+            height: 30px;
+            padding: 2px 10px;
+            margin-left: -5px;
+        }
+
+        .up, .next {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            width: 60px;
+            height: 30px;
+            padding: 2px;
+            margin-left: -5px;
+        }
+
+        .PageIndex {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            width: 30px;
+            height: 30px;
+            padding: 2px 10px;
+            margin-left: -5px;
+        }
+
+        .go {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            width: 40px;
+            height: 30px;
+            padding: 2px;
+            margin-left: -5px;
+        }
+
+
+        #o {
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            display: none;
+            position: absolute;
+            z-index: 1;
+            background-color: gainsboro;
+        }
+
+        /*查看明细*/
+        #p, #personal_1 {
+            display: none;
+            width: 680px;
+            height: 390px;
+            position: absolute;
+            top: 50px;
+            left: 250px;
+            z-index: 2;
+            background: white;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<div class="menuBar" style="margin-bottom:15px;">
+    <div style="padding-top:10px;padding-left:30px;">
+        <img src="../../Image/fangzi01-copy.png" style="width:13px;height:10px;" />
+        <a href="javascript:void(0);" style="margin-top:20px;">首页</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="#" style="margin-top:20px;">仓库作业</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="#" style="margin-top:20px;">移库管理</a>
+    </div>
+</div>
+<div class="menuContent">
+    <div id="Info" class="container">
+        <div style="height:40px;background-color:#eeeeee;border-bottom:1px solid #ddd;width: 1158px;margin-left: -15px;">
+            <img src="~/Image/diqiu.png" style="float: left;margin:12px 0px 10px 20px" />
+            <span style="margin-top:10px;float: left;font-weight: bold;">移库管理</span>
+        </div>
+        <div class="row">
+            <div class="col-md-4 margin-bottom-10" style="margin:8px;">
+                <div class="btn-group">
+                    <button class="btn">所有</button>
+                    <button class="btn">待审核</button>
+                    <button class="btn">审核通过</button>
+                    <button class="btn">审核失败</button>
+                </div>
+            </div>
+            <div class="col-md-3 navbar-right" style="margin:8px;padding:0px;">
+                <button class="btn btn-primary qd" onclick="insertInStorage();">新增</button>
+                <button class="btn btn-danger qd">删除</button>
+                <button class="btn btn-info qd">导出</button>
+            </div>
+        </div>
+        @*条件查询*@
+        <div class="row" style="padding:5px;">
+            <div class="col-md-2 form-group form-inline">
+                <input class="form-control" type="text" placeholder="请输入移库单号" />
+            </div>
+            <div class="col-md-5 form-group form-inline">
+                <label class="control-label">时间</label>
+                <input type="date" class="form-control" style="width:150px;" /> 到 <input type="date" class="form-control" style="width:150px;" />
+            </div>
+            <div class="col-md-3 form-group form-inline" style="margin-left:-90px;">
+                <button class="btn btn-primary" style="width: 70px;">搜索</button>
+            </div>
+        </div>
+        @*表内容查询*@
+        <table class="table table-bordered table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" /></th>
+                    <th>退货单</th>
+                    <th>退货类型</th>
+                    <th>退货数量</th>
+                    <th>状态</th>
+                    <th>制单人</th>
+                    <th>操作方式</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+        </table>
+        @*分页*@
+        <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
+            <button class="first" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
+            <button class="up">上一页</button>
+            <input class="PageIndex" type="text" value="1" />
+            <button class="go">GO</button>
+            <button class="next">下一页</button>
+            <button class="last">尾页</button>
+            <label>当前页是第 1 页,共计 5 条/ 1 页</label>
+        </div>
+    </div>
+</div>
+
+<div id="o"></div>
+@*查看操作*@
+<div id="p">
+    <div class="container">
+        <div class="row ChaKanBiaoTi">
+            <div class="col-md-6">
+                <span style="color:white" id="mc">入库单明细</span>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="javascript:ChaKanGuanBi()" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
+            </div>
+        </div>
+        <div class="row ChaKanZhuTi">
+            <table class="table table-bordered table-responsive">
+                <tbody>
+                    <tr>
+                        <td class="bt">入库单号</td>
+                        <td>123123</td>
+                        <td class="bt">类型</td>
+                        <td>生产产品入库</td>
+                        <td class="bt">状态</td>
+                        <td>等待审核</td>
+                    </tr>
+                    <tr>
+                        <th class="bt">供应商编号</th>
+                        <td>000011</td>
+                        <th class="bt">供应商名称</th>
+                        <td>小米游戏带练工作室</td>
+                        <th class="bt">联系人</th>
+                        <td>左冷禅</td>
+                    </tr>
+                    <tr>
+                        <th>创建人</th>
+                        <td>阿三大苏打</td>
+                        <th>创建时间</th>
+                        <td>2020-02-22</td>
+                        <th>电话</th>
+                        <td>12345678910</td>
+                    </tr>
+                    <tr>
+                        <th>备注</th>
+                        <td colspan="5">asdasd</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <table class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
+                <thead class="BTGDT">
+                    <tr>
+                        <th>产品名称</th>
+                        <th>产品条码</th>
+                        <th>规格</th>
+                        <th>单价</th>
+                        <th>入库数</th>
+                        <th>总价</th>
+                        <th>库位</th>
+                    </tr>
+                </thead>
+                <tbody class="InfoGDT">
+                    <tr>
+                        <td>三星 WB200F正品无线w...</td>
+                        <td>545657667</td>
+                        <td>6767</td>
+                        <td>67.00 <span>元</span></td>
+                        <td>20</td>
+                        <td>297480.00 <span>元</span></td>
+                        <td>成品库位</td>
+                    </tr>
+                    <tr>
+                        <td>三星 WB200F正品无线w...</td>
+                        <td>545657667</td>
+                        <td>6767</td>
+                        <td>67.00 <span>元</span></td>
+                        <td>20</td>
+                        <td>297480.00 <span>元</span></td>
+                        <td>成品库位</td>
+                    </tr>
+                    <tr>
+                        <td>三星 WB200F正品无线w...</td>
+                        <td>545657667</td>
+                        <td>6767</td>
+                        <td>67.00 <span>元</span></td>
+                        <td>20</td>
+                        <td>297480.00 <span>元</span></td>
+                        <td>成品库位</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="XinZenChanPingDiBu">
+                <div class="col-md-12 text-right">
+                    <button style="margin-top: 3px;" onclick="ChaKanGuanBi();">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*审核确认*@
+<div id="personal_1">
+    <div class="container">
+        <div class="row ChaKanBiaoTi">
+            <div class="col-md-6">
+                <span style="color:white" id="mc">入库单审核</span>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="javascript:ChaKanGuanBi();" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
+            </div>
+        </div>
+        <div class="row ChaKanZhuTi">
+            <table class="table table-bordered table-responsive">
+                <tbody>
+                    <tr>
+                        <td class="bt">入库单号</td>
+                        <td>123123</td>
+                        <td class="bt">类型</td>
+                        <td>生产产品入库</td>
+                        <td class="bt">状态</td>
+                        <td>等待审核</td>
+                    </tr>
+                    <tr>
+                        <th class="bt">供应商编号</th>
+                        <td>000011</td>
+                        <th class="bt">供应商名称</th>
+                        <td>小米游戏带练工作室</td>
+                        <th class="bt">联系人</th>
+                        <td>左冷禅</td>
+                    </tr>
+                    <tr>
+                        <th>创建人</th>
+                        <td>阿三大苏打</td>
+                        <th>创建时间</th>
+                        <td>2020-02-22</td>
+                        <th>电话</th>
+                        <td>12345678910</td>
+                    </tr>
+                    <tr>
+                        <th>备注</th>
+                        <td colspan="5">asdasd</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <table class="table table-bordered table-hover table-responsive">
+                <thead class="BTGDT">
+                    <tr>
+                        <th>产品名称</th>
+                        <th>产品条码</th>
+                        <th>规格</th>
+                        <th>单价</th>
+                        <th>入库数</th>
+                        <th>总价</th>
+                        <th>库位</th>
+                    </tr>
+                </thead>
+                <tbody class="InfoGDT">
+                    <tr>
+                        <td>三星 WB200F正品无线w...</td>
+                        <td>545657667</td>
+                        <td>6767</td>
+                        <td>67.00 <span>元</span></td>
+                        <td>20</td>
+                        <td>297480.00 <span>元</span></td>
+                        <td>成品库位</td>
+                    </tr>
+                    <tr>
+                        <td>三星 WB200F正品无线w...</td>
+                        <td>545657667</td>
+                        <td>6767</td>
+                        <td>67.00 <span>元</span></td>
+                        <td>20</td>
+                        <td>297480.00 <span>元</span></td>
+                        <td>成品库位</td>
+                    </tr>
+                    <tr>
+                        <td>三星 WB200F正品无线w...</td>
+                        <td>545657667</td>
+                        <td>6767</td>
+                        <td>67.00 <span>元</span></td>
+                        <td>20</td>
+                        <td>297480.00 <span>元</span></td>
+                        <td>成品库位</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row XinZenChanPingDiBu">
+            <div class="col-md-12 text-right" style="margin-top: 3px;">
+                <button>审核通过</button>&nbsp;
+                <button>审核不通过</button>&nbsp;
+                <button onclick="ChaKanGuanBi();">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        $("#GJSS").click(function () {
+            $(".GaoJiChaXun").slideToggle();
+        });
+        $(".btnClose").click(function () {
+            $("#personal_1").hide();
+        });
+    });
+    //查看明细
+    function ChaKan() {
+        p.style.display = "block";
+        o.style.display = "block";
+    }
+    function ChaKanGuanBi() {
+        personal_1.style.display = "none";
+        p.style.display = "none";
+        o.style.display = "none";
+    }
+    //审核入库单
+    function Shenhe() {
+        personal_1.style.display = "block";
+        o.style.display = "block";
+    }
+    //新增入库单
+    function insertInStorage() {
+        window.location.href = "@Url.Action("ListAdd")";
+    }
+</script>
+
+

@@ -245,6 +245,11 @@
             z-index: 1;
             background-color: gainsboro;
         }
+        table tr td {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
@@ -270,18 +275,7 @@
         <div class="sidebar ">
             <ul></ul>
         </div>
-        <div class="mainBody" style="overflow-y:scroll">
-            @*需复制的代码*@
-            @*<div class="menuBar" style="border-bottom:1px solid #ddd;">
-                    <div style="margin-top:10px;margin-left:30px;">
-                        <img src="~/Image/fangzi01-copy.png" width="13" height="10"/>
-                        <a href="~/Warehouse/Index" style="margin-top:20px;">首页</a>
-                        <img src="~/Image/xiangyou.png" width="10" height="10" />
-                    </div>
-                </div>
-                        <div class="menuContent">
-
-                    </div>*@
+        <div class="mainBody">
             @RenderBody()
         </div>
     </div>
@@ -357,7 +351,7 @@
                         str += "<a href='javascript:id_" + value.NodeId + "();'>" + value.DisplayName + "</a>";
                         str += "<ul type='none' class='id_" + value.NodeId + "'>";
                         $.each(result.list, function (index, data) {
-                            if (data.ParentNodeId == value.NodeId) {
+                            if (data.ParentNodeId == value.NodeId && data.IsDelete==0) {
                                 str += "<li><a href='" + data.NodeURL + "' style='color:white;text-decoration:none;margin-left:5px'>" + data.DisplayName + "</a></li>";
                             }
                         });

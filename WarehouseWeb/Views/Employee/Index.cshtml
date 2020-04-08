@@ -3,9 +3,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/MasterPage/Main.cshtml";
 }
-
 <head>
     <style>
+
         .mainPart {
             width: 1160px;
             background-color: white;
@@ -50,9 +50,42 @@
             padding: 2px;
             margin-left: -5px;
         }
+
+        #o {
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            display: none;
+            position: absolute;
+            z-index: 1;
+            background-color: gainsboro;
+        }
+
+        #insert {
+            display: none;
+            width: 500px;
+            height: 270px;
+            position: absolute;
+            top: 120px;
+            left: 300px;
+            z-index: 2;
+            background: white;
+            border: 1px solid #ddd;
+        }
+
+        #bianJi {
+            display: none;
+            width: 500px;
+            height: 270px;
+            position: absolute;
+            top: 120px;
+            left: 300px;
+            z-index: 2;
+            background: white;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
-
 <div class="menuBar" style="border-bottom:1px solid #ddd;">
     <div style="margin-top:10px;margin-left:30px;">
         <img src="~/Image/fangzi01-copy.png" width="13" height="10" />
@@ -69,7 +102,7 @@
             <img src="~/Image/diqiu.png" style="float: left;margin:12px 0px 10px 20px" />
             <span style="margin-top:10px;float: left;font-weight: bold;">员工管理</span>
             <div style="width: 200px; margin-top:3px;float: right;">
-                <button class="btn" style="width:60px;background-color:rgb(0, 89, 204);color:white">新增</button>
+                <button class="btn" onclick="insertEmployee();" style="width:60px;background-color:rgb(0, 89, 204);color:white">新增</button>
                 <button class="btn" style="width:60px;background-color:rgb(207, 69, 63);color:white">删除</button>
                 <button class="btn" style="width:60px;background-color:rgb(56, 159, 189);color:white">导出</button>
             </div>
@@ -79,9 +112,10 @@
             <button class="btn btn-primary" style="float:left;width: 70px;margin-left: 345px;margin-top:-45px;">搜索</button>
             <button class="btn" onclick="advancedSearch();" style="float:left;width: 90px;margin-left: 425px;margin-top:-45px;background-color:blue;color:white">
                 高级搜索
-                <img src="~/Image/xiala.png" width="15" height="15" style="margin-top: -3px;"/>
+                <img src="~/Image/xiala.png" width="15" height="15" style="margin-top: -3px;" />
             </button>
         </div>
+        @* 高级搜索 *@
         <div class="form-inline" id="conceal" style="width:1120px;height:80px;margin:5px 0px 15px 18px;border:1px solid #ddd;border-radius:3px;background-color:#f9f9f9;display:none">
             <div style="margin:20px">
                 <span style="margin:0px 10px">员工编号</span><input class="form-control" style="width:150px;" />
@@ -100,11 +134,42 @@
         <table class="table tab-content table-hover table-bordered" style="width:1120px;margin-left:16px;">
             <tr>
                 <th style="width:20px"><input type="checkbox" /></th>
-                <th>序号</th>
-                <th>员工编号</th>
-                <th>员工名</th>
-                <th>创建时间</th>
+                <th>用户名</th>
+                <th>编号</th>
+                <th>真名</th>
+                <th>邮箱</th>
+                <th>联系方式</th>
+                <th>登陆次数</th>
+                <th>部门</th>
+                <th>角色</th>
                 <th>操作</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>administrator</td>
+                <td>DA_0000</td>
+                <td>系统管理员</td>
+                <td>admin@gitwms.com</td>
+                <td></td>
+                <td>225</td>
+                <td></td>
+                <td>系统管理员</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width:20px"><input type="checkbox" /></td>
+                <td>admin</td>
+                <td>000001</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>6</td>
+                <td>仓库部门</td>
+                <td>仓管员</td>
+                <td>
+                    <a title="编辑" href="javascript:bianJiEmployee();"><img src="~/Image/Write.png" /></a>
+                    <a title="删除" href="#"><img src="~/Image/cha.png" /></a>
+                </td>
             </tr>
         </table>
         <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
@@ -119,8 +184,86 @@
     </div>
 </div>
 
+<div id="o"></div>
+<div id="insert">
+    <div style="height:30px;width:100%;background-color:#4c4c4c">
+        <span style="color:white;float: left;margin: 5px 10px;">添加用户</span>
+        <button class="btn" onclick="hideEmployee();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">用户编号</span><input disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">用户名</span><input disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">密<span style="margin-left:28px">码</span></span><input class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">真<span style="margin-left:15px">名</span></span><input class="form-control" style="width:150px;margin-left:10px" />
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">E&nbsp;m&nbsp;a&nbsp;i&nbsp;l&nbsp;</span><input class="form-control" style="width:150px;margin-left:12px" />
+        <span style="margin-left:25px">电<span style="margin-left:15px">话</span></span><input class="form-control" style="width:149px;margin-left:10px" />
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">部<span style="margin-left:25px">门</span></span>
+        <select class="form-control" style="width:150px;margin-left:10px">
+            <option>请选择部门</option>
+        </select>
+        <span style="margin-left:25px">角<span style="margin-left:15px">色</span></span>
+        <select class="form-control" style="width:145px;margin-left:10px">
+            <option>请选择角色</option>
+        </select>
+    </div>
+    <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
+        <button style="margin:6px 10px 0px 380px;">确定</button>
+        <button onclick="hideEmployee();">关闭</button>
+    </div>
+</div>
+<div id="bianJi">
+    <div style="height:30px;width:100%;background-color:#4c4c4c">
+        <span style="color:white;float: left;margin: 5px 10px;">编辑用户</span>
+        <button class="btn" onclick="hideEmployee();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">用户名</span><input disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">真<span style="margin-left:28px">名</span></span><input class="form-control" style="width:150px;margin-left:10px" />
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">Email&nbsp;&nbsp;</span><input class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">电<span style="margin-left:28px">话</span></span><input class="form-control" style="width:150px;margin-left:10px" />
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">部<span style="margin-left:12px">门</span></span>
+        <select class="form-control" style="width:150px;margin-left:10px">
+            <option>请选择部门</option>
+        </select>
+        <span style="margin-left:10px">角<span style="margin-left:27px">色</span></span>
+        <select class="form-control" style="width:150px;margin-left:6px">
+            <option>请选择角色</option>
+        </select>
+    </div>
+    <div style="height:40px;background-color:#eeeeee;margin-top:36px;border-top:1px solid #ddd">
+        <button style="margin:6px 10px 0px 380px;">确定</button>
+        <button onclick="hideEmployee();">关闭</button>
+    </div>
+</div>
+
 <script type="text/javascript">
+    //高级搜索
     function advancedSearch() {
         $("#conceal").slideToggle();
+    }
+    //新增
+    function insertEmployee() {
+        insert.style.display = "block";
+        o.style.display = "block";
+    }
+    function hideEmployee() {
+        insert.style.display = "none";
+        bianJi.style.display = "none";
+        o.style.display = "none";
+    }
+    //编辑
+    function bianJiEmployee() {
+        bianJi.style.display = "block";
+        o.style.display = "block";
     }
 </script>

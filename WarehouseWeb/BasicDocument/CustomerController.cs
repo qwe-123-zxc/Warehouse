@@ -4,16 +4,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace WarehouseWeb.Controllers
+namespace WarehouseWeb.BasicDocument
 {
-    public class GongyingshangController : Controller
+    /// <summary>
+    /// 客户管理页面
+    /// </summary>
+    public class CustomerController : Controller
     {
-        // GET: Gongyingshang
+        // GET: Customer
         public ActionResult Index()
         {
-            return View();
-        }
-        public ActionResult yemian() {
             return View();
         }
     }

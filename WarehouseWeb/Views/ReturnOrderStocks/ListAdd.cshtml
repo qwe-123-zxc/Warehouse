@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "ListAdd";
+    Layout = "~/Views/MasterPage/Main.cshtml";
+}
+
+<head>
+    <style>
+        #Info {
+            margin: 25px;
+            background-color: white;
+            border: 1px solid #c1b5b5;
+            border-radius: 5px;
+        }
+
+        .ZhuTiXinZen {
+            border: 1px solid #c1b5b5;
+            margin: 15px 5px 15px;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .ChanPinTianJia {
+            border: 1px solid #c1b5b5;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 0px 0px 10px 5px;
+        }
+    </style>
+</head>
+<div class="menuBar" style="margin-bottom:15px;">
+    <div style="padding-top:10px;padding-left:30px;">
+        <img src="../../Image/fangzi01-copy.png" style="width:13px;height:10px;" />
+        <a href="javascript:void(0);" style="margin-top:20px;">首页</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="#" style="margin-top:20px;">仓库作业</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="/ReturnOrderStocks/ListReturnOrderStock" style="margin-top:20px;">退货管理</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="#" style="margin-top:20px;">新增退货</a>
+    </div>
+</div>
+
+<div class="menuContent">
+    <div id="Info" class="container">
+        <div style="height:40px;background-color:#eeeeee;border-bottom:1px solid #ddd;width: 1158px;margin-left: -15px;">
+            <img src="~/Image/diqiu.png" style="float: left;margin:12px 0px 10px 20px" />
+            <span style="margin-top:10px;float: left;font-weight: bold;">新增退货单</span>
+        </div>
+        <div class="ZhuTiXinZen">
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    退货单号
+                    <input class="form-control" type="text" />
+                </div>
+                <div class="col-md-3 form-group">
+                    退货类型
+                    <input class="form-control" type="text" />
+                </div>
+                <div class="col-md-3 form-group">
+                    客户编号
+                    <input class="form-control" type="text" />
+                </div>
+                <div class="col-md-3 form-group">
+                    制单人
+                    <input class="form-control" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    制单时间
+                    <input class="form-control" type="text" />
+                </div>
+                <div class="col-md-5 form-group">
+                    备注
+                    <input class="form-control" type="text" />
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover table-responsive" style="margin-left: 5px;width: 1120px;">
+            <thead>
+                <tr>
+                    <td>产品编号</td>
+                    <td>产品名称</td>
+                    <td>产品条码</td>
+                    <td>库位名称</td>
+                    <td>出库数量</td>
+                    <td>退货数量</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div class="row ChanPinTianJia">
+            <div class="col-md-4">
+                @*<button class="btn btn-primary">盘点目标</button>*@
+                <button class="btn btn-primary">保存</button>
+                <button class="btn btn-default">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,36 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>条码仓库管理系统</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <h1 style="color:#2a8fcd;margin:50px 0px 30px 600px;">仓储系统</h1>
+    <div style="width:100%;height:280px;background-color:#f2f2f2">
+        <div class="form-inline" style="margin-left: 540px;padding-top: 60px;">
+            <span>用户名:</span>
+            <input class="form-control" name="UserName" type="text" value="administrator" style="width:200px;" />
+        </div>
+        <div class="form-inline" style="margin-left: 540px;padding-top: 30px;">
+            <span>密<span style="margin-left:15px;">码:</span></span>
+            <input class="form-control" name="Password" type="password" value="administrator123" style="width:200px;" />
+        </div>
+        <button onclick="UserLogin();" class="btn btn-primary" style="margin-left: 550px;margin-top: 20px;width:230px;">登陆</button>
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        //登陆
+        function UserLogin() {
+            window.location.href = "@Url.Action("Index")";
+        }
+    </script>
+</body>
+</html>

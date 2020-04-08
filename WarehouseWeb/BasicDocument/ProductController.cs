@@ -4,14 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace WarehouseWeb.StatementManagement
+namespace WarehouseWeb.BasicDocument
 {
     /// <summary>
-    /// 入库报表页面
+    /// 产品管理页面
     /// </summary>
-    public class InStorageController : Controller
+    public class ProductController : Controller
     {
-        // GET: InStorage
+        // GET: Product
         public ActionResult Index()
         {
             return View();

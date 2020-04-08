@@ -9,13 +9,14 @@ namespace WarehouseWeb.Controllers
     public class WarehouseController : Controller
     {
         // GET: Warehouse
+        //首页
         public ActionResult Index()
         {
             return View();
         }
 
-        //公共页面：导航栏和侧边栏
-        public ActionResult MainPage()
+        //登陆页面
+        public ActionResult LoginPage()
         {
             return View();
         }

@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewBag.Title = "ListAdd";
+    Layout = "~/Views/MasterPage/Main.cshtml";
+}
+
+<head>
+    <style>
+        #Info {
+            margin: 25px;
+            background-color: white;
+            border: 1px solid #c1b5b5;
+            border-radius: 5px;
+        }
+
+        .ZhuTiXinZen {
+            border: 1px solid #c1b5b5;
+            margin: 15px 5px 15px;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .ChanPinTianJia {
+            border: 1px solid #c1b5b5;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 0px 0px 10px 5px;
+        }
+
+        #personal {
+            display: none;
+            width: 740px;
+            height: 450px;
+            position: absolute;
+            top: 50px;
+            left: 220px;
+            z-index: 2;
+            background: white;
+            border: 1px solid #ddd;
+        }
+
+        .ChaKanBiaoTi {
+            border: 1px solid #c1b5b5;
+            background: #3a3939;
+        }
+
+        .XinZenChanPingDiBu {
+            background-color: #d7d3d3;
+            padding: 5px;
+        }
+    </style>
+</head>
+<div class="menuBar" style="margin-bottom:15px;">
+    <div style="padding-top:10px;padding-left:30px;">
+        <img src="../../Image/fangzi01-copy.png" style="width:13px;height:10px;" />
+        <a href="javascript:void(0);" style="margin-top:20px;">首页</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="#" style="margin-top:20px;">仓库作业</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="/MoveReports/ListMoveReport" style="margin-top:20px;">移库管理</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="#" style="margin-top:20px;">新增移库</a>
+    </div>
+</div>
+
+<div class="menuContent">
+    <div id="Info" class="container">
+        <div style="height:40px;background-color:#eeeeee;border-bottom:1px solid #ddd;width: 1158px;margin-left: -15px;">
+            <img src="~/Image/diqiu.png" style="float: left;margin:12px 0px 10px 20px" />
+            <span style="margin-top:10px;float: left;font-weight: bold;">新增移库单</span>
+        </div>
+        <div class="ZhuTiXinZen">
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    移库单编号
+                    <input class="form-control" type="text" />
+                </div>
+                <div class="col-md-3 form-group">
+                    移库类型
+                    <input class="form-control" type="text" />
+                </div>
+                <div class="col-md-3 form-group">
+                    制单人
+                    <input class="form-control" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    制单时间
+                    <input class="form-control" type="text" />
+                </div>
+                <div class="col-md-5 form-group">
+                    备注
+                    <input class="form-control" type="text" />
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover table-responsive" style="margin-left: 5px;width: 1120px;">
+            <thead>
+                <tr>
+                    <td>产品编号</td>
+                    <td>产品条码</td>
+                    <td>产品名称</td>
+                    <td>数量</td>
+                    <td>当前库位</td>
+                    <td>移入库位</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div class="row ChanPinTianJia">
+            <div class="col-md-4">
+                <a href="javascript:ChaKan()">
+                    <span class="btn btn-primary">添加移库产品</span>
+                </a>
+                <button class="btn btn-primary">提交</button>
+                <button class="btn btn-default">取消</button>
+            </div>
+        </div>
+    </div>
+    @*新增产品*@
+    <div id="personal">
+        <div class="container">
+            <div class="row ChaKanBiaoTi">
+                <div class="col-md-6">
+                    <span style="color:white">移库产品</span>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a href="javascript:ChaKanGuanBi()" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
+                </div>
+            </div>
+            <div class="row form-inline form-group" style="padding:10px;border:1px solid #ddd">
+                <div class="col-md-12">
+                    <label class="control-label">产品编码</label>&nbsp;&nbsp;
+                    <input type="text" class="form-control" style="width:200px;" />&nbsp;&nbsp;
+                    <label class="control-label">提示：输入搜索产品关键字查询产品信息!</label>
+                </div>
+            </div>
+            <table class="table table-bordered table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" /></th>
+                        <th>产品名称</th>
+                        <th>产品条码</th>
+                        <th>产品编码</th>
+                        <th>当前库存</th>
+                        <th>现有库存</th>
+                        <th>移库数量</th>
+                        <th>移入库位</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="row XinZenChanPingDiBu">
+                <div class="col-md-12 text-right">
+                    <span class="btn btn-default" id="btnAdd">确定</span>&nbsp;&nbsp;<span class="btn btn-default" id="btnCancel">关闭</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        $("#btnCancel").click(function () {
+            $("#personal").hide();
+        })
+    })
+    function ChaKan() {
+        $("#personal").show();
+    }
+
+    function ChaKanGuanBi() {
+        $("#personal").hide();
+    }
+</script>
+

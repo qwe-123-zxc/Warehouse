@@ -27,10 +27,6 @@ namespace WarehouseWeb.Controllers
         {
             List<Function> list = manager.GetAll();
             List<Function> rootMeun = list.Where(item => item.ParentNodeId == 0 && item.IsDelete == 0).ToList();
-            //foreach (var root in rootMeun)
-            //{
-            //    List<Function> child = list.Where(item => item.ParentNodeId == root.NodeId && item.IsDelete == 0).ToList();
-            //}
             var newList = new
             {
                 list = list,

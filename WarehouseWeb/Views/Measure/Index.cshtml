@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/MasterPage/Main.cshtml";
+}
+<head>
+    <style>
+
+        .mainPart {
+            width: 1160px;
+            background-color: white;
+            border-radius: 3px;
+            margin-top: 20px;
+            margin-left: 15px;
+            border: 1px solid #ddd;
+        }
+
+        .first, .last {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            width: 50px;
+            height: 30px;
+            padding: 2px 10px;
+            margin-left: -5px;
+        }
+
+        .up, .next {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            width: 60px;
+            height: 30px;
+            padding: 2px;
+            margin-left: -5px;
+        }
+
+        .PageIndex {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            width: 30px;
+            height: 30px;
+            padding: 2px 10px;
+            margin-left: -5px;
+        }
+
+        .go {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            width: 40px;
+            height: 30px;
+            padding: 2px;
+            margin-left: -5px;
+        }
+    </style>
+</head>
+<div class="menuBar" style="border-bottom:1px solid #ddd;">
+    <div style="margin-top:10px;margin-left:30px;">
+        <img src="~/Image/fangzi01-copy.png" width="13" height="10" />
+        <a href="~/Warehouse/Index" style="margin-top:20px;">首页</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="javascript:void(0);" style="margin-top:20px;">系统设置</a>
+        <img src="~/Image/xiangyou.png" width="10" height="10" />
+        <a href="~/Measure/Index" style="margin-top:20px;">计量单位</a>
+    </div>
+</div>
+<div class="menuContent">
+    <div class="mainPart">
+        <div style="height:40px;background-color:#eeeeee;border-bottom:1px solid #ddd;">
+            <img src="~/Image/diqiu.png" style="float: left;margin:12px 0px 10px 20px" />
+            <span style="margin-top:10px;float: left;font-weight: bold;">计量单位</span>
+            <div style="width: 200px; margin-top:3px;float: right;">
+                <button class="btn" style="width:60px;background-color:rgb(0, 89, 204);color:white">新增</button>
+                <button class="btn" style="width:60px;background-color:rgb(207, 69, 63);color:white">删除</button>
+                <button class="btn" style="width:60px;background-color:rgb(56, 159, 189);color:white">导出</button>
+            </div>
+        </div>
+        <div class="row">
+            <input placeholder="请输入单位编号或名称" class="form-control" style="width:300px;margin: 10px 0px 10px 30px;" />
+            <button class="btn btn-primary" style="float:left;width: 70px;margin-left: 340px;margin-top:-45px;">搜索</button>
+        </div>
+        <table class="table tab-content table-hover table-bordered" style="width:1120px;margin-left:16px;">
+            <tr>
+                <th style="width:20px"><input type="checkbox" /></th>
+                <th>序号</th>
+                <th>编号</th>
+                <th>名称</th>
+                <th>操作</th>
+            </tr>
+        </table>
+        <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
+            <button class="first" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
+            <button class="up">上一页</button>
+            <input class="PageIndex" type="text" value="1" />
+            <button class="go">GO</button>
+            <button class="next">下一页</button>
+            <button class="last">尾页</button>
+            <label>当前页是第 1 页,共计 5 条/ 1 页</label>
+        </div>
+    </div>
+</div>
