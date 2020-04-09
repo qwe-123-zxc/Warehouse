@@ -16,9 +16,5 @@ namespace WarehouseWeb.SystemSetup
         {
             return View();
         }
-        public ActionResult AA()
-        {
-            return View();
-        }
     }
 }
