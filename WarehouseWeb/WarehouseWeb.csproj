@@ -172,6 +172,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MasterPageController.cs" />
+    <Compile Include="StatementManagement\InStorageReportController.cs" />
     <Compile Include="SystemSetup\PermissionGrantedController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Global.asax.cs">
@@ -185,7 +186,6 @@
     <Compile Include="StatementManagement\BadReportController.cs" />
     <Compile Include="StatementManagement\ClientReportController.cs" />
     <Compile Include="StatementManagement\GoodsStatisticsController.cs" />
-    <Compile Include="StatementManagement\InStorageController.cs" />
     <Compile Include="StatementManagement\InventoryController.cs" />
     <Compile Include="StatementManagement\OutAndInStorageController.cs" />
     <Compile Include="StatementManagement\OutStorageReportController.cs" />
@@ -194,8 +194,6 @@
     <Compile Include="StatementManagement\SupplierReportController.cs" />
     <Compile Include="SystemSetup\DepartmentController.cs" />
     <Compile Include="SystemSetup\EmployeeController.cs" />
-    <Compile Include="SystemSetup\GongyingshangController.cs" />
-    <Compile Include="SystemSetup\KuweiController.cs" />
     <Compile Include="SystemSetup\MenuController.cs" />
     <Compile Include="SystemSetup\RoleController.cs" />
     <Compile Include="TheWarehouseOperation\BadReportsController.cs" />
