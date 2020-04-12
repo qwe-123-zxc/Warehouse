@@ -14,6 +14,9 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <style>
+        table {
+            table-layout: fixed;
+        }
         .nav {
             width: 100%;
             height: 50px;
@@ -266,7 +269,7 @@
             <img src="~/Image/xiangshang.png" class="xl_img" width="20" height="20" />
             <div class="xiala" style="display:none">
                 <ul type="none">
-                    <li class="one" onclick="showPersonal();">admin</li>
+                    <li class="one" onclick="showPersonal();">administrator</li>
                     <li class="two" onclick="showRevise();">修改密码</li>
                     <li class="three">退出系统</li>
                 </ul>
@@ -288,16 +291,16 @@
             <button class="btn" onclick="hidePersonal();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
         </div>
         <div class="form-inline" style="margin:20px">
-            <span style="margin-left:10px">用户编号</span><input disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
-            <span style="margin-left:25px">用户名</span><input disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+            <span style="margin-left:10px">用户编号</span><input value="DA_0000" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+            <span style="margin-left:25px">用户名</span><input value="administrator" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
         </div>
         <div class="form-inline" style="margin:20px">
-            <span style="margin-left:10px">真<span style="margin-left:28px">名</span></span><input class="form-control" style="width:150px;margin-left:10px" />
-            <span style="margin-left:25px">Email&nbsp;&nbsp;</span><input class="form-control" style="width:150px;margin-left:10px" />
+            <span style="margin-left:10px">真<span style="margin-left:28px">名</span></span><input value="系统管理员" class="form-control" style="width:150px;margin-left:10px" />
+            <span style="margin-left:25px">Email&nbsp;&nbsp;</span><input value="admin@gitwms.com" class="form-control" style="width:150px;margin-left:10px" />
         </div>
         <div class="form-inline" style="margin:20px">
             <span style="margin-left:10px">电<span style="margin-left:28px">话</span></span><input class="form-control" style="width:150px;margin-left:10px" />
-            <span style="margin-left:25px">角<span style="margin-left:15px">色</span></span><input disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+            <span style="margin-left:25px">角<span style="margin-left:15px">色</span></span><input value="系统管理员" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
         </div>
         <div style="height:40px;background-color:#eeeeee;margin-top:36px;border-top:1px solid #ddd">
             <button style="margin:6px 10px 0px 380px;">确定</button>
@@ -311,13 +314,13 @@
             <button class="btn" onclick="hideRevise();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
         </div>
         <div class="form-inline" style="margin:20px">
-            <span style="margin-left:40px">当前密码</span><input disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+            <span style="margin-left:40px">当前密码</span><input class="form-control" placeholder="请输入当前密码" style="width:150px;margin-left:10px" />
         </div>
         <div class="form-inline" style="margin:20px">
-            <span style="margin-left:40px">密<span style="margin-left:28px">码</span></span><input class="form-control" style="width:150px;margin-left:10px" />
+            <span style="margin-left:40px">密<span style="margin-left:28px">码</span></span><input class="form-control" placeholder="请输入密码" style="width:150px;margin-left:10px" />
         </div>
         <div class="form-inline" style="margin:20px">
-            <span style="margin-left:40px">确认密码</span><input class="form-control" style="width:150px;margin-left:10px" />
+            <span style="margin-left:40px">确认密码</span><input class="form-control" placeholder="请输入确认密码" style="width:150px;margin-left:10px" />
         </div>
         <div style="height:40px;background-color:#eeeeee;margin-top:35px;border-top:1px solid #ddd">
             <button style="margin:6px 10px 0px 230px;">确定</button>

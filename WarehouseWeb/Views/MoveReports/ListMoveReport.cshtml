@@ -124,9 +124,9 @@
         #p, #personal_1 {
             display: none;
             width: 680px;
-            height: 390px;
+            height: 300px;
             position: absolute;
-            top: 50px;
+            top: 100px;
             left: 250px;
             z-index: 2;
             background: white;
@@ -141,7 +141,7 @@
         <img src="~/Image/xiangyou.png" width="10" height="10" />
         <a href="#" style="margin-top:20px;">仓库作业</a>
         <img src="~/Image/xiangyou.png" width="10" height="10" />
-        <a href="#" style="margin-top:20px;">移库管理</a>
+        <a href="~/MoveReports/ListMoveReport" style="margin-top:20px;">移库管理</a>
     </div>
 </div>
 <div class="menuContent">
@@ -179,10 +179,10 @@
             </div>
         </div>
         @*表内容查询*@
-        <table class="table table-bordered table-hover table-responsive">
+        <table class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
             <thead>
                 <tr>
-                    <th><input type="checkbox" /></th>
+                    <th style="width:30px;"><input type="checkbox" /></th>
                     <th>移库单编号</th>
                     <th>移库类型</th>
                     <th>移库数量</th>
@@ -192,6 +192,23 @@
                     <th>操作</th>
                 </tr>
             </thead>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>000001</td>
+                    <td>移库上架</td>
+                    <td>3</td>
+                    <td>等待审核</td>
+                    <td>administrator</td>
+                    <td>2020-03-27</td>
+                    <td>
+                        <a title="编辑" href="@Url.Action("ListAdd")"><img src="~/Image/Write.png" /></a>
+                        <a title="删除" href="javascript:void(0)"><img src="~/Image/cha.png" /></a>
+                        <a title="查看" href="javascript:ChaKan()"><img src="~/Image/chakan.png" style="margin-top:2px;width:22px" /></a>
+                        <a title="审核" href="javascript:Shenhe()"><img src="~/Image/dui.png" style="width:21px" /></a>
+                    </td>
+                </tr>
+            </tbody>
         </table>
         @*分页*@
         <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
@@ -201,7 +218,7 @@
             <button class="go">GO</button>
             <button class="next">下一页</button>
             <button class="last">尾页</button>
-            <label>当前页是第 1 页,共计 5 条/ 1 页</label>
+            <label>当前页是第 1 页,共计 1 条/ 1 页</label>
         </div>
     </div>
 </div>
@@ -212,7 +229,7 @@
     <div class="container">
         <div class="row ChaKanBiaoTi">
             <div class="col-md-6">
-                <span style="color:white" id="mc">入库单明细</span>
+                <span style="color:white" id="mc">移库单明细</span>
             </div>
             <div class="col-md-6 text-right">
                 <a href="javascript:ChaKanGuanBi()" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
@@ -222,32 +239,18 @@
             <table class="table table-bordered table-responsive">
                 <tbody>
                     <tr>
-                        <td class="bt">入库单号</td>
-                        <td>123123</td>
-                        <td class="bt">类型</td>
-                        <td>生产产品入库</td>
-                        <td class="bt">状态</td>
+                        <th class="bt">报损单号</th>
+                        <td>000001</td>
+                        <th class="bt">报损人</th>
+                        <td>administrator</td>
+                        <th class="bt">创建时间</th>
+                        <td>2020-03-27 13:49:08</td>
+                    </tr>
+                    <tr>
+                        <th class="bt">当前状态</th>
                         <td>等待审核</td>
-                    </tr>
-                    <tr>
-                        <th class="bt">供应商编号</th>
-                        <td>000011</td>
-                        <th class="bt">供应商名称</th>
-                        <td>小米游戏带练工作室</td>
-                        <th class="bt">联系人</th>
-                        <td>左冷禅</td>
-                    </tr>
-                    <tr>
-                        <th>创建人</th>
-                        <td>阿三大苏打</td>
-                        <th>创建时间</th>
-                        <td>2020-02-22</td>
-                        <th>电话</th>
-                        <td>12345678910</td>
-                    </tr>
-                    <tr>
-                        <th>备注</th>
-                        <td colspan="5">asdasd</td>
+                        <th class="bt">备注</th>
+                        <td colspan="3"></td>
                     </tr>
                 </tbody>
             </table>
@@ -257,40 +260,18 @@
                     <tr>
                         <th>产品名称</th>
                         <th>产品条码</th>
-                        <th>规格</th>
-                        <th>单价</th>
-                        <th>入库数</th>
-                        <th>总价</th>
-                        <th>库位</th>
+                        <th>移库数量</th>
+                        <th>原库位</th>
+                        <th>移库库位</th>
                     </tr>
                 </thead>
                 <tbody class="InfoGDT">
                     <tr>
-                        <td>三星 WB200F正品无线w...</td>
-                        <td>545657667</td>
-                        <td>6767</td>
-                        <td>67.00 <span>元</span></td>
-                        <td>20</td>
-                        <td>297480.00 <span>元</span></td>
-                        <td>成品库位</td>
-                    </tr>
-                    <tr>
-                        <td>三星 WB200F正品无线w...</td>
-                        <td>545657667</td>
-                        <td>6767</td>
-                        <td>67.00 <span>元</span></td>
-                        <td>20</td>
-                        <td>297480.00 <span>元</span></td>
-                        <td>成品库位</td>
-                    </tr>
-                    <tr>
-                        <td>三星 WB200F正品无线w...</td>
-                        <td>545657667</td>
-                        <td>6767</td>
-                        <td>67.00 <span>元</span></td>
-                        <td>20</td>
-                        <td>297480.00 <span>元</span></td>
-                        <td>成品库位</td>
+                        <td>Huawei/华为P7-L07移动联通电信4G版</td>
+                        <td>45645</td>
+                        <td>1</td>
+                        <td>待入库位</td>
+                        <td>待检库位</td>
                     </tr>
                 </tbody>
             </table>
@@ -318,75 +299,39 @@
             <table class="table table-bordered table-responsive">
                 <tbody>
                     <tr>
-                        <td class="bt">入库单号</td>
-                        <td>123123</td>
-                        <td class="bt">类型</td>
-                        <td>生产产品入库</td>
-                        <td class="bt">状态</td>
+                        <th class="bt">报损单号</th>
+                        <td>000001</td>
+                        <th class="bt">报损人</th>
+                        <td>administrator</td>
+                        <th class="bt">创建时间</th>
+                        <td>2020-03-27 13:49:08</td>
+                    </tr>
+                    <tr>
+                        <th class="bt">当前状态</th>
                         <td>等待审核</td>
-                    </tr>
-                    <tr>
-                        <th class="bt">供应商编号</th>
-                        <td>000011</td>
-                        <th class="bt">供应商名称</th>
-                        <td>小米游戏带练工作室</td>
-                        <th class="bt">联系人</th>
-                        <td>左冷禅</td>
-                    </tr>
-                    <tr>
-                        <th>创建人</th>
-                        <td>阿三大苏打</td>
-                        <th>创建时间</th>
-                        <td>2020-02-22</td>
-                        <th>电话</th>
-                        <td>12345678910</td>
-                    </tr>
-                    <tr>
-                        <th>备注</th>
-                        <td colspan="5">asdasd</td>
+                        <th class="bt">备注</th>
+                        <td colspan="3"></td>
                     </tr>
                 </tbody>
             </table>
             <br />
-            <table class="table table-bordered table-hover table-responsive">
+            <table class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
                 <thead class="BTGDT">
                     <tr>
                         <th>产品名称</th>
                         <th>产品条码</th>
-                        <th>规格</th>
-                        <th>单价</th>
-                        <th>入库数</th>
-                        <th>总价</th>
-                        <th>库位</th>
+                        <th>移库数量</th>
+                        <th>原库位</th>
+                        <th>移库库位</th>
                     </tr>
                 </thead>
                 <tbody class="InfoGDT">
                     <tr>
-                        <td>三星 WB200F正品无线w...</td>
-                        <td>545657667</td>
-                        <td>6767</td>
-                        <td>67.00 <span>元</span></td>
-                        <td>20</td>
-                        <td>297480.00 <span>元</span></td>
-                        <td>成品库位</td>
-                    </tr>
-                    <tr>
-                        <td>三星 WB200F正品无线w...</td>
-                        <td>545657667</td>
-                        <td>6767</td>
-                        <td>67.00 <span>元</span></td>
-                        <td>20</td>
-                        <td>297480.00 <span>元</span></td>
-                        <td>成品库位</td>
-                    </tr>
-                    <tr>
-                        <td>三星 WB200F正品无线w...</td>
-                        <td>545657667</td>
-                        <td>6767</td>
-                        <td>67.00 <span>元</span></td>
-                        <td>20</td>
-                        <td>297480.00 <span>元</span></td>
-                        <td>成品库位</td>
+                        <td>Huawei/华为P7-L07移动联通电信4G版</td>
+                        <td>45645</td>
+                        <td>1</td>
+                        <td>待入库位</td>
+                        <td>待检库位</td>
                     </tr>
                 </tbody>
             </table>

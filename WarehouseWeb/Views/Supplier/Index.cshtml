@@ -5,7 +5,6 @@
 }
 <head>
     <style>
-
         .mainPart {
             width: 1160px;
             background-color: white;
@@ -50,6 +49,40 @@
             padding: 2px;
             margin-left: -5px;
         }
+
+        #o {
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            display: none;
+            position: absolute;
+            z-index: 1;
+            background-color: gainsboro;
+        }
+
+        #insert {
+            display: none;
+            width: 550px;
+            height: 330px;
+            position: absolute;
+            top: 120px;
+            left: 300px;
+            z-index: 2;
+            background: white;
+            border: 1px solid #ddd;
+        }
+
+        #bianJi {
+            display: none;
+            width: 550px;
+            height: 330px;
+            position: absolute;
+            top: 120px;
+            left: 300px;
+            z-index: 2;
+            background: white;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <div class="menuBar" style="border-bottom:1px solid #ddd;">
@@ -68,18 +101,18 @@
             <img src="~/Image/diqiu.png" style="float: left;margin:12px 0px 10px 20px" />
             <span style="margin-top:10px;float: left;font-weight: bold;">供应商管理</span>
             <div style="width: 200px; margin-top:3px;float: right;">
-                <button class="btn" style="width:60px;background-color:rgb(0, 89, 204);color:white">新增</button>
+                <button class="btn" onclick="insertSupplier();" style="width:60px;background-color:rgb(0, 89, 204);color:white">新增</button>
                 <button class="btn" style="width:60px;background-color:rgb(207, 69, 63);color:white">删除</button>
                 <button class="btn" style="width:60px;background-color:rgb(56, 159, 189);color:white">导出</button>
             </div>
         </div>
         <div class="row">
-            <input placeholder="请输入供应商编号或供应商名称" class="form-control" style="width:300px;margin: 10px 0px 10px 30px;" />
+            <input placeholder="请输入供应商编号或名称" class="form-control" style="width:300px;margin: 10px 0px 10px 30px;" />
             <button class="btn btn-primary" style="float:left;width: 70px;margin-left: 340px;margin-top:-45px;">搜索</button>
         </div>
-        <table class="table tab-content table-hover table-bordered" style="width:1120px;margin-left:16px;">
+        <table class="table tab-content table-hover table-bordered" style="width:1120px;margin-left:16px;table-layout:fixed;">
             <tr>
-                <th style="width:20px"><input type="checkbox" /></th>
+                <th style="width:30px"><input type="checkbox" /></th>
                 <th>供应商编号</th>
                 <th>供应商类型</th>
                 <th>供应商名称</th>
@@ -91,6 +124,22 @@
                 <th>描述</th>
                 <th>操作</th>
             </tr>
+            <tr>
+                <td style="width:20px"><input type="checkbox" /></td>
+                <td>000001</td>
+                <td>合作供应商</td>
+                <td>小米游戏带练工作室</td>
+                <td>15800467895</td>
+                <td></td>
+                <td>zuolengchan@git.com</td>
+                <td>左冷禅</td>
+                <td>湖北省宜昌市得胜街</td>
+                <td>游戏代练</td>
+                <td>
+                    <a title="编辑" href="javascript:bianJiSupplier();"><img src="~/Image/Write.png" /> </a>
+                    <a title="删除" href="javascript:void(0);"><img src="~/Image/cha.png" />   </a>
+                </td>
+            </tr>
         </table>
         <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
             <button class="first" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
@@ -99,8 +148,91 @@
             <button class="go">GO</button>
             <button class="next">下一页</button>
             <button class="last">尾页</button>
-            <label>当前页是第 1 页,共计 5 条/ 1 页</label>
+            <label>当前页是第 1 页,共计 1 条/ 1 页</label>
         </div>
     </div>
 </div>
 
+<div id="o"></div>
+<div id="insert">
+    <div style="height:30px;width:100%;background-color:#4c4c4c">
+        <span style="color:white;float: left;margin: 5px 10px;">添加供应商</span>
+        <button class="btn" onclick="hideSupplier();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">供应商编号</span><input disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">供应商名称</span><input class="form-control" style="width:150px;margin-left:10px" />
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">传<span style="margin-left:40px">真</span></span><input class="form-control" style="width:150px;margin-left:11px" />
+        <span style="margin-left:25px">联<span style="margin-left:15px">系</span><span style="margin-left:15px">人</span></span><input class="form-control" style="width:150px;margin-left:10px" />
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">E&nbsp;&nbsp;m&nbsp;&nbsp;a&nbsp;&nbsp;i&nbsp;&nbsp;l&nbsp;&nbsp;</span><input class="form-control" style="width:150px;margin-left:5px" />
+        <span style="margin-left:25px">电<span style="margin-left:43px">话</span></span><input class="form-control" style="width:149px;margin-left:10px" />
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">地<span style="margin-left:40px">址</span></span><input class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:25px">描<span style="margin-left:43px">述</span></span><input class="form-control" style="width:149px;margin-left:10px" />
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">供应商类型</span>
+        <select class="form-control" style="width:150px;margin-left:5px">
+            <option>请选择供应商</option>
+        </select>
+    </div>
+    <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
+        <button style="margin:6px 10px 0px 420px;">确定</button>
+        <button onclick="hideSupplier();">关闭</button>
+    </div>
+</div>
+<div id="bianJi">
+    <div style="height:30px;width:100%;background-color:#4c4c4c">
+        <span style="color:white;float: left;margin: 5px 10px;">编辑供应商</span>
+        <button class="btn" onclick="hideSupplier();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">供应商编号</span><input value="000001" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">供应商名称</span><input value="小米游戏带练工作室" class="form-control" style="width:150px;margin-left:10px" />
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">传<span style="margin-left:40px">真</span></span><input class="form-control" style="width:150px;margin-left:11px" />
+        <span style="margin-left:25px">联<span style="margin-left:15px">系</span><span style="margin-left:15px">人</span></span><input value="左冷禅" class="form-control" style="width:150px;margin-left:10px" />
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">E&nbsp;&nbsp;m&nbsp;&nbsp;a&nbsp;&nbsp;i&nbsp;&nbsp;l&nbsp;&nbsp;</span><input value="zuolengchan@git.com" class="form-control" style="width:150px;margin-left:5px" />
+        <span style="margin-left:25px">电<span style="margin-left:43px">话</span></span><input value="15800467895" class="form-control" style="width:149px;margin-left:10px" />
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">地<span style="margin-left:40px">址</span></span><input value="湖北省宜昌市得胜街" class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:25px">描<span style="margin-left:43px">述</span></span><input value="游戏代练" class="form-control" style="width:149px;margin-left:10px" />
+    </div>
+    <div class="form-inline" style="margin:20px">
+        <span style="margin-left:10px">供应商类型</span>
+        <select class="form-control" style="width:150px;margin-left:5px">
+            <option>合作供应商</option>
+        </select>
+    </div>
+    <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
+        <button style="margin:6px 10px 0px 420px;">确定</button>
+        <button onclick="hideSupplier();">关闭</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //新增
+    function insertSupplier() {
+        insert.style.display = "block";
+        o.style.display = "block";
+    }
+    function hideSupplier() {
+        insert.style.display = "none";
+        bianJi.style.display = "none";
+        o.style.display = "none";
+    }
+    //编辑
+    function bianJiSupplier() {
+        bianJi.style.display = "block";
+        o.style.display = "block";
+    }
+</script>

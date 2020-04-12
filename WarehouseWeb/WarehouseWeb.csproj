@@ -290,12 +290,15 @@
     <Content Include="Image\baobiao.png" />
     <Content Include="Image\body-bg.png" />
     <Content Include="Image\cha.png" />
-    <Content Include="Image\daochu.png" />
+    <Content Include="Image\chakan.png" />
+    <Content Include="Image\daochu_icon.png" />
     <Content Include="Image\diqiu.png" />
+    <Content Include="Image\dui.png" />
     <Content Include="Image\fangzi01-copy.png" />
     <Content Include="Image\fenpeishebei.png" />
+    <Content Include="Image\gou1.png" />
+    <Content Include="Image\gouxuan.png" />
     <Content Include="Image\guanbi.png" />
-    <Content Include="Image\icon.png" />
     <Content Include="Image\jian.png" />
     <Content Include="Image\liebiao.png" />
     <Content Include="Image\ren01.png" />

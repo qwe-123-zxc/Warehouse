@@ -3,9 +3,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/MasterPage/Main.cshtml";
 }
-
 <head>
     <style>
+
         .mainPart {
             width: 1160px;
             height: 530px;
@@ -69,9 +69,58 @@
             padding: 2px;
             margin-left: -5px;
         }
+        .ChaKanBiaoTi {
+            border: 1px solid #c1b5b5;
+            background: #3a3939;
+            padding: 5px 0px;
+        }
+
+        .XinZenChanPingDiBu {
+            background-color: #d7d3d3;
+            margin-top: -20px;
+            height: 35px;
+        }
+
+        .InfoGDT {
+            display: block;
+            height: 100px;
+            overflow-y: scroll;
+        }
+
+            .BTGDT, .InfoGDT tr {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
+            }
+        /*滚动条默认宽度是16px 将thead的宽度减16px*/
+        .BTGDT {
+            width: calc( 100% - 1em);
+        }
+
+        #o {
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            display: none;
+            position: absolute;
+            z-index: 1;
+            background-color: gainsboro;
+        }
+
+        /*查看明细*/
+        #p, #personal_1 {
+            display: none;
+            width: 680px;
+            height: 390px;
+            position: absolute;
+            top: 50px;
+            left: 250px;
+            z-index: 2;
+            background: white;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
-
 <div class="menuBar" style="border-bottom:1px solid #ddd;">
     <div style="margin-top:10px;margin-left:30px;">
         <img src="~/Image/fangzi01-copy.png" width="13" height="10" />
@@ -129,6 +178,14 @@
                 <th>总价</th>
                 <th>明细</th>
             </tr>
+            <tr>
+                <td>000001</td>
+                <td>2016-02-11</td>
+                <td>小米游戏带练工作室</td>
+                <td>10</td>
+                <td>0</td>
+                <td><a href="javascript:ChaKan();">查看</a></td>
+            </tr>
         </table>
         <div class="form-inline" style="margin: 10px 0px 0px 650px;padding-bottom: 10px;">
             <button class="first" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
@@ -137,46 +194,133 @@
             <button class="go">GO</button>
             <button class="next">下一页</button>
             <button class="last">尾页</button>
-            <label>当前页是第 1 页,共计 5 条/ 1 页</label>
+            <label>当前页是第 1 页,共计 1 条/ 1 页</label>
+        </div>
+    </div>
+</div>
+
+<div id="o"></div>
+@*查看操作*@
+<div id="p">
+    <div class="container">
+        <div class="row ChaKanBiaoTi">
+            <div class="col-md-6">
+                <span style="color:white" id="mc">入库单明细</span>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="javascript:ChaKanGuanBi()" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
+            </div>
+        </div>
+        <div class="row ChaKanZhuTi">
+            <table class="table table-bordered table-responsive">
+                <tbody>
+                    <tr>
+                        <th class="bt">入库单号</th>
+                        <td>123123</td>
+                        <th class="bt">类型</th>
+                        <td>生产产品入库</td>
+                        <th class="bt">状态</th>
+                        <td>等待审核</td>
+                    </tr>
+                    <tr>
+                        <th class="bt">供应商编号</th>
+                        <td>000011</td>
+                        <th class="bt">供应商名称</th>
+                        <td>小米游戏带练工作室</td>
+                        <th class="bt">联系人</th>
+                        <td>左冷禅</td>
+                    </tr>
+                    <tr>
+                        <th>创建人</th>
+                        <td>阿三大苏打</td>
+                        <th>创建时间</th>
+                        <td>2020-02-22</td>
+                        <th>电话</th>
+                        <td>12345678910</td>
+                    </tr>
+                    <tr>
+                        <th>备注</th>
+                        <td colspan="5">asdasd</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <table class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
+                <thead class="BTGDT">
+                    <tr>
+                        <th>产品名称</th>
+                        <th>产品条码</th>
+                        <th>规格</th>
+                        <th>单价</th>
+                        <th>入库数</th>
+                        <th>总价</th>
+                        <th>库位</th>
+                    </tr>
+                </thead>
+                <tbody class="InfoGDT">
+                    <tr>
+                        <td>三星 WB200F正品无线w...</td>
+                        <td>545657667</td>
+                        <td>6767</td>
+                        <td>67.00 <span>元</span></td>
+                        <td>20</td>
+                        <td>297480.00 <span>元</span></td>
+                        <td>成品库位</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="XinZenChanPingDiBu">
+                <div class="col-md-12 text-right">
+                    <button style="margin-top: 3px;" onclick="ChaKanGuanBi();">关闭</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-        $(function () {
-            $(".li_one").click(function () {
-                $(".li_one").css("background-color", "white");
-                $(".li_one > span").css("display", "inline-block");
-                $(".li_one > a").css("margin", "7px 12px");
-                $(".li_two > span,.li_three > span,.li_four > span").css("display", "none");
-                $(".li_two,.li_three,.li_four").css("background-color", "transparent");
-                $(".li_two > a,.li_three > a,.li_four > a").css("margin", "10px 12px");
-            });
-            $(".li_two").click(function () {
-                $(".li_two").css("background-color", "white");
-                $(".li_two > span").css("display", "inline-block");
-                $(".li_two > a").css("margin", "7px 12px");
-                $(".li_one > span,.li_three > span,.li_four > span").css("display", "none");
-                $(".li_one,.li_three,.li_four").css("background-color", "transparent");
-                $(".li_one > a,.li_three > a,.li_four > a").css("margin", "10px 12px");
-            });
-            $(".li_three").click(function () {
-                $(".li_three").css("background-color", "white");
-                $(".li_three > span").css("display", "inline-block");
-                $(".li_three > a").css("margin", "7px 12px");
-                $(".li_one > span,.li_two > span,.li_four > span").css("display", "none");
-                $(".li_one,.li_two,.li_four").css("background-color", "transparent");
-                $(".li_one > a,.li_two > a,.li_four > a").css("margin", "10px 12px");
-            });
-            $(".li_four").click(function () {
-                $(".li_four").css("background-color", "white");
-                $(".li_four > span").css("display", "inline-block");
-                $(".li_four > a").css("margin", "7px 12px");
-                $(".li_one > span,.li_two > span,.li_three > span").css("display", "none");
-                $(".li_one,.li_two,.li_three").css("background-color", "transparent");
-                $(".li_one > a,.li_two > a,.li_three > a").css("margin", "10px 12px");
-            });
+    $(function () {
+        $(".li_one").click(function () {
+            $(".li_one").css("background-color", "white");
+            $(".li_one > span").css("display", "inline-block");
+            $(".li_one > a").css("margin", "7px 12px");
+            $(".li_two > span,.li_three > span,.li_four > span").css("display", "none");
+            $(".li_two,.li_three,.li_four").css("background-color", "transparent");
+            $(".li_two > a,.li_three > a,.li_four > a").css("margin", "10px 12px");
         });
+        $(".li_two").click(function () {
+            $(".li_two").css("background-color", "white");
+            $(".li_two > span").css("display", "inline-block");
+            $(".li_two > a").css("margin", "7px 12px");
+            $(".li_one > span,.li_three > span,.li_four > span").css("display", "none");
+            $(".li_one,.li_three,.li_four").css("background-color", "transparent");
+            $(".li_one > a,.li_three > a,.li_four > a").css("margin", "10px 12px");
+        });
+        $(".li_three").click(function () {
+            $(".li_three").css("background-color", "white");
+            $(".li_three > span").css("display", "inline-block");
+            $(".li_three > a").css("margin", "7px 12px");
+            $(".li_one > span,.li_two > span,.li_four > span").css("display", "none");
+            $(".li_one,.li_two,.li_four").css("background-color", "transparent");
+            $(".li_one > a,.li_two > a,.li_four > a").css("margin", "10px 12px");
+        });
+        $(".li_four").click(function () {
+            $(".li_four").css("background-color", "white");
+            $(".li_four > span").css("display", "inline-block");
+            $(".li_four > a").css("margin", "7px 12px");
+            $(".li_one > span,.li_two > span,.li_three > span").css("display", "none");
+            $(".li_one,.li_two,.li_three").css("background-color", "transparent");
+            $(".li_one > a,.li_two > a,.li_three > a").css("margin", "10px 12px");
+        });
+    });
+    //查看明细
+    function ChaKan() {
+        p.style.display = "block";
+        o.style.display = "block";
+    }
+    function ChaKanGuanBi() {
+        p.style.display = "none";
+        o.style.display = "none";
+    }
 </script>
-
 

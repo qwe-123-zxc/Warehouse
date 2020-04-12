@@ -194,10 +194,10 @@
             </div>
         </div>
         @*表内容查询*@
-        <table class="table table-bordered table-hover table-responsive">
+        <table class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
             <thead>
                 <tr>
-                    <th><input type="checkbox" /></th>
+                    <th style="width:30px;"><input type="checkbox" /></th>
                     <th>出库单号</th>
                     <th>出库类型</th>
                     <th>客户名称</th>
@@ -205,11 +205,29 @@
                     <th>总金额</th>
                     <th>状态</th>
                     <th>制单人</th>
-                    <th>操作方式</th>
                     <th>创建时间</th>
                     <th>操作</th>
                 </tr>
             </thead>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>123123</td>
+                    <td>销售提货出库</td>
+                    <td>小米游戏代练工作室</td>
+                    <td>20</td>
+                    <td>297480元</td>
+                    <td>等待审核</td>
+                    <td>阿三大苏打</td>
+                    <td>2020-02-22</td>
+                    <td>
+                        <a title="编辑" href="@Url.Action("ListAdd")"><img src="~/Image/Write.png" /></a>
+                        <a title="删除" href="javascript:void(0)"><img src="~/Image/cha.png" /></a>
+                        <a title="查看" href="javascript:ChaKan()"><img src="~/Image/chakan.png" style="margin-top:2px;width:22px" /></a>
+                        <a title="审核" href="javascript:Shenhe()"><img src="~/Image/dui.png" style="width:21px" /></a>
+                    </td>
+                </tr>
+            </tbody>
         </table>
         @*分页*@
         <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
@@ -219,7 +237,7 @@
             <button class="go">GO</button>
             <button class="next">下一页</button>
             <button class="last">尾页</button>
-            <label>当前页是第 1 页,共计 5 条/ 1 页</label>
+            <label>当前页是第 1 页,共计 1 条/ 1 页</label>
         </div>
     </div>
 
@@ -242,11 +260,11 @@
             <table class="table table-bordered table-responsive">
                 <tbody>
                     <tr>
-                        <td class="bt">入库单号</td>
+                        <th class="bt">入库单号</th>
                         <td>123123</td>
-                        <td class="bt">类型</td>
-                        <td>生产产品入库</td>
-                        <td class="bt">状态</td>
+                        <th class="bt">类型</th>
+                        <td>销售提货出库</td>
+                        <th class="bt">状态</th>
                         <td>等待审核</td>
                     </tr>
                     <tr>
@@ -338,11 +356,11 @@
             <table class="table table-bordered table-responsive">
                 <tbody>
                     <tr>
-                        <td class="bt">入库单号</td>
+                        <th class="bt">入库单号</th>
                         <td>123123</td>
-                        <td class="bt">类型</td>
-                        <td>生产产品入库</td>
-                        <td class="bt">状态</td>
+                        <th class="bt">类型</th>
+                        <td>销售提货出库</td>
+                        <th class="bt">状态</th>
                         <td>等待审核</td>
                     </tr>
                     <tr>

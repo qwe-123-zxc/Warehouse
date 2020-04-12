@@ -27,26 +27,36 @@
             margin: 0px 0px 10px 5px;
         }
 
-        #personal {
-            display: none;
-            width: 740px;
-            height: 450px;
-            position: absolute;
-            top: 50px;
-            left: 220px;
-            z-index: 2;
-            background: white;
-            border: 1px solid #ddd;
-        }
-
         .ChaKanBiaoTi {
             border: 1px solid #c1b5b5;
             background: #3a3939;
+            padding: 5px 0px;
         }
 
         .XinZenChanPingDiBu {
             background-color: #d7d3d3;
             padding: 5px;
+        }
+
+        #o {
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            display: none;
+            position: absolute;
+            z-index: 1;
+            background-color: gainsboro;
+        }
+
+        #p {
+            display: none;
+            width: 350px;
+            position: absolute;
+            top: 30px;
+            left: 380px;
+            z-index: 2;
+            background: white;
+            border: 1px solid #ddd;
         }
     </style>
 </head>
@@ -57,9 +67,9 @@
         <img src="~/Image/xiangyou.png" width="10" height="10" />
         <a href="#" style="margin-top:20px;">仓库作业</a>
         <img src="~/Image/xiangyou.png" width="10" height="10" />
-        <a href="/MoveReports/ListMoveReport" style="margin-top:20px;">移库管理</a>
+        <a href="~/MoveReports/ListMoveReport" style="margin-top:20px;">移库管理</a>
         <img src="~/Image/xiangyou.png" width="10" height="10" />
-        <a href="#" style="margin-top:20px;">新增移库</a>
+        <a href="~/MoveReports/ListAdd" style="margin-top:20px;">新增移库</a>
     </div>
 </div>
 
@@ -119,60 +129,74 @@
             </div>
         </div>
     </div>
-    @*新增产品*@
-    <div id="personal">
-        <div class="container">
-            <div class="row ChaKanBiaoTi">
-                <div class="col-md-6">
-                    <span style="color:white">移库产品</span>
-                </div>
-                <div class="col-md-6 text-right">
-                    <a href="javascript:ChaKanGuanBi()" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
-                </div>
+</div>
+
+@*新增产品*@
+<div id="o"></div>
+<div id="p">
+    <div class="container">
+        <div class="row ChaKanBiaoTi">
+            <div class="col-md-6">
+                <span style="color:white">移库产品</span>
             </div>
-            <div class="row form-inline form-group" style="padding:10px;border:1px solid #ddd">
+            <div class="col-md-6 text-right">
+                <a href="javascript:ChaKanGuanBi()" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
+            </div>
+        </div>
+        <div style="margin:8px;">
+            <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">产品编码</label>&nbsp;&nbsp;
-                    <input type="text" class="form-control" style="width:200px;" />&nbsp;&nbsp;
-                    <label class="control-label">提示：输入搜索产品关键字查询产品信息!</label>
+                    <input disabled="disabled" class="form-control" style="width:200px;" />
                 </div>
             </div>
-            <table class="table table-bordered table-hover table-responsive">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" /></th>
-                        <th>产品名称</th>
-                        <th>产品条码</th>
-                        <th>产品编码</th>
-                        <th>当前库存</th>
-                        <th>现有库存</th>
-                        <th>移库数量</th>
-                        <th>移入库位</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <div class="row XinZenChanPingDiBu">
-                <div class="col-md-12 text-right">
-                    <span class="btn btn-default" id="btnAdd">确定</span>&nbsp;&nbsp;<span class="btn btn-default" id="btnCancel">关闭</span>
+            <div class="row form-inline form-group">
+                <div class="col-md-12">
+                    <label class="control-label">产品名称</label>&nbsp;&nbsp;
+                    <select class="form-control" style="width:200px;">
+                        <option>请选择产品</option>
+                    </select>
                 </div>
+            </div>
+            <div class="row form-inline form-group">
+                <div class="col-md-12">
+                    <label class="control-label">产品规格</label>&nbsp;&nbsp;
+                    <input disabled="disabled" class="form-control" style="width:200px;" />
+                </div>
+            </div>
+            <div class="row form-inline form-group">
+                <div class="col-md-12">
+                    <label class="control-label">当前库位</label>&nbsp;&nbsp;
+                    <input disabled="disabled" class="form-control" style="width:200px;" />
+                </div>
+            </div>
+            <div class="row form-inline form-group">
+                <div class="col-md-12">
+                    <label class="control-label">移入库位</label>&nbsp;&nbsp;
+                    <select class="form-control" style="width:200px;">
+                        <option>请选择</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row XinZenChanPingDiBu">
+            <div class="col-md-12 text-right">
+                <button style="margin-top: 3px;">确认</button>
+                <button style="margin-top: 3px;" onclick="ChaKanGuanBi();">关闭</button>
             </div>
         </div>
     </div>
 </div>
+
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script>
-    $(function () {
-        $("#btnCancel").click(function () {
-            $("#personal").hide();
-        })
-    })
     function ChaKan() {
-        $("#personal").show();
+        $("#p").show();
+        $("#o").show();
     }
 
     function ChaKanGuanBi() {
-        $("#personal").hide();
+        $("#p").hide();
+        $("#o").hide();
     }
 </script>
-
