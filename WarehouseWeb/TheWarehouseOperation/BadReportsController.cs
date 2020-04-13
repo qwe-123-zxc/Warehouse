@@ -23,12 +23,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             return View();
         }
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult zq()
+        public ActionResult Indexzq()
         {
             return View();
         }
