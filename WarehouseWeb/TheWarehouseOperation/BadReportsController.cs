@@ -27,6 +27,6 @@ namespace WarehouseWeb.TheWarehouseOperation
         {
             return View();
         }
-        
+           
     }
 }
