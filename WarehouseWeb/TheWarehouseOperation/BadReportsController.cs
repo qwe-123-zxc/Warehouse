@@ -27,10 +27,6 @@ namespace WarehouseWeb.TheWarehouseOperation
         {
             return View();
         }
-
-        public ActionResult lht()
-        {
-            return View();
-        }
+        
     }
 }
