@@ -18,8 +18,7 @@ namespace Models
         public string InSNum { get; set; }
         public int InSTypeId { get; set; }
         public int SupplierId { get; set; }
-        public int ProductId { get; set; }
-        public string OrderNum { get; set; }
+        public string DetailNum { get; set; }
         public int Num { get; set; }
         public double SumMoney { get; set; }
         public string Status { get; set; }

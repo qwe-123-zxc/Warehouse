@@ -269,9 +269,9 @@
             <img src="~/Image/xiangshang.png" class="xl_img" width="20" height="20" />
             <div class="xiala" style="display:none">
                 <ul type="none">
-                    <li class="one" onclick="showPersonal();">administrator</li>
+                    <li class="one" onclick="showPersonal();">@(Session["userName"])</li>
                     <li class="two" onclick="showRevise();">修改密码</li>
-                    <li class="three">退出系统</li>
+                    <li class="three" onclick="LoginOut();">退出系统</li>
                 </ul>
             </div>
         </div>
@@ -341,9 +341,10 @@
         });
 
         function GetSidebarData() {
+            var userNAME = "@(Session["userName"])";
             $.ajax({
                 url: "/MasterPage/GetSidebarData",
-                data: "",
+                data: { userName: userNAME },
                 type: "post",
                 dataType: "json",
                 success: function (result) {
@@ -360,7 +361,7 @@
                         });
                         str += "</ul></li>";
                     });
-                    str += "<li class='tui' ><span ></span><a>退出系统</a></li>";
+                    str += "<li class='tui' ><span ></span><a href='@Url.Action("LoginPage","Warehouse")'>退出系统</a></li>";
                     $(".sidebar ul").append(str);
                 }
             });
@@ -383,6 +384,10 @@
         function hideRevise() {
             revise.style.display = "none";
             over.style.display = "none";
+        }
+        //退出
+        function LoginOut() {
+            window.location.href = "@Url.Action("LoginPage", "Warehouse")";
         }
 
         //菜单点击下拉

@@ -12,12 +12,12 @@ namespace Models
     using System;
     using System.Collections.Generic;
     
-    public partial class RolePower
+    public partial class MoveReportDetail
     {
         public int Id { get; set; }
-        public int RoleId { get; set; }
-        public int NodeId { get; set; }
-        public string CreateUser { get; set; }
+        public string DetailNum { get; set; }
+        public int MoveId { get; set; }
+        public int ProductId { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
     }

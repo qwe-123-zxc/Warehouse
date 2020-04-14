@@ -7,8 +7,7 @@ using Models;
 
 namespace WarehouseBLL
 {
-    public class FunctionManager:BaseManager<Function>
+    public class RolePowerManager:BaseManager<RolePower>
     {
-
     }
 }
