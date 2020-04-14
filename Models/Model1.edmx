@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="WarehouseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="WarehouseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Admin">
           <Key>
             <PropertyRef Name="Id" />
@@ -31,7 +31,7 @@
           <Property Name="BadNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="BadTypeId" Type="int" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
-          <Property Name="OrderNum" Type="varchar" MaxLength="50" />
+          <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="SumMoney" Type="float" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
@@ -40,6 +40,17 @@
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
           <Property Name="Remark" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="BadReportDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BadId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDelete" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="BadReportType">
           <Key>
@@ -59,13 +70,24 @@
           <Property Name="CheckNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CheckTypeId" Type="int" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
-          <Property Name="OrderNum" Type="varchar" MaxLength="50" />
+          <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Operation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditUser" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
           <Property Name="Remark" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CheckStockDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CheckId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDelete" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="CheckStockType">
           <Key>
@@ -84,11 +106,12 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomerNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CustomerName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contacts" Type="varchar" MaxLength="50" />
           <Property Name="Phone" Type="varchar" MaxLength="11" />
           <Property Name="Fax" Type="varchar" MaxLength="50" />
           <Property Name="Email" Type="varchar" MaxLength="50" />
           <Property Name="Address" Type="varchar" MaxLength="50" />
-          <Property Name="CreateUser" Type="varchar" MaxLength="50" />
+          <Property Name="CreateUser" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
           <Property Name="Remark" Type="varchar" MaxLength="100" />
@@ -125,8 +148,7 @@
           <Property Name="InSNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="InSTypeId" Type="int" Nullable="false" />
           <Property Name="SupplierId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
-          <Property Name="OrderNum" Type="varchar" MaxLength="50" />
+          <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="SumMoney" Type="float" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
@@ -135,6 +157,17 @@
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
           <Property Name="Remark" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="InStorageDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="InStorageId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDelete" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="InStorageType">
           <Key>
@@ -190,13 +223,24 @@
           <Property Name="MoveNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="MoveTypeId" Type="int" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
-          <Property Name="OrderNum" Type="varchar" MaxLength="50" />
+          <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditUser" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
           <Property Name="Remark" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MoveReportDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MoveId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDelete" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="MoveReportType">
           <Key>
@@ -217,7 +261,7 @@
           <Property Name="OutSTypeId" Type="int" Nullable="false" />
           <Property Name="CustomerId" Type="int" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
-          <Property Name="OrderNum" Type="varchar" MaxLength="50" />
+          <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="SumMoney" Type="float" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
@@ -228,6 +272,17 @@
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
           <Property Name="Remark" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="OutStorageDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="OutStorageId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDelete" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OutStorageType">
           <Key>
@@ -272,6 +327,17 @@
           <Property Name="IsDelete" Type="int" Nullable="false" />
           <Property Name="Remark" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="ReturnOrderDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ReturnId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDelete" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="ReturnOrderStock">
           <Key>
             <PropertyRef Name="Id" />
@@ -280,7 +346,7 @@
           <Property Name="ReturnNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ReturnTypeId" Type="int" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
-          <Property Name="OrderNum" Type="varchar" MaxLength="50" />
+          <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Operation" Type="varchar" MaxLength="50" Nullable="false" />
@@ -318,6 +384,16 @@
           <Property Name="RoleId" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="NodeId" Type="int" Nullable="false" />
           <Property Name="CreateUser" Type="varchar" MaxLength="50" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDelete" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
         </EntityType>
@@ -364,27 +440,34 @@
         <EntityContainer Name="WarehouseModelStoreContainer">
           <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BadReport" EntityType="Self.BadReport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BadReportDetail" EntityType="Self.BadReportDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BadReportType" EntityType="Self.BadReportType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CheckStock" EntityType="Self.CheckStock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CheckStockDetail" EntityType="Self.CheckStockDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CheckStockType" EntityType="Self.CheckStockType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Depart" EntityType="Self.Depart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Function" EntityType="Self.Function" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InStorage" EntityType="Self.InStorage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InStorageDetail" EntityType="Self.InStorageDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InStorageType" EntityType="Self.InStorageType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LocationType" EntityType="Self.LocationType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Measure" EntityType="Self.Measure" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MoveReport" EntityType="Self.MoveReport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MoveReportDetail" EntityType="Self.MoveReportDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MoveReportType" EntityType="Self.MoveReportType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OutStorage" EntityType="Self.OutStorage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OutStorageDetail" EntityType="Self.OutStorageDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OutStorageType" EntityType="Self.OutStorageType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReturnOrderDetail" EntityType="Self.ReturnOrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReturnOrderStock" EntityType="Self.ReturnOrderStock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReturnOrderType" EntityType="Self.ReturnOrderType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RolePower" EntityType="Self.RolePower" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Storage" EntityType="Self.Storage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupplierType" EntityType="Self.SupplierType" Schema="dbo" store:Type="Tables" />
@@ -420,7 +503,7 @@
           <Property Name="BadNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="BadTypeId" Type="Int32" Nullable="false" />
           <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="OrderNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="SumMoney" Type="Double" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -429,6 +512,17 @@
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="BadReportDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BadId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="BadReportType">
           <Key>
@@ -448,13 +542,24 @@
           <Property Name="CheckNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CheckTypeId" Type="Int32" Nullable="false" />
           <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="OrderNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CheckStockDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CheckId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="CheckStockType">
           <Key>
@@ -473,11 +578,12 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contacts" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Phone" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
           <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -514,8 +620,7 @@
           <Property Name="InSNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="InSTypeId" Type="Int32" Nullable="false" />
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="OrderNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="SumMoney" Type="Double" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -524,6 +629,17 @@
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="InStorageDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="InStorageId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="InStorageType">
           <Key>
@@ -579,13 +695,24 @@
           <Property Name="MoveNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MoveTypeId" Type="Int32" Nullable="false" />
           <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="OrderNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MoveReportDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MoveId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="MoveReportType">
           <Key>
@@ -606,7 +733,7 @@
           <Property Name="OutSTypeId" Type="Int32" Nullable="false" />
           <Property Name="CustomerId" Type="Int32" Nullable="false" />
           <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="OrderNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="SumMoney" Type="Double" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -617,6 +744,17 @@
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="OutStorageDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OutStorageId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="OutStorageType">
           <Key>
@@ -661,6 +799,17 @@
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="ReturnOrderDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ReturnId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Int32" Nullable="false" />
+        </EntityType>
         <EntityType Name="ReturnOrderStock">
           <Key>
             <PropertyRef Name="Id" />
@@ -669,7 +818,7 @@
           <Property Name="ReturnNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReturnTypeId" Type="Int32" Nullable="false" />
           <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="OrderNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -707,6 +856,16 @@
           <Property Name="RoleId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="NodeId" Type="Int32" Nullable="false" />
           <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
         </EntityType>
@@ -753,27 +912,34 @@
         <EntityContainer Name="WarehouseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Admin" EntityType="Self.Admin" />
           <EntitySet Name="BadReport" EntityType="Self.BadReport" />
+          <EntitySet Name="BadReportDetail" EntityType="Self.BadReportDetail" />
           <EntitySet Name="BadReportType" EntityType="Self.BadReportType" />
           <EntitySet Name="CheckStock" EntityType="Self.CheckStock" />
+          <EntitySet Name="CheckStockDetail" EntityType="Self.CheckStockDetail" />
           <EntitySet Name="CheckStockType" EntityType="Self.CheckStockType" />
           <EntitySet Name="Customer" EntityType="Self.Customer" />
           <EntitySet Name="Depart" EntityType="Self.Depart" />
           <EntitySet Name="Function" EntityType="Self.Function" />
           <EntitySet Name="InStorage" EntityType="Self.InStorage" />
+          <EntitySet Name="InStorageDetail" EntityType="Self.InStorageDetail" />
           <EntitySet Name="InStorageType" EntityType="Self.InStorageType" />
           <EntitySet Name="Location" EntityType="Self.Location" />
           <EntitySet Name="LocationType" EntityType="Self.LocationType" />
           <EntitySet Name="Measure" EntityType="Self.Measure" />
           <EntitySet Name="MoveReport" EntityType="Self.MoveReport" />
+          <EntitySet Name="MoveReportDetail" EntityType="Self.MoveReportDetail" />
           <EntitySet Name="MoveReportType" EntityType="Self.MoveReportType" />
           <EntitySet Name="OutStorage" EntityType="Self.OutStorage" />
+          <EntitySet Name="OutStorageDetail" EntityType="Self.OutStorageDetail" />
           <EntitySet Name="OutStorageType" EntityType="Self.OutStorageType" />
           <EntitySet Name="Product" EntityType="Self.Product" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" />
+          <EntitySet Name="ReturnOrderDetail" EntityType="Self.ReturnOrderDetail" />
           <EntitySet Name="ReturnOrderStock" EntityType="Self.ReturnOrderStock" />
           <EntitySet Name="ReturnOrderType" EntityType="Self.ReturnOrderType" />
           <EntitySet Name="Role" EntityType="Self.Role" />
           <EntitySet Name="RolePower" EntityType="Self.RolePower" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" />
           <EntitySet Name="Storage" EntityType="Self.Storage" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" />
           <EntitySet Name="SupplierType" EntityType="Self.SupplierType" />
@@ -810,7 +976,7 @@
                 <ScalarProperty Name="BadNum" ColumnName="BadNum" />
                 <ScalarProperty Name="BadTypeId" ColumnName="BadTypeId" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+                <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
@@ -819,6 +985,18 @@
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BadReportDetail">
+            <EntityTypeMapping TypeName="WarehouseModel.BadReportDetail">
+              <MappingFragment StoreEntitySet="BadReportDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
+                <ScalarProperty Name="BadId" ColumnName="BadId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -840,13 +1018,25 @@
                 <ScalarProperty Name="CheckNum" ColumnName="CheckNum" />
                 <ScalarProperty Name="CheckTypeId" ColumnName="CheckTypeId" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+                <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Operation" ColumnName="Operation" />
                 <ScalarProperty Name="AuditUser" ColumnName="AuditUser" />
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CheckStockDetail">
+            <EntityTypeMapping TypeName="WarehouseModel.CheckStockDetail">
+              <MappingFragment StoreEntitySet="CheckStockDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
+                <ScalarProperty Name="CheckId" ColumnName="CheckId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -867,6 +1057,7 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerNum" ColumnName="CustomerNum" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Contacts" ColumnName="Contacts" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Fax" ColumnName="Fax" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -911,8 +1102,7 @@
                 <ScalarProperty Name="InSNum" ColumnName="InSNum" />
                 <ScalarProperty Name="InSTypeId" ColumnName="InSTypeId" />
                 <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+                <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
@@ -921,6 +1111,18 @@
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InStorageDetail">
+            <EntityTypeMapping TypeName="WarehouseModel.InStorageDetail">
+              <MappingFragment StoreEntitySet="InStorageDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
+                <ScalarProperty Name="InStorageId" ColumnName="InStorageId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -981,13 +1183,25 @@
                 <ScalarProperty Name="MoveNum" ColumnName="MoveNum" />
                 <ScalarProperty Name="MoveTypeId" ColumnName="MoveTypeId" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+                <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="AuditUser" ColumnName="AuditUser" />
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MoveReportDetail">
+            <EntityTypeMapping TypeName="WarehouseModel.MoveReportDetail">
+              <MappingFragment StoreEntitySet="MoveReportDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
+                <ScalarProperty Name="MoveId" ColumnName="MoveId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1010,7 +1224,7 @@
                 <ScalarProperty Name="OutSTypeId" ColumnName="OutSTypeId" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+                <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
@@ -1021,6 +1235,18 @@
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OutStorageDetail">
+            <EntityTypeMapping TypeName="WarehouseModel.OutStorageDetail">
+              <MappingFragment StoreEntitySet="OutStorageDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
+                <ScalarProperty Name="OutStorageId" ColumnName="OutStorageId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1070,6 +1296,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ReturnOrderDetail">
+            <EntityTypeMapping TypeName="WarehouseModel.ReturnOrderDetail">
+              <MappingFragment StoreEntitySet="ReturnOrderDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
+                <ScalarProperty Name="ReturnId" ColumnName="ReturnId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ReturnOrderStock">
             <EntityTypeMapping TypeName="WarehouseModel.ReturnOrderStock">
               <MappingFragment StoreEntitySet="ReturnOrderStock">
@@ -1077,7 +1315,7 @@
                 <ScalarProperty Name="ReturnNum" ColumnName="ReturnNum" />
                 <ScalarProperty Name="ReturnTypeId" ColumnName="ReturnTypeId" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+                <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Operation" ColumnName="Operation" />
@@ -1118,6 +1356,17 @@
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="NodeId" ColumnName="NodeId" />
                 <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stock">
+            <EntityTypeMapping TypeName="WarehouseModel.Stock">
+              <MappingFragment StoreEntitySet="Stock">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
               </MappingFragment>

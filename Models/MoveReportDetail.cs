@@ -12,20 +12,13 @@ namespace Models
     using System;
     using System.Collections.Generic;
     
-    public partial class BadReport
+    public partial class MoveReportDetail
     {
         public int Id { get; set; }
-        public string BadNum { get; set; }
-        public int BadTypeId { get; set; }
-        public int ProductId { get; set; }
         public string DetailNum { get; set; }
-        public int Num { get; set; }
-        public double SumMoney { get; set; }
-        public string Status { get; set; }
-        public string Operation { get; set; }
-        public string AuditUser { get; set; }
-        public System.DateTime AuditTime { get; set; }
+        public int MoveId { get; set; }
+        public int ProductId { get; set; }
+        public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
-        public string Remark { get; set; }
     }
 }
