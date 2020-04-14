@@ -40,7 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin.cs" />
     <Compile Include="BaseManager.cs" />
+    <Compile Include="Customer.cs" />
     <Compile Include="FunctionManager.cs" />
     <Compile Include="InStorageManager.cs" />
     <Compile Include="InStorageTypeManager.cs" />
