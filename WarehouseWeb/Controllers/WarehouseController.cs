@@ -20,5 +20,6 @@ namespace WarehouseWeb.Controllers
         {
             return View();
         }
+        
     }
 }

@@ -21,18 +21,53 @@ namespace WarehouseWeb.Controllers
             return View();
         }
 
-        FunctionManager manager = new FunctionManager();
+        FunctionManager functionManager = new FunctionManager();
+        AdminManger adminManger = new AdminManger();
+        RolePowerManager rolePowerManager = new RolePowerManager();
 
-        public ActionResult GetSidebarData()
+        public ActionResult UserAndPwd(string userName, string pwd)
         {
-            List<Function> list = manager.GetAll();
-            List<Function> rootMeun = list.Where(item => item.ParentNodeId == 0 && item.IsDelete == 0).ToList();
-            var newList = new
+            Admin admin = adminManger.GetByWhere(item => item.UserName == userName && item.Password == pwd).SingleOrDefault();
+            if (admin != null)
             {
-                list = list,
-                rootMeun = rootMeun
-            };
-            return Json(newList, JsonRequestBehavior.AllowGet);
+                var result = new
+                {
+                    user = admin,
+                    msg= "登陆成功"
+                };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("登陆失败", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        //侧边栏
+        public ActionResult GetSidebarData(string userName, string pwd)
+        {
+            Admin admin = adminManger.GetByWhere(item => item.UserName == userName && item.Password == pwd).SingleOrDefault();
+            if (pwd==null)
+            {
+                admin = adminManger.GetByWhere(item => item.UserName == userName).SingleOrDefault();
+            }
+            this.HttpContext.Session["userName"] = admin.UserName ;
+            if (admin != null)
+            {
+                List<Function> list = functionManager.GetByLinq(admin.RoleId);
+                List<Function> rootMeun = list.Where(item => item.ParentNodeId == 0 && item.IsDelete == 0).ToList();
+                var newList = new
+                {
+                    list = list,
+                    rootMeun = rootMeun,
+                    msg="登陆成功"
+                };
+                return Json(newList, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("登陆失败", JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Models
         public string ReturnNum { get; set; }
         public int ReturnTypeId { get; set; }
         public int ProductId { get; set; }
-        public string OrderNum { get; set; }
+        public string DetailNum { get; set; }
         public int Num { get; set; }
         public string Status { get; set; }
         public string Operation { get; set; }

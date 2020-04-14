@@ -29,7 +29,18 @@
     <script type="text/javascript">
         //登陆
         function UserLogin() {
-            window.location.href = "@Url.Action("Index")";
+            var userNamevalue = $("[name=UserName]").val();
+            var pwdvalue = $("[name=Password]").val();
+            $.ajax({
+                url: "@Url.Action("GetSidebarData", "MasterPage")",
+                data: { userName: userNamevalue, pwd: pwdvalue },
+                type: "post",
+                dataType: "json",
+                success: function (result) {
+                    alert(result.msg)
+                    window.location.href = "@Url.Action("Index", "Warehouse")";
+                }
+            });
         }
     </script>
 </body>
