@@ -1,12 +1,7 @@
-﻿@using Models;
-@using WarehouseWeb.Models.Dto;
+﻿
 @{
     ViewBag.Title = "List";
     Layout = "~/Views/MasterPage/Main.cshtml";
-}
-@{
-    var lis = ViewBag.lisInfo as List<InStorage>;
-    var s = ViewBag.dto1 as QueryInStorageDto;
 }
 <head>
     <style>
@@ -159,10 +154,10 @@
             <div class="row">
                 <div class="col-md-4 margin-bottom-10" style="margin:8px;">
                     <div class="btn-group">
-                        <button class="btn" name="suoyou" value="所有">所有</button>
-                        <button class="btn" name="dsh" value="待审核">待审核</button>
-                        <button class="btn" name="shtg" value="审核通过">审核通过</button>
-                        <button class="btn" name="shsb" value="审核失败">审核失败</button>
+                        <button class="btn" type="button" name="suoyou" value="所有">所有</button>
+                        <button class="btn" type="button" name="dsh" value="待审核">待审核</button>
+                        <button class="btn" type="button" name="shtg" value="审核通过">审核通过</button>
+                        <button class="btn" type="button" name="shsb" value="审核失败">审核失败</button>
                     </div>
                 </div>
                 <div class="col-md-3 navbar-right" style="margin:8px;padding:0px;">
@@ -174,14 +169,14 @@
             @*条件查询*@
             <div class="row" style="padding:5px;">
                 <div class="col-md-2 form-group form-inline">
-                    <input class="form-control" type="text" value="@s.InSNum" name="InSNum" placeholder="请输入入库单号" />
+                    <input class="form-control" type="text" name="InSNum" placeholder="请输入入库单号" />
                 </div>
                 <div class="col-md-5 form-group form-inline">
                     <label class="control-label">时间</label>
-                    <input type="date" name="State" value="@Convert.ToDateTime(s.State).ToString("yyyy-MM-dd")" class="form-control" style="width:150px;" /> 到 <input type="date" name="End" value="@Convert.ToDateTime(s.End).ToString("yyyy-MM-dd")" class="form-control" style="width:150px;" />
+                    <input type="date" name="State" value="2020-02-03" class="form-control" style="width:150px;" /> 到 <input type="date" name="End" value="2020-04-16" class="form-control" style="width:150px;" />
                 </div>
                 <div class="col-md-3 form-group form-inline" style="margin-left:-90px;">
-                    <button class="btn btn-primary" type="submit" style="width: 70px;">搜索</button>
+                    <button class="btn btn-primary btnQuery" type="button" style="width: 70px;">搜索</button>
                     <button class="btn" id="GJSS" type="button" style="width: 90px;background-color:blue;color:white">
                         高级搜索
                         <img src="~/Image/xiala.png" width="15" height="15" style="margin-top: -3px;" />
@@ -195,12 +190,12 @@
                         <span style="margin:0px 10px">供应商</span>@Html.DropDownList("SupplierId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
                         <span style="margin:0px 10px">单据类型</span>
                         @Html.DropDownList("InSTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
-                        <button class="btn btn-primary" type="submit" style="margin-left:20px;width:60px">搜索</button>
+                        <button class="btn btn-primary btnQuery" type="button" style="margin-left:20px;width:60px">搜索</button>
                     </div>
                 </div>
             </div>
             @*表内容查询*@
-            <table class="table table-bordered table-hover table-responsive">
+            <table id="zhubiao" class="table table-bordered table-hover table-responsive">
                 <thead>
                     <tr>
                         <th style="width:30px;"><input type="checkbox" /></th>
@@ -216,39 +211,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @{
-                        foreach (var item in lis)
-                        {
-                            <tr>
-                                <td><input type="checkbox" /></td>
-                                <td>@item.InSNum</td>
-                                <td>@item.InSTypeId</td>
-                                <td>@item.SupplierId</td>
-                                <td>@item.Num</td>
-                                <td>@item.SumMoney</td>
-                                <td>@item.Status</td>
-                                <td>@item.AuditUser</td>
-                                <td>@item.AuditTime</td>
-                                <td>
-                                    <a title="编辑" href="@Url.Action("ListAdd")"><img src="~/Image/Write.png" /></a>
-                                    <a title="删除" href="javascript:void(0)"><img src="~/Image/cha.png" /></a>
-                                    <a title="查看" href="javascript:ChaKan()"><img src="~/Image/chakan.png" style="margin-top:2px;width:22px" /></a>
-                                    <a title="审核" href="javascript:Shenhe()"><img src="~/Image/dui.png" style="width:21px" /></a>
-                                </td>
-                            </tr>
-                        }
-                    }
+                    
                 </tbody>
             </table>
             @*分页*@
             <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
-                <button class="first" type="submit" name="first" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
-                <button class="up" type="submit" name="up">上一页</button>
-                <input class="PageIndex" name="PageIndex" type="text" value="@ViewBag.PageIndex" />
-                <button class="go" type="submit" name="go">GO</button>
-                <button class="next" type="submit" name="next">下一页</button>
-                <button class="last" type="submit" name="last">尾页</button>
-                <label>当前页是第 @ViewBag.PageIndex 页,共计 @ViewBag.Count 条/ @ViewBag.PageCount 页</label>
+                <button class="first" type="button" name="first" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
+                <button class="up" type="button" name="up">上一页</button>
+                <input class="PageIndex" name="PageIndex" type="text" value="1" />
+                <button class="go" type="button" name="go">GO</button>
+                <button class="next" type="button" name="next">下一页</button>
+                <button class="last" type="button" name="last">尾页</button>
+                <label id="fenyeshu">当前页是第页,共计条/页</label>
             </div>
         </div>
     </div>
@@ -451,11 +425,92 @@
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script>
+    var pageIndexvalue = 1;//提取当前页为全局变量
+    var ztvalue = "";
     $(function () {
         $("#GJSS").click(function () {
             $(".GaoJiChaXun").slideToggle();
         });
+        //分页按钮
+        $("[name=first]").click(function () {
+            bindData(1);
+        });
+        $("[name=up]").click(function () {
+            pageIndexvalue = parseInt($("[name=PageIndex]").val()) - 1;
+            bindData(pageIndexvalue);
+        });
+        $("[name=go]").click(function () {
+            pageIndexvalue = parseInt($("[name=PageIndex]").val());
+            bindData(pageIndexvalue);
+        });
+        $("[name=next]").click(function () {
+            pageIndexvalue = parseInt($("[name=PageIndex]").val()) + 1;
+            bindData(pageIndexvalue);
+        });
+        $("[name=last]").click(function () {
+            pageIndexvalue = 99999999;
+            bindData(pageIndexvalue);
+        });
+        //状态按钮
+        $("[name=suoyou]").click(function () {
+            ztvalue = "";
+        });
+        $("[name=dsh]").click(function () {
+            ztvalue = "待审核";
+        });
+        $("[name=shtg]").click(function () {
+            ztvalue = "审核通过";
+        });
+        $("[name=shsb]").click(function () {
+            ztvalue = "审核失败";
+        });
+
+        $(".btnQuery").click(function () {
+            bindData(pageIndexvalue);
+        });
+        bindData(1);
     });
+
+    //入库管理主页查询
+    function bindData(pageIndexvalue) {
+        var InSNumvalue = $("[name=InSNum]").val();
+        var Statevalue = $("[name=State]").val();
+        var Endvalue = $("[name=End]").val();
+        var SupplierIdvalue = $("#SupplierId").val();
+        var InSTypeIdvalue = $("#InSTypeId").val();
+        $.ajax({
+            url: "@Url.Action("ListAjax")",
+            data: { zt: ztvalue, InSNum: InSNumvalue, state: Statevalue, end: Endvalue, SupplierId: SupplierIdvalue, InSTypeId: InSTypeIdvalue, pageIndex: pageIndexvalue},
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                $("#zhubiao tr:gt(0)").remove();
+                $("[name=PageIndex]").val(result.PageIndex);
+                $.each(result.InstorageInfo, function (index, value) {
+                    var str = "<tr>";
+                    str += "<td><input type='checkbox' /><td>";
+                    str += "<td>" + value.InSNum + "<td>";
+                    str += "<td>" + value.InSTypeId + "<td>";
+                    str += "<td>" + value.SupplierId + "<td>";
+                    str += "<td>" + value.Num + "<td>";
+                    str += "<td>" + value.SumMoney + "<td>";
+                    str += "<td>" + value.Status + "<td>";
+                    str += "<td>" + value.AuditUser + "<td>";
+                    str += "<td>" + value.AuditTime + "<td>";
+                    str += "<td>";
+                    str += "<a title='编辑' href='@Url.Action("ListAdd")'><img src='../Image/Write.png' /></a>"
+                    str += "<a title='删除' href='javascript:void(0)'><img src='../Image/cha.png' /></a></a>"
+                    str += "<a title='查看' href='javascript:ChaKan()'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a></a>"
+                    str += "<a title='审核' href='javascript:Shenhe()'><img src='../Image/dui.png' style='width:21px' /></a></a>"
+                    str += "</td>";
+                    str += "</tr>";
+                    $("#zhubiao tbody").append(str);
+                });
+                $("#fenyeshu").text("当前页是第" + result.PageIndex + "页,共计" + result.Count + "条" + result.PageCount + "页");
+            }
+        });
+    }
+
     //查看明细
     function ChaKan() {
         p.style.display = "block";
