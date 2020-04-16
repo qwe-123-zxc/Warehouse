@@ -46,6 +46,17 @@ namespace WarehouseDAL
             return MyDbContext.Set<T>().Where(where).ToList();
         }
 
+        public List<Function> GetByLinq(int roleId)
+        {
+            WarehouseEntities entities = new WarehouseEntities();
+            var obj = from r in entities.RolePower
+                      join f in entities.Function
+                      on r.NodeId equals f.NodeId
+                      where r.RoleId==roleId
+                      select f;
+            return obj.ToList();
+        }
+
         /// <summary>
         /// 条件升序查询 带分页 
         /// </summary>

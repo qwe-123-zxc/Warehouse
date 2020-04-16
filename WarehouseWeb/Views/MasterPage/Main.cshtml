@@ -217,7 +217,7 @@
 
         #revise {
             display: none;
-            width: 350px;
+            width: 400px;
             height: 269px;
             position: absolute;
             top: 120px;
@@ -269,9 +269,9 @@
             <img src="~/Image/xiangshang.png" class="xl_img" width="20" height="20" />
             <div class="xiala" style="display:none">
                 <ul type="none">
-                    <li class="one" onclick="showPersonal();">administrator</li>
+                    <li class="one" onclick="showPersonal();">@(Session["userName"])</li>
                     <li class="two" onclick="showRevise();">修改密码</li>
-                    <li class="three">退出系统</li>
+                    <li class="three" onclick="LoginOut();">退出系统</li>
                 </ul>
             </div>
         </div>
@@ -286,26 +286,28 @@
     <div id="over"></div>
     @* 个人资料 *@
     <div id="personal">
-        <div style="height:30px;width:100%;background-color:#4c4c4c">
-            <span style="color:white;float: left;margin: 5px 10px;">编辑用户</span>
-            <button class="btn" onclick="hidePersonal();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
-        </div>
-        <div class="form-inline" style="margin:20px">
-            <span style="margin-left:10px">用户编号</span><input value="DA_0000" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
-            <span style="margin-left:25px">用户名</span><input value="administrator" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
-        </div>
-        <div class="form-inline" style="margin:20px">
-            <span style="margin-left:10px">真<span style="margin-left:28px">名</span></span><input value="系统管理员" class="form-control" style="width:150px;margin-left:10px" />
-            <span style="margin-left:25px">Email&nbsp;&nbsp;</span><input value="admin@gitwms.com" class="form-control" style="width:150px;margin-left:10px" />
-        </div>
-        <div class="form-inline" style="margin:20px">
-            <span style="margin-left:10px">电<span style="margin-left:28px">话</span></span><input class="form-control" style="width:150px;margin-left:10px" />
-            <span style="margin-left:25px">角<span style="margin-left:15px">色</span></span><input value="系统管理员" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
-        </div>
-        <div style="height:40px;background-color:#eeeeee;margin-top:36px;border-top:1px solid #ddd">
-            <button style="margin:6px 10px 0px 380px;">确定</button>
-            <button onclick="hidePersonal();">关闭</button>
-        </div>
+        <form>
+            <div style="height:30px;width:100%;background-color:#4c4c4c">
+                <span style="color:white;float: left;margin: 5px 10px;">编辑用户</span>
+                <button type="button" class="btn" onclick="hidePersonal();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
+            </div>
+            <div class="form-inline" style="margin:20px">
+                <span style="margin-left:10px">用户编号</span><input name="UserCode" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+                <span style="margin-left:25px">用户名</span><input name="UserName" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+            </div>
+            <div class="form-inline" style="margin:20px">
+                <span style="margin-left:10px">真<span style="margin-left:28px">名</span></span><input name="RealName" class="form-control" style="width:150px;margin-left:10px" />
+                <span style="margin-left:25px">Email&nbsp;&nbsp;</span><input name="Email" class="form-control" style="width:150px;margin-left:10px" />
+            </div>
+            <div class="form-inline" style="margin:20px">
+                <span style="margin-left:10px">电<span style="margin-left:28px">话</span></span><input name="Phone" class="form-control" style="width:150px;margin-left:10px" />
+                <span style="margin-left:25px">角<span style="margin-left:15px">色</span></span><input name="RoleId" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+            </div>
+            <div style="height:40px;background-color:#eeeeee;margin-top:36px;border-top:1px solid #ddd">
+                <button type="button" style="margin:6px 10px 0px 380px;" onclick="updatePersonal();">确定</button>
+                <button type="button" onclick="hidePersonal();">关闭</button>
+            </div>
+        </form>
     </div>
     @* 修改密码 *@
     <div id="revise" style="display:none;">
@@ -313,17 +315,19 @@
             <span style="color:white;float: left;margin: 5px 10px;">修改密码</span>
             <button class="btn" onclick="hideRevise();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
         </div>
-        <div class="form-inline" style="margin:20px">
-            <span style="margin-left:40px">当前密码</span><input class="form-control" placeholder="请输入当前密码" style="width:150px;margin-left:10px" />
+        <div class="form-inline" style="margin:20px;">
+            <span style="margin-left:40px">当前密码</span><input name="Password" class="form-control" placeholder="请输入当前密码" style="width:150px;margin-left:10px" />
+            <span class="tishi_1" style="color:red;"></span>
+        </div>
+        <div class="form-inline" style="margin:20px;">
+            <span style="margin-left:40px">密<span style="margin-left:28px">码</span></span><input name="Pwd" class="form-control" placeholder="请输入密码" style="width:150px;margin-left:10px" />
         </div>
         <div class="form-inline" style="margin:20px">
-            <span style="margin-left:40px">密<span style="margin-left:28px">码</span></span><input class="form-control" placeholder="请输入密码" style="width:150px;margin-left:10px" />
-        </div>
-        <div class="form-inline" style="margin:20px">
-            <span style="margin-left:40px">确认密码</span><input class="form-control" placeholder="请输入确认密码" style="width:150px;margin-left:10px" />
+            <span style="margin-left:40px">确认密码</span><input name="ConfirmPwd" class="form-control" placeholder="请输入确认密码" style="width:150px;margin-left:10px" />
+            <span class="tishi_2" style="color:red;"></span>
         </div>
         <div style="height:40px;background-color:#eeeeee;margin-top:35px;border-top:1px solid #ddd">
-            <button style="margin:6px 10px 0px 230px;">确定</button>
+            <button style="margin:6px 10px 0px 270px;" onclick="UpdatePwd();">确定</button>
             <button onclick="hideRevise();">关闭</button>
         </div>
     </div>
@@ -341,9 +345,10 @@
         });
 
         function GetSidebarData() {
+            var userNAME = "@(Session["userName"])";
             $.ajax({
                 url: "/MasterPage/GetSidebarData",
-                data: "",
+                data: { userName: userNAME },
                 type: "post",
                 dataType: "json",
                 success: function (result) {
@@ -360,17 +365,52 @@
                         });
                         str += "</ul></li>";
                     });
-                    str += "<li class='tui' ><span ></span><a>退出系统</a></li>";
+                    str += "<li class='tui' ><span ></span><a href='@Url.Action("LoginPage","Warehouse")'>退出系统</a></li>";
                     $(".sidebar ul").append(str);
                 }
             });
         }
 
-        //个人资料
+        //显示个人资料
         function showPersonal() {
             personal.style.display = "block";
             over.style.display = "block";
+            var userNAME = "@(Session["userName"])";
+            $.ajax({
+                url: "@Url.Action("QueryPersonal", "MasterPage")",
+                data: { username: userNAME },
+                type: "post",
+                dataType: "json",
+                success: function (result) {
+                    $("[name=UserCode]").val(result.adminData.userCode);
+                    $("[name=UserName]").val(result.adminData.userName);
+                    $("[name=RealName]").val(result.adminData.realName);
+                    $("[name=Email]").val(result.adminData.email);
+                    $("[name=Phone]").val(result.adminData.phone);
+                    $("[name=RoleId]").val(result.adminData.role);
+                }
+            });
         }
+        //修改个人信息
+        function updatePersonal() {
+            var form = $("form").serializeArray();
+            var objJson = {};
+            $.each(form, function (index, value) {
+                objJson[value.name] = value.value;
+            });
+            var userNAME = "@(Session["userName"])";
+            $.ajax({
+                url: "/MasterPage/UpdatePersonal",
+                data: { admin: objJson, userName: userNAME },
+                type: "post",
+                dataType: "json",
+                success: function (result) {
+                    alert(result);
+                    window.location.href = "@Url.Action("Index", "Employee")";
+                }
+            });
+        }
+        //隐藏
         function hidePersonal() {
             personal.style.display = "none";
             over.style.display = "none";
@@ -380,9 +420,41 @@
             revise.style.display = "block";
             over.style.display = "block";
         }
+        function UpdatePwd() {
+            var userNAME = "@(Session["userName"])";
+            var password = $("[name=Password]").val();
+            var pwd = $("[name=Pwd]").val();
+            var confirmPwd = $("[name=ConfirmPwd]").val();
+            if (pwd != confirmPwd) {
+                $(".tishi_2").html("两次密码不一致");
+            }
+            else {
+                $(".tishi_2").html("");
+                $.ajax({
+                    url: "/MasterPage/UpdatePwd",
+                    data: { passWord: password, pwd: pwd, userName: userNAME },
+                    type: "post",
+                    dataType: "json",
+                    success: function (result) {
+                        if (result == "当前密码错误") {
+                            $(".tishi_1").html("当前密码错误");
+                        }
+                        else {
+                            alert(result);
+                            hideRevise();
+                        }
+                        
+                    }
+                });
+            }
+        }
         function hideRevise() {
             revise.style.display = "none";
             over.style.display = "none";
+        }
+        //退出
+        function LoginOut() {
+            window.location.href = "@Url.Action("LoginPage", "Warehouse")";
         }
 
         //菜单点击下拉

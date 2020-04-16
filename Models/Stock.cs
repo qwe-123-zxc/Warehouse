@@ -12,12 +12,11 @@ namespace Models
     using System;
     using System.Collections.Generic;
     
-    public partial class RolePower
+    public partial class Stock
     {
         public int Id { get; set; }
-        public int RoleId { get; set; }
-        public int NodeId { get; set; }
-        public string CreateUser { get; set; }
+        public int ProductId { get; set; }
+        public int Num { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
     }

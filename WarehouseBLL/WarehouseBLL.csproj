@@ -40,11 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Admin.cs" />
     <Compile Include="BaseManager.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="FunctionManager.cs" />
+    <Compile Include="AdminManger.cs" />
+    <Compile Include="InStorageDetailManager.cs" />
+    <Compile Include="InStorageManager.cs" />
+    <Compile Include="InStorageTypeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoleManeger.cs" />
+    <Compile Include="RolePowerManager.cs" />
+    <Compile Include="SupplierManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj">

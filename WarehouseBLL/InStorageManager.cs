@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Models;
+using WarehouseBLL;
 
 namespace WarehouseBLL
 {
-    public class FunctionManager:BaseManager<Function>
+    public class InStorageManager : BaseManager<InStorage>
     {
-
     }
 }

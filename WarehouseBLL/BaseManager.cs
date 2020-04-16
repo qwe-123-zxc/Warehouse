@@ -54,6 +54,11 @@ namespace WarehouseBLL
             return MyService.GetByWhereAsc(where, orderBy, ref pageIndex, ref count, ref pageCount, pageSize);
         }
 
+        public List<Function> GetByLinq(int roleId)
+        {
+            return MyService.GetByLinq(roleId);
+        }
+
         /// <summary>
         /// 条件降序查询 带分页 
         /// </summary>

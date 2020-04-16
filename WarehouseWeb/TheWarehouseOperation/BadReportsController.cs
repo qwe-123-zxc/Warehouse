@@ -22,10 +22,5 @@ namespace WarehouseWeb.TheWarehouseOperation
         {
             return View();
         }
-
-        public ActionResult Indexzq()
-        {
-            return View();
-        }
     }
 }
