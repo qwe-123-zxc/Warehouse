@@ -188,6 +188,74 @@
 </div>
 
 <script type="text/javascript">
+    //使用ajax方法请求数据
+    //页面加载时调用
+    $(function () {
+        $(".first").click(function () {
+            //将pageIndex = 1
+            bindData(1);
+        });
+
+        $(".up").click(function () {
+            //当前页 = 当前页 -1
+            var pageIndex = parseInt($(".PageIndex").val()) - 1;
+            bindData(pageIndex);
+        });
+
+        $(".next").click(function () {
+            //当前页 = 当前页 + 1
+            var pageIndex = parseInt($(".PageIndex").val()) + 1;
+            bindData(pageIndex);
+        });
+
+        $(".last").click(function () {
+            bindData(9999999);
+        });
+
+        $(".go").click(function () {
+            //获取当前文本框中的页
+            var pageIndex = parseInt($(".PageIndex").val());
+            bindData(pageIndex);
+        });
+
+        //绑定查询按钮事件
+        $("#btnSearch").click(bindData);
+        //加载 ，调用绑定数据方法
+        bindData(1);
+    });
+    //绑定数据方法
+    function bindData(pageIndexValue) {
+        var RoleNumValue = $("#RoleNum").val();
+        //获取数据
+        $.ajax({
+            url: "@Url.Action("GetRole")",
+            data: { RoleNum: RoleNumValue, pageIndex: pageIndexValue },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                //设置文本框中显示的当前页
+                $("#lbMsg").html("当前第" + result.PageIndex + "页" + "    共计" + result.PageCount + "页    共有" + result.Count + "条");
+                $("#PageIndex").val(result.PageIndex);
+
+
+                //清空所有表格（数据行）行
+                $("table tr:gt(0)").remove();
+                //循环遍历所有数据并显示到控件
+                $.each(result.RoleInfies, function (index, value) {
+                    var str = "<tr>";
+                    str += "<td><input type='checkbox' /></td>";
+                    str += "<td>" + value.Id + "</td>";
+                    str += "<td>" + value.RoleNum + "</td>";
+                    str += "<td>" + value.RoleName + "</td>";
+                    str += "<td>" + value.CreateTime + "</td>";
+                    str += "<td>" + value.Remark + "</td>";
+                    str += "<td><a href = 'javascript:bianJiRole();' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:void(0);' title='删除'><img src='../Image/cha.png' /> </a><a href='~/PermissionGranted/Index' title='权限分配'><img src='../Image/daochu_icon.png' /></a></td>";
+                    str += "</tr>";
+                    $("table tbody").append(str);
+                });
+            }
+        });
+    }
     //新增
     function insertRole() {
         insert.style.display = "block";
