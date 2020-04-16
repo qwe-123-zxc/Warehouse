@@ -122,19 +122,6 @@
                 <th>创建时间</th>
                 <th>操作</th>
             </tr>
-            <tr>
-                <td style="width:20px"><input type="checkbox" /></td>
-                <td>000001</td>
-                <td>宜昌市蓝霸光电节能科技有限公司</td>
-                <td>郭靖</td>
-                <td></td>
-                <td></td>
-                <td>2016-02-10</td>
-                <td>
-                    <a title="编辑" href="javascript:bianJiCustomer();"><img src="~/Image/Write.png" /> </a>
-                    <a title="删除" href="javascript:void(0);"><img src="~/Image/cha.png" />   </a>
-                </td>
-            </tr>
         </table>
         <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
             <button class="first" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
@@ -203,6 +190,65 @@
 </div>
 
 <script type="text/javascript">
+    $(function () {
+        $(".first").click(function () {
+            bindData(1);
+        });
+
+        $(".up").click(function () {
+            var pageIndex = parseInt($(".PageIndex").val()) - 1;
+            bindData(pageIndex);
+        });
+
+        $(".next").click(function () {
+            var pageIndex = parseInt($(".PageIndex").val()) + 1;
+            bindData(pageIndex);
+        });
+
+        $(".last").click(function () {
+            bindData(9999999);
+        });
+
+        $(".go").click(function () {
+            var pageIndex = parseInt($(".PageIndex").val());
+            bindData(pageIndex);
+        });
+
+        $("#btnSearch").click(bindData);
+            bindData(1);
+    });
+    function bindData(pageIndexValue) {
+        var CustomerValue = $("#Customer").val();
+
+        $.ajax({
+            url: "@Url.Action("Query")",
+            data: { RoleNum: CustomerValue, pageIndex: pageIndexValue },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+
+                $("#lbMsg").html("当前第" + result.PageIndex + "页" + "    共计" + result.PageCount + "页    共有" + result.Count + "条");
+                $("#PageIndex").val(result.PageIndex);
+
+                $("table tr:gt(0)").remove();
+
+                $.each(result.RoleInfies, function (index, value) {
+                    var str = "<tr>";
+                    str += "<td><input type='checkbox' /></td>";
+                    str += "<td>" + value.Id + "</td>";
+                    str += "<td>" + value.CustomerNum + "</td>";
+                    str += "<td>" + value.CustomerName + "</td>";
+                    str += "<td>" + value.Contacts + "</td>";
+                    str += "<td>" + value.Phone + "</td>";
+                    str += "<td>" + value.Email + "</td>";
+                    str += "<td>" + value.CreateTime + "</td>";
+                    str += "<td><a href = 'javascript:bianJiRole();' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:void(0);' title='删除'><img src='../Image/cha.png' /> </a><a href='~/PermissionGranted/Index' title='权限分配'><img src='../Image/daochu_icon.png' /></a></td>";
+                    str += "</tr>";
+                    $("table tbody").append(str);
+                });
+            }
+        });
+    }
     //新增
     function insertCustomer() {
         insert.style.display = "block";
