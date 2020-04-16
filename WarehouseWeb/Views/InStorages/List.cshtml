@@ -210,9 +210,7 @@
                         <th>操作</th>
                     </tr>
                 </thead>
-                <tbody>
-                    
-                </tbody>
+                <tbody></tbody>
             </table>
             @*分页*@
             <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
@@ -241,40 +239,13 @@
             </div>
         </div>
         <div class="row ChaKanZhuTi">
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered table-responsive chakan">
                 <tbody>
-                    <tr>
-                        <th class="bt">入库单号</th>
-                        <td>123123</td>
-                        <th class="bt">类型</th>
-                        <td>生产产品入库</td>
-                        <th class="bt">状态</th>
-                        <td>等待审核</td>
-                    </tr>
-                    <tr>
-                        <th class="bt">供应商编号</th>
-                        <td>000011</td>
-                        <th class="bt">供应商名称</th>
-                        <td>小米游戏带练工作室</td>
-                        <th class="bt">联系人</th>
-                        <td>左冷禅</td>
-                    </tr>
-                    <tr>
-                        <th>创建人</th>
-                        <td>阿三大苏打</td>
-                        <th>创建时间</th>
-                        <td>2020-02-22</td>
-                        <th>电话</th>
-                        <td>12345678910</td>
-                    </tr>
-                    <tr>
-                        <th>备注</th>
-                        <td colspan="5">asdasd</td>
-                    </tr>
+
                 </tbody>
             </table>
             <br />
-            <table class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
+            <table class="table table-bordered table-hover table-responsive" id="XiangXi">
                 <thead class="BTGDT">
                     <tr>
                         <th>产品名称</th>
@@ -316,10 +287,10 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="XinZenChanPingDiBu">
-                <div class="col-md-12 text-right">
-                    <button style="margin-top: 3px;" onclick="ChaKanGuanBi();">关闭</button>
-                </div>
+        </div>
+        <div class="row XinZenChanPingDiBu">
+            <div class="col-md-12 text-right">
+                <button style="margin-top: 3px;" onclick="ChaKanGuanBi();">关闭</button>
             </div>
         </div>
     </div>
@@ -337,36 +308,9 @@
             </div>
         </div>
         <div class="row ChaKanZhuTi">
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered table-responsive chakan">
                 <tbody>
-                    <tr>
-                        <th class="bt">入库单号</th>
-                        <td>123123</td>
-                        <th class="bt">类型</th>
-                        <td>生产产品入库</td>
-                        <th class="bt">状态</th>
-                        <td>等待审核</td>
-                    </tr>
-                    <tr>
-                        <th class="bt">供应商编号</th>
-                        <td>000011</td>
-                        <th class="bt">供应商名称</th>
-                        <td>小米游戏带练工作室</td>
-                        <th class="bt">联系人</th>
-                        <td>左冷禅</td>
-                    </tr>
-                    <tr>
-                        <th>创建人</th>
-                        <td>阿三大苏打</td>
-                        <th>创建时间</th>
-                        <td>2020-02-22</td>
-                        <th>电话</th>
-                        <td>12345678910</td>
-                    </tr>
-                    <tr>
-                        <th>备注</th>
-                        <td colspan="5">asdasd</td>
-                    </tr>
+                   
                 </tbody>
             </table>
             <br />
@@ -500,8 +444,8 @@
                     str += "<td>";
                     str += "<a title='编辑' href='@Url.Action("ListAdd")'><img src='../Image/Write.png' /></a>"
                     str += "<a title='删除' href='javascript:void(0)'><img src='../Image/cha.png' /></a>"
-                    str += "<a title='查看' href='javascript:ChaKan()'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
-                    str += "<a title='审核' href='javascript:Shenhe()'><img src='../Image/dui.png' style='width:21px' /></a>"
+                    str += "<a title='查看' href='javascript:ChaKan(" + value.id + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
+                    str += "<a title='审核' href='javascript:Shenhe(" + value.id + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
                     str += "</td>";
                     str += "</tr>";
                     $("#zhubiao tbody").append(str);
@@ -512,9 +456,48 @@
     }
 
     //查看明细
-    function ChaKan() {
+    function ChaKan(idvalue) {
         p.style.display = "block";
         o.style.display = "block";
+
+        $.ajax({
+            url: "@Url.Action("QueryMinXi")",
+            data: { id: idvalue },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                $(".chakan tr:gt(0)").remove();
+                var str = "<tr>";
+                str += "<th class='bt'>入库单号</th>";
+                str += "<td>" + result.InstorageInfo.rukudanhao + "</td>";
+                str += "<th class='bt'>类型</th>";
+                str += "<td>" + result.InstorageInfo.rukuleixin + "</td>";
+                str += "<th class='bt'>状态</th>";
+                str += "<td>" + result.InstorageInfo.zt + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th class='bt'>供应商编号</th>";
+                str += "<td>" + result.InstorageInfo.gonyinshangId + "</td>";
+                str += "<th class='bt'>供应商名称</th>";
+                str += "<td>" + result.InstorageInfo.gonyinshangName + "</td>";
+                str += "<th class='bt'>联系人</th>";
+                str += "<td>" + result.InstorageInfo.lianxiren + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th>创建人</th>";
+                str += "<td>" + result.InstorageInfo.chuanjianren + "</td>";
+                str += "<th>创建时间</th>";
+                str += "<td>" + result.InstorageInfo.chuanjianTime + "</td>";
+                str += "<th>电话</th>";
+                str += "<td>" + result.InstorageInfo.phone + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th>备注</th>";
+                str += "<td colspan='5'>" + result.InstorageInfo.beizhu + "</td>";
+                str += "</tr>";
+                $(".chakan tbody").append(str);
+            }
+        });
     }
     function ChaKanGuanBi() {
         personal_1.style.display = "none";
@@ -522,9 +505,48 @@
         o.style.display = "none";
     }
     //审核入库单
-    function Shenhe() {
+    function Shenhe(idvalue) {
         personal_1.style.display = "block";
         o.style.display = "block";
+        
+        $.ajax({
+            url: "@Url.Action("QueryMinXi")",
+            data: { id: idvalue },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                $(".chakan tr:gt(0)").remove();
+                var str = "<tr>";
+                str += "<th class='bt'>入库单号</th>";
+                str += "<td>" + result.InstorageInfo.rukudanhao + "</td>";
+                str += "<th class='bt'>类型</th>";
+                str += "<td>" + result.InstorageInfo.rukuleixin + "</td>";
+                str += "<th class='bt'>状态</th>";
+                str += "<td>" + result.InstorageInfo.zt + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th class='bt'>供应商编号</th>";
+                str += "<td>" + result.InstorageInfo.gonyinshangId + "</td>";
+                str += "<th class='bt'>供应商名称</th>";
+                str += "<td>" + result.InstorageInfo.gonyinshangName + "</td>";
+                str += "<th class='bt'>联系人</th>";
+                str += "<td>" + result.InstorageInfo.lianxiren + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th>创建人</th>";
+                str += "<td>" + result.InstorageInfo.chuanjianren + "</td>";
+                str += "<th>创建时间</th>";
+                str += "<td>" + result.InstorageInfo.chuanjianTime + "</td>";
+                str += "<th>电话</th>";
+                str += "<td>" + result.InstorageInfo.phone + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th>备注</th>";
+                str += "<td colspan='5'>" + result.InstorageInfo.beizhu + "</td>";
+                str += "</tr>";
+                $(".chakan tbody").append(str);
+            }
+        });
     }
     //新增入库单
     function insertInStorage() {

@@ -17,7 +17,12 @@ namespace Models
         public int Id { get; set; }
         public string DetailNum { get; set; }
         public int MoveId { get; set; }
-        public int ProductId { get; set; }
+        public string ProductNum { get; set; }
+        public string ProductName { get; set; }
+        public string Size { get; set; }
+        public int Quantity { get; set; }
+        public string TheCurrentLocation { get; set; }
+        public string MovingLocation { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
     }

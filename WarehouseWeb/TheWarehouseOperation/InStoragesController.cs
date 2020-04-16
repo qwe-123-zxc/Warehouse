@@ -11,6 +11,10 @@ namespace WarehouseWeb.TheWarehouseOperation
 {
     public class InStoragesController : System.Web.Mvc.Controller
     {
+        SupplierManager GonYinShang = new SupplierManager();    //供应商
+        InStorageTypeManager inStorageType = new InStorageTypeManager();    //入库类型
+        InStorageManager inStorage = new InStorageManager();    //入库管理
+        InStorageDetailManager inStorageDetail = new InStorageDetailManager(); //入库明细
         /// <summary>
         /// 入库管理
         /// </summary>
@@ -19,13 +23,11 @@ namespace WarehouseWeb.TheWarehouseOperation
         public ActionResult List()
         {
             //供应商
-            var GonYinShang = new SupplierManager();
             var gys = GonYinShang.GetAll();
             gys.Insert(0, new Supplier() { Id = 99999999, SupplierName = "请选择供应商" });
             ViewBag.SupplierId = new SelectList(gys, "Id", "SupplierName");
             //单据类型
-            var listType = new InStorageTypeManager();
-            var lty = listType.GetAll();
+            var lty = inStorageType.GetAll();
             lty.Insert(0, new InStorageType() { Id = 9999, InSTypeName = "请选择入库单类型" });
             ViewBag.InSTypeId = new SelectList(lty, "Id", "InSTypeName");
 
@@ -36,7 +38,6 @@ namespace WarehouseWeb.TheWarehouseOperation
         {
             var stateDate = Convert.ToDateTime(state);
             var endDate = Convert.ToDateTime(end);
-            var inStorage = new InStorageManager();
             Expression<Func<InStorage, bool>> where = i => i.AuditTime >= stateDate && i.AuditTime <= endDate;
             if (!string.IsNullOrEmpty(zt))
             {
@@ -58,13 +59,41 @@ namespace WarehouseWeb.TheWarehouseOperation
             var count = 0;
             var s = inStorage.GetByWhereDesc(where, item => item.AuditTime, ref pageIndex, ref count, ref pageCount, 2);
             //格式转换
-            var newFormatList = s.Select(i => new { InSNum = i.InSNum, InSTypeId = i.InSTypeId, SupplierId = i.SupplierId, Num = i.Num, SumMoney = i.SumMoney, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd") });
+            var newFormatList = s.Select(i => new { id=i.Id, InSNum = i.InSNum, InSTypeId = i.InSTypeId, SupplierId = i.SupplierId, Num = i.Num, SumMoney = i.SumMoney, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd") });
             var result = new
             {
                 PageCount = pageCount,
                 Count = count,
                 PageIndex = pageIndex,
                 InstorageInfo = newFormatList
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult QueryMinXi(int id)
+        {
+
+            Expression<Func<InStorage, bool>> where = i => i.Id==id;
+            var s = inStorage.GetByWhere(where).SingleOrDefault();
+            var d = inStorageDetail.GetByWhere(i => i.InStorageId == s.Id);
+            var t = inStorageType.GetByWhere(i => i.Id == s.InSTypeId).SingleOrDefault();
+            var g = GonYinShang.GetByWhere(i => i.Id == s.SupplierId).SingleOrDefault();
+            var info = new
+            {
+                rukudanhao = s.InSNum,
+                rukuleixin = t.InSTypeName,
+                zt = s.Status,
+                gonyinshangId = g.SupplierNum,
+                gonyinshangName = g.SupplierName,
+                lianxiren = g.Contacts,
+                chuanjianren = s.AuditUser,
+                chuanjianTime = s.AuditTime.ToString("yyyy-MM-dd"),
+                phone = g.Phone,
+                beizhu = s.Remark
+            };
+            var result = new
+            {
+                InstorageInfo = info
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
