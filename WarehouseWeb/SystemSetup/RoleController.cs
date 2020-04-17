@@ -18,7 +18,7 @@ namespace WarehouseWeb.SystemSetup
         /// </summary>
         public int PageSize
         {
-            get { return 5; }
+            get { return 2; }
         }
         // GET: Role
         public ActionResult Index()
