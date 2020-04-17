@@ -39,7 +39,7 @@ namespace WarehouseWeb.SystemSetup
             if (!string.IsNullOrEmpty(RoleNum))
             {
                 //当类型不是全部选中项，则按照类型组合条件
-                where = where.And(item => item.RoleNum.Equals(RoleNum) || item.RoleName == RoleNum);
+                where = where.And(item => item.RoleNum.IndexOf(RoleNum)!=-1 || item.RoleName.IndexOf (RoleNum) != -1);
             }
 
             var pageCount = 0;

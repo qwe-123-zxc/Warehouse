@@ -108,8 +108,8 @@
             </div>
         </div>
         <div class="row">
-            <input placeholder="请输入角色编号或名称" class="form-control" style="width:300px;margin: 10px 0px 10px 30px;" />
-            <button class="btn btn-primary" style="float:left;width: 70px;margin-left: 340px;margin-top:-45px;">搜索</button>
+            <input id="RoleNum" placeholder="请输入角色编号或名称" class="form-control" style="width:300px;margin: 10px 0px 10px 30px;" />
+            <button id="btnSearch" class="btn btn-primary" style="float:left;width: 70px;margin-left: 340px;margin-top:-45px;">搜索</button>
         </div>
         <table class="table tab-content table-hover table-bordered" style="width:1120px;margin-left:16px;">
             <tr>
@@ -236,13 +236,14 @@
                     str += "<td>" + value.RoleName + "</td>";
                     str += "<td>" + value.CreateTime + "</td>";
                     str += "<td>" + value.Remark + "</td>";
-                    str += "<td><a href = 'javascript:bianJiRole();' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:void(0);' title='删除'><img src='../Image/cha.png' /> </a><a href='~/PermissionGranted/Index' title='权限分配'><img src='../Image/daochu_icon.png' /></a></td>";
+                    str += "<td><a href = 'javascript:bianJiRole();' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:void(0);' title='删除'><img src='../Image/cha.png' /> </a><a href='../PermissionGranted/Index/?roleId=" + value.Id + "' title='权限分配'><img src='../Image/daochu_icon.png' /></a></td>";
                     str += "</tr>";
                     $("table tbody").append(str);
                 });
             }
         });
     }
+    
     //新增
     function insertRole() {
         insert.style.display = "block";
