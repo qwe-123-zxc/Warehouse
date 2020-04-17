@@ -8,7 +8,7 @@ using Models;
 using WarehouseDAL;
 namespace WarehouseBLL
 {
-   public class Customer:BaseManager<Customer>
+   public class CustomerManager:BaseManager<Customer>
     {
     }
 }

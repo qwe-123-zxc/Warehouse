@@ -54,9 +54,13 @@ namespace WarehouseBLL
             return MyService.GetByWhereAsc(where, orderBy, ref pageIndex, ref count, ref pageCount, pageSize);
         }
 
-        public List<Function> GetByLinq(int roleId)
+        public List<Function> GetByLinqRoleId(int roleId)
         {
-            return MyService.GetByLinq(roleId);
+            return MyService.GetByLinqRoleId(roleId);
+        }
+        public List<Function> GetByLinqRoleIdNot(int roleId)
+        {
+            return MyService.GetByLinqRoleIdNot(roleId);
         }
 
         /// <summary>

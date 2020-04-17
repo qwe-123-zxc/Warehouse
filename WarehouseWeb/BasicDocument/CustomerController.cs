@@ -23,11 +23,11 @@ namespace WarehouseWeb.BasicDocument
             get { return 2; }
         }
         public ActionResult Query(string CustomerNum, int pageIndex) {
-            CustomerMagere service = new Customer();
+            CustomerManager service = new CustomerManager();
             Expression<Func<Customer, bool>> where = item => true;
             if (!string.IsNullOrEmpty(CustomerNum))
             {
-                where = where.And(item => item.Customer.Equals(CustomerNum) || item.CustomerName == RoleNum);
+                where = where.And(item => item.CustomerNum.IndexOf(CustomerNum)!=-1 || item.CustomerName.IndexOf(CustomerNum) != -1);
             }
             var pageCount = 0;
             var count = 0;

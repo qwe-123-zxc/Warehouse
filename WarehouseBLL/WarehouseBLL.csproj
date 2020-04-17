@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseManager.cs" />
-    <Compile Include="Customer.cs" />
+    <Compile Include="CustomerManager.cs" />
     <Compile Include="FunctionManager.cs" />
     <Compile Include="AdminManger.cs" />
     <Compile Include="InStorageDetailManager.cs" />

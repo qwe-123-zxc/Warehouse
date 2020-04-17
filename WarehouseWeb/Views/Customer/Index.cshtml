@@ -109,7 +109,7 @@
         </div>
         <div class="row">
             <input placeholder="请输入客户编号或名称" class="form-control" style="width:300px;margin: 10px 0px 10px 30px;" />
-            <button class="btn btn-primary" style="float:left;width: 70px;margin-left: 340px;margin-top:-45px;">搜索</button>
+            <button id="btnSearch" class="btn btn-primary" style="float:left;width: 70px;margin-left: 340px;margin-top:-45px;">搜索</button>
         </div>
         <table class="table tab-content table-hover table-bordered" style="width:1120px;margin-left:16px;">
             <tr>
@@ -222,7 +222,7 @@
 
         $.ajax({
             url: "@Url.Action("Query")",
-            data: { RoleNum: CustomerValue, pageIndex: pageIndexValue },
+            data: { CustomerNum: CustomerValue, pageIndex: pageIndexValue },
             dataType: "json",
             type: "post",
             success: function (result) {
@@ -235,14 +235,13 @@
                 $.each(result.RoleInfies, function (index, value) {
                     var str = "<tr>";
                     str += "<td><input type='checkbox' /></td>";
-                    str += "<td>" + value.Id + "</td>";
                     str += "<td>" + value.CustomerNum + "</td>";
                     str += "<td>" + value.CustomerName + "</td>";
                     str += "<td>" + value.Contacts + "</td>";
                     str += "<td>" + value.Phone + "</td>";
-                    str += "<td>" + value.Email + "</td>";
+                    str += "<td>" + value.Fax + "</td>";
                     str += "<td>" + value.CreateTime + "</td>";
-                    str += "<td><a href = 'javascript:bianJiRole();' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:void(0);' title='删除'><img src='../Image/cha.png' /> </a><a href='~/PermissionGranted/Index' title='权限分配'><img src='../Image/daochu_icon.png' /></a></td>";
+                    str += "<td><a href = 'javascript:bianJiRole();' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:void(0);' title='删除'><img src='../Image/cha.png' /> </a>></td>";
                     str += "</tr>";
                     $("table tbody").append(str);
                 });

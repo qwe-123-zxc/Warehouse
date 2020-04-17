@@ -37,7 +37,7 @@ namespace WarehouseWeb.Controllers
             }
             if (admin != null)
             {
-                List<Function> list = functionManager.GetByLinq(admin.RoleId);
+                List<Function> list = functionManager.GetByLinqRoleId(admin.RoleId);
                 List<Function> rootMeun = list.Where(item => item.ParentNodeId == 0 && item.IsDelete == 0).ToList();
                 var newList = new
                 {
