@@ -153,33 +153,33 @@
         <div class="row">
             <div class="col-md-4 margin-bottom-10" style="margin:8px;">
                 <div class="btn-group">
-                    <button class="btn">所有</button>
-                    <button class="btn">待审核</button>
-                    <button class="btn">审核通过</button>
-                    <button class="btn">审核失败</button>
+                    <button class="btn  btnQuery" type="button" name="suoyou" value="所有">所有</button>
+                    <button class="btn  btnQuery" type="button" name="dsh" value="待审核">待审核</button>
+                    <button class="btn  btnQuery" type="button" name="shtg" value="审核通过">审核通过</button>
+                    <button class="btn  btnQuery" type="button" name="shsb" value="审核失败">审核失败</button>
                 </div>
             </div>
             <div class="col-md-3 navbar-right" style="margin:8px;padding:0px;">
-                <button class="btn btn-primary qd" onclick="insertInStorage();">新增</button>
-                <button class="btn btn-danger qd">删除</button>
-                <button class="btn btn-info qd">导出</button>
+                <button class="btn btn-primary qd" onclick="insertInStorage();" type="button">新增</button>
+                <button class="btn btn-danger qd" type="button">删除</button>
+                <button class="btn btn-info qd" type="button">导出</button>
             </div>
         </div>
         @*条件查询*@
         <div class="row" style="padding:5px;">
             <div class="col-md-2 form-group form-inline">
-                <input class="form-control" type="text" placeholder="请输入移库单号" />
+                <input class="form-control" name="MoveNum" type="text" placeholder="请输入移库单号" />
             </div>
             <div class="col-md-5 form-group form-inline">
                 <label class="control-label">时间</label>
-                <input type="date" class="form-control" style="width:150px;" /> 到 <input type="date" class="form-control" style="width:150px;" />
+                <input type="date" name="State" value="2020-02-03" class="form-control" style="width:150px;" /> 到 <input type="date" name="End" value="2020-04-16" class="form-control" style="width:150px;" />
             </div>
             <div class="col-md-3 form-group form-inline" style="margin-left:-90px;">
-                <button class="btn btn-primary" style="width: 70px;">搜索</button>
+                <button class="btn btn-primary btnQuery" type="button" style="width: 70px;">搜索</button>
             </div>
         </div>
         @*表内容查询*@
-        <table class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
+        <table id="zhubiao" class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
             <thead>
                 <tr>
                     <th style="width:30px;"><input type="checkbox" /></th>
@@ -193,32 +193,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><input type="checkbox" /></td>
-                    <td>000001</td>
-                    <td>移库上架</td>
-                    <td>3</td>
-                    <td>等待审核</td>
-                    <td>administrator</td>
-                    <td>2020-03-27</td>
-                    <td>
-                        <a title="编辑" href="@Url.Action("ListAdd")"><img src="~/Image/Write.png" /></a>
-                        <a title="删除" href="javascript:void(0)"><img src="~/Image/cha.png" /></a>
-                        <a title="查看" href="javascript:ChaKan()"><img src="~/Image/chakan.png" style="margin-top:2px;width:22px" /></a>
-                        <a title="审核" href="javascript:Shenhe()"><img src="~/Image/dui.png" style="width:21px" /></a>
-                    </td>
-                </tr>
             </tbody>
         </table>
         @*分页*@
         <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
-            <button class="first" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
-            <button class="up">上一页</button>
-            <input class="PageIndex" type="text" value="1" />
-            <button class="go">GO</button>
-            <button class="next">下一页</button>
-            <button class="last">尾页</button>
-            <label>当前页是第 1 页,共计 1 条/ 1 页</label>
+            <button class="first" type="button" name="first" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
+            <button class="up" type="button" name="up">上一页</button>
+            <input class="PageIndex" name="PageIndex" type="text" value="1" />
+            <button class="go" type="button" name="go">GO</button>
+            <button class="next" type="button" name="next">下一页</button>
+            <button class="last" type="button" name="last">尾页</button>
+            <label id="fenyeshu">当前页是第页,共计条/页</label>
         </div>
     </div>
 </div>
@@ -348,6 +333,8 @@
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script>
+    var pageIndexvalue = 1;//提取当前页为全局变量
+    var ztvalue = "";
     $(function () {
         $("#GJSS").click(function () {
             $(".GaoJiChaXun").slideToggle();
@@ -355,7 +342,82 @@
         $(".btnClose").click(function () {
             $("#personal_1").hide();
         });
+        //状态按钮
+        $("[name=suoyou]").click(function () {
+            ztvalue = "";
+        });
+        $("[name=dsh]").click(function () {
+            ztvalue = "待审核";
+        });
+        $("[name=shtg]").click(function () {
+            ztvalue = "审核通过";
+        });
+        $("[name=shsb]").click(function () {
+            ztvalue = "审核失败";
+        });
+        //分页按钮
+        $("[name=first]").click(function () {
+            bindData(1);
+        });
+        $("[name=up]").click(function () {
+            pageIndexvalue = parseInt($("[name=PageIndex]").val()) - 1;
+            bindData(pageIndexvalue);
+        });
+        $("[name=go]").click(function () {
+            pageIndexvalue = parseInt($("[name=PageIndex]").val());
+            bindData(pageIndexvalue);
+        });
+        $("[name=next]").click(function () {
+            pageIndexvalue = parseInt($("[name=PageIndex]").val()) + 1;
+            bindData(pageIndexvalue);
+        });
+        $("[name=last]").click(function () {
+            pageIndexvalue = 99999999;
+            bindData(pageIndexvalue);
+        });
+
+        $(".btnQuery").click(function () {
+            bindData(pageIndexvalue);
+        });
+        bindData(1);
     });
+
+    //入库管理主页查询
+    function bindData(pageIndexvalue) {
+        var MoveNumvalue = $("[name=MoveNum]").val();
+        var Statevalue = $("[name=State]").val();
+        var Endvalue = $("[name=End]").val();
+        $.ajax({
+            url: "@Url.Action("ListAjax")",
+            data: { zt: ztvalue, MoveNum: MoveNumvalue, state: Statevalue, end: Endvalue,pageIndex: pageIndexvalue},
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                $("#zhubiao tr:gt(0)").remove();
+                $("[name=PageIndex]").val(result.PageIndex);
+                $.each(result.MoveReportInfo, function (index, value) {
+                    var str = "<tr>";
+                    str += "<td><input type='checkbox' /></td>";
+                    str += "<td>" + value.MoveNum + "</td>";
+                    str += "<td>" + value.MoveTypeId + "</td>";
+                    str += "<td>" + value.Num + "</td>";
+                    str += "<td>" + value.Status + "</td>";
+                    str += "<td>" + value.AuditUser + "</td>";
+                    str += "<td>" + value.AuditTime + "</td>";
+                    str += "<td>";
+                    str += "<a title='编辑' href='@Url.Action("ListAdd")'><img src='../Image/Write.png' /></a>"
+                    str += "<a title='删除' href='javascript:void(0)'><img src='../Image/cha.png' /></a>"
+                    str += "<a title='查看' href='javascript:ChaKan(" + value.id + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
+                    str += "<a title='审核' href='javascript:Shenhe(" + value.id + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
+                    str += "</td>";
+                    str += "</tr>";
+                    $("#zhubiao tbody").append(str);
+                });
+                $("#fenyeshu").text("当前页是第" + result.PageIndex + "页,共计" + result.Count + "条" + result.PageCount + "页");
+            }
+        });
+    }
+
     //查看明细
     function ChaKan() {
         p.style.display = "block";
