@@ -47,6 +47,7 @@
     <Compile Include="CheckStockDetailManager.cs" />
     <Compile Include="CheckStockManager.cs" />
     <Compile Include="CheckStockTypeManager.cs" />
+    <Compile Include="MeasureManage.cs" />
     <Compile Include="CustomerManager.cs" />
     <Compile Include="FunctionManager.cs" />
     <Compile Include="AdminManger.cs" />
