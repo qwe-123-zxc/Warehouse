@@ -206,7 +206,10 @@
         });
 
         //绑定查询按钮事件
-        $("#btnSearch").click(bindData);
+        $("#btnSearch").click(function () {
+            bindData(1);
+        });
+
         //加载 ，调用绑定数据方法
         bindData(1);
     });

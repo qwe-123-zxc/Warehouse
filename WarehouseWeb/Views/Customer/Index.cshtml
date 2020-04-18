@@ -108,7 +108,7 @@
             </div>
         </div>
         <div class="row">
-            <input placeholder="请输入客户编号或名称" class="form-control" style="width:300px;margin: 10px 0px 10px 30px;" />
+            <input id="Customer" placeholder="请输入客户编号或名称" class="form-control" style="width:300px;margin: 10px 0px 10px 30px;" />
             <button id="btnSearch" class="btn btn-primary" style="float:left;width: 70px;margin-left: 340px;margin-top:-45px;">搜索</button>
         </div>
         <table class="table tab-content table-hover table-bordered" style="width:1120px;margin-left:16px;">
@@ -130,7 +130,7 @@
             <button class="go">GO</button>
             <button class="next">下一页</button>
             <button class="last">尾页</button>
-            <label>当前页是第 1 页,共计 1 条/ 1 页</label>
+            <label id="lbMsg"></label>
         </div>
     </div>
 </div>
@@ -142,52 +142,53 @@
         <button class="btn" onclick="hideCustomer();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">客户编号</span><input disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
-        <span style="margin-left:25px">客户名称</span><input class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">客户编号</span><input placeholder="自动生成" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">客户名称</span><input name="CustomerName" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">传<span style="margin-left:27px">真</span></span><input class="form-control" style="width:150px;margin-left:11px" />
-        <span style="margin-left:25px">联&nbsp;&nbsp;系&nbsp;&nbsp;人</span><input class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">传<span style="margin-left:27px">真</span></span><input name="Fax" class="form-control" style="width:150px;margin-left:11px" />
+        <span style="margin-left:25px">联&nbsp;&nbsp;系&nbsp;&nbsp;人</span><input name="Contacts" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">E&nbsp;m&nbsp;a&nbsp;i&nbsp;&nbsp;l&nbsp;&nbsp;</span><input class="form-control" style="width:150px;margin-left:5px" />
-        <span style="margin-left:25px">电<span style="margin-left:27px">话</span></span><input class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:10px">E&nbsp;m&nbsp;a&nbsp;i&nbsp;&nbsp;l&nbsp;&nbsp;</span><input name="Email" class="form-control" style="width:150px;margin-left:5px" />
+        <span style="margin-left:25px">电<span style="margin-left:27px">话</span></span><input name="Phone" class="form-control" style="width:149px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">地<span style="margin-left:28px">址</span></span><input class="form-control" style="width:149px;margin-left:10px" />
-        <span style="margin-left:25px">备<span style="margin-left:28px">注</span></span><input class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:10px">地<span style="margin-left:28px">址</span></span><input name="Address" class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:25px">备<span style="margin-left:28px">注</span></span><input name="Remark" class="form-control" style="width:149px;margin-left:10px" />
     </div>
     <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
-        <button style="margin:6px 10px 0px 420px;">确定</button>
+        <button style="margin:6px 10px 0px 420px;" onclick="AddCustomer()">确定</button>
         <button onclick="hideCustomer();">关闭</button>
     </div>
 </div>
 <div id="bianJi">
     <div style="height:30px;width:100%;background-color:#4c4c4c">
-        <span style="color:white;float: left;margin: 5px 10px;">添加客户</span>
+        <span style="color:white;float: left;margin: 5px 10px;">编辑客户</span>
         <button class="btn" onclick="hideCustomer();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">客户编号</span><input value="000001" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
-        <span style="margin-left:25px">客户名称</span><input value="宜昌市蓝霸光电节能科技有限公司" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">客户编号</span><input name="customerNum" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">客户名称</span><input name="customerName" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">传<span style="margin-left:27px">真</span></span><input class="form-control" style="width:150px;margin-left:11px" />
-        <span style="margin-left:25px">联&nbsp;&nbsp;系&nbsp;&nbsp;人</span><input value="郭靖" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">传<span style="margin-left:27px">真</span></span><input  name="fax"class="form-control" style="width:150px;margin-left:11px" />
+        <span style="margin-left:25px">联&nbsp;&nbsp;系&nbsp;&nbsp;人</span><input class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">E&nbsp;m&nbsp;a&nbsp;i&nbsp;&nbsp;l&nbsp;&nbsp;</span><input class="form-control" style="width:150px;margin-left:5px" />
-        <span style="margin-left:25px">电<span style="margin-left:27px">话</span></span><input class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:10px">E&nbsp;m&nbsp;a&nbsp;i&nbsp;&nbsp;l&nbsp;&nbsp;</span><input name="email" class="form-control" style="width:150px;margin-left:5px" />
+        <span style="margin-left:25px">电<span style="margin-left:27px">话</span></span><input  name="phone"class="form-control" style="width:149px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">地<span style="margin-left:28px">址</span></span><input class="form-control" style="width:149px;margin-left:10px" />
-        <span style="margin-left:25px">备<span style="margin-left:28px">注</span></span><input class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:10px">地<span style="margin-left:28px">址</span></span><input  name="address"class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:25px">备<span style="margin-left:28px">注</span></span><input  name="remark"class="form-control" style="width:149px;margin-left:10px" />
     </div>
     <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
-        <button style="margin:6px 10px 0px 420px;">确定</button>
+        <button style="margin:6px 10px 0px 420px;" onclick="Update();">确定</button>
         <button onclick="hideCustomer();">关闭</button>
     </div>
 </div>
+
 
 <script type="text/javascript">
     $(function () {
@@ -214,12 +215,13 @@
             bindData(pageIndex);
         });
 
-        $("#btnSearch").click(bindData);
+        $("#btnSearch").click(function () {
+            bindData(1);
+        });
             bindData(1);
     });
     function bindData(pageIndexValue) {
         var CustomerValue = $("#Customer").val();
-
         $.ajax({
             url: "@Url.Action("Query")",
             data: { CustomerNum: CustomerValue, pageIndex: pageIndexValue },
@@ -227,8 +229,8 @@
             type: "post",
             success: function (result) {
 
-                $("#lbMsg").html("当前第" + result.PageIndex + "页" + "    共计" + result.PageCount + "页    共有" + result.Count + "条");
-                $("#PageIndex").val(result.PageIndex);
+                $("#lbMsg").html("当前第" + result.PageIndex + "页" + "    共计" + result.Count + "条/" + result.PageCount + "页");
+                $(".PageIndex").val(result.PageIndex);
 
                 $("table tr:gt(0)").remove();
 
@@ -241,7 +243,7 @@
                     str += "<td>" + value.Phone + "</td>";
                     str += "<td>" + value.Fax + "</td>";
                     str += "<td>" + value.CreateTime + "</td>";
-                    str += "<td><a href = 'javascript:bianJiRole();' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:void(0);' title='删除'><img src='../Image/cha.png' /> </a>></td>";
+                    str += "<td><a href = 'javascript:bianJiCustomer(" + value.CustomerNum + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:Delete(" + value.CustomerNum + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";
                     str += "</tr>";
                     $("table tbody").append(str);
                 });
@@ -259,8 +261,83 @@
         o.style.display = "none";
     }
     //编辑
-    function bianJiCustomer() {
+    function bianJiCustomer(num) {
         bianJi.style.display = "block";
         o.style.display = "block";
+        $.ajax({
+            url: "@Url.Action("QueryById")",
+            data: { customerNum: num },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                $("[name=customerNum]").val(result.CustomerNum);
+                $("[name=customerName]").val(result.CustomerName);
+                $("[name=fax]").val(result.Fax);
+                $("[name=contacts]").val(result.Contacts);
+                $("[name=email]").val(result.Email);
+                $("[name=phone]").val(result.Phone);
+                $("[name=address]").val(result.Address);
+                $("[name=remark]").val(result.Remark);
+            }
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    function AddCustomer() {
+        var CustomerName = $("[name=CustomerName]").val();
+        var Fax = $("[name=Fax]").val();
+        var Contacts = $("[name=Contacts]").val();
+        var Email = $("[name=Email]").val();
+        var Phone = $("[name=Phone]").val();
+        var Address = $("[name=Address]").val();
+        var Remark = $("[name=Remark]").val();
+        var CustomerNum = $("[name=Remark]").val();
+
+        $.ajax({
+            url: "@Url.Action("Insert")",
+            data: { customerName: CustomerName, fax: Fax, contacts: Contacts, email: Email, phone: Phone, address: Address, remark: Remark },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result)
+                window.location.href = "@Url.Action("Index")";
+            }
+        });
+    }
+
+    function Update() {
+        var CustomerName = $("[name=customerName]").val();
+        var Fax = $("[name=fax]").val();
+        var Contacts = $("[name=contacts]").val();
+        var Email = $("[name=email]").val();
+        var Phone = $("[name=phone]").val();
+        var Address = $("[name=address]").val();
+        var Remark = $("[name=remark]").val();
+        var CustomerNum = $("[name=customerNum]").val();
+
+        $.ajax({
+            url: "@Url.Action("Update")",
+            data: { customerName: CustomerName, fax: Fax, contacts: Contacts, email: Email, phone: Phone, address: Address, remark: Remark, customerNum: CustomerNum },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result)
+                window.location.href = "@Url.Action("Index")";
+            }
+        });
+    }
+
+    function Delete(num) {
+        $.ajax({
+            url: "@Url.Action("Delete")",
+            data: { customerNum: num },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result)
+                window.location.href = "@Url.Action("Index")";
+            }
+        });
     }
 </script>

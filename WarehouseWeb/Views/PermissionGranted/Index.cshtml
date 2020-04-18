@@ -52,8 +52,7 @@
         </div>
         <div style="margin: 10px 0px 10px -20px;">
             <ul class="tree" type="none">
-                <li class="tree_li right_tree"></li>
-                    @*<li class="tree_li">
+                <li class="tree_li right_tree">
                 <a href="javascript:void(0);" style="margin-left: 20px;color:black;">系统模块</a>
                 <ul type="none" style="margin-left:-20px">
                     <li class="tree_li ">
@@ -146,7 +145,7 @@
                         </ul>
                     </li>
                 </ul>
-            </li>*@
+            </li>
             </ul>
         </div>
     </div>
@@ -163,7 +162,8 @@
                 roleId = strs[i].split("=")[1];
             }
         }
-        $.ajax({
+        if (roleId!=0) {
+            $.ajax({
             url: "@Url.Action("ShowData")",
             data: { roleId: roleId },
             dataType: "json",
@@ -190,5 +190,7 @@
                 $(".tree_right .tree").append(rightStr);
             }
         });
+        }
+        
     });
 </script>
