@@ -80,6 +80,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             //主表显示
             var info = new
             {
+                id = s.Id,
                 rukudanhao = s.InSNum,
                 rukuleixin = t.InSTypeName,
                 zt = s.Status,
@@ -99,6 +100,31 @@ namespace WarehouseWeb.TheWarehouseOperation
                 XiangXiInfo = dd
             };
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        //修改审核状态
+        public ActionResult UpdtStatus(InStorage i,string status)
+        {
+            var ss = inStorage.GetByWhere(item => item.Id == i.Id).SingleOrDefault();
+            i.InSNum = ss.InSNum;
+            i.InSTypeId = ss.InSTypeId;
+            i.SupplierId = ss.SupplierId;
+            i.DetailNum = ss.DetailNum;
+            i.Num = ss.Num;
+            i.SumMoney = ss.SumMoney;
+            i.Status = status;
+            i.Operation = ss.Operation;
+            i.AuditUser = ss.AuditUser;
+            i.AuditTime = ss.AuditTime;
+            i.IsDelete = ss.IsDelete;
+            i.Remark = ss.Remark;
+            var inStorages = new InStorageManager();
+            var s = inStorages.Update(i);
+            var result = new
+            {
+                ActionResult = s
+            };
+            return Json(result,JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ListAdd()
