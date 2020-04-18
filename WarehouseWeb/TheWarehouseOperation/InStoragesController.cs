@@ -72,12 +72,12 @@ namespace WarehouseWeb.TheWarehouseOperation
 
         public ActionResult QueryMinXi(int id)
         {
-
             Expression<Func<InStorage, bool>> where = i => i.Id==id;
             var s = inStorage.GetByWhere(where).SingleOrDefault();
             var d = inStorageDetail.GetByWhere(i => i.InStorageId == s.Id);
             var t = inStorageType.GetByWhere(i => i.Id == s.InSTypeId).SingleOrDefault();
             var g = GonYinShang.GetByWhere(i => i.Id == s.SupplierId).SingleOrDefault();
+            //主表显示
             var info = new
             {
                 rukudanhao = s.InSNum,
@@ -91,9 +91,12 @@ namespace WarehouseWeb.TheWarehouseOperation
                 phone = g.Phone,
                 beizhu = s.Remark
             };
+            //明细
+            var dd = d.Select(i=>new { Id=i.Id, DetailNum=i.DetailNum, InStorageId=i.InStorageId, ProductNum=i.ProductNum, ProductName=i.ProductName, Size=i.Size, UnitPrice=i.UnitPrice, Quantity=i.Quantity, SumMoney=i.SumMoney, Location=i.Location });
             var result = new
             {
-                InstorageInfo = info
+                InstorageInfo = info,
+                XiangXiInfo = dd
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }

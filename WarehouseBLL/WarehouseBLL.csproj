@@ -40,14 +40,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BadReportDetailManager.cs" />
+    <Compile Include="BadReportManager.cs" />
+    <Compile Include="BadReportTypeManager.cs" />
     <Compile Include="BaseManager.cs" />
+    <Compile Include="CheckStockDetailManager.cs" />
+    <Compile Include="CheckStockManager.cs" />
+    <Compile Include="CheckStockTypeManager.cs" />
     <Compile Include="CustomerManager.cs" />
     <Compile Include="FunctionManager.cs" />
     <Compile Include="AdminManger.cs" />
     <Compile Include="InStorageDetailManager.cs" />
     <Compile Include="InStorageManager.cs" />
     <Compile Include="InStorageTypeManager.cs" />
+    <Compile Include="MoveReportDetailManager.cs" />
+    <Compile Include="MoveReportManager.cs" />
+    <Compile Include="MoveReportTypeManager.cs" />
+    <Compile Include="OutStorageDetailManager.cs" />
+    <Compile Include="OutStorageManager.cs" />
+    <Compile Include="OutStorageTypeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReturnOrderDetailManager.cs" />
+    <Compile Include="ReturnOrderStockManager.cs" />
+    <Compile Include="ReturnOrderTypeManager.cs" />
     <Compile Include="RoleManeger.cs" />
     <Compile Include="RolePowerManager.cs" />
     <Compile Include="SupplierManager.cs" />

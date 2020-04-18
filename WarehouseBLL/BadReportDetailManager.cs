@@ -7,7 +7,7 @@ using Models;
 
 namespace WarehouseBLL
 {
-    public class CustomerManager : BaseManager<Customer>
+    public class BadReportDetailManager : BaseManager<BadReportDetail>
     {
     }
 }
