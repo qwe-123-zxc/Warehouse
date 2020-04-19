@@ -300,8 +300,8 @@
         </div>
         <div class="row XinZenChanPingDiBu">
             <div class="col-md-12 text-right" style="margin-top: 3px;">
-                <button>审核通过</button>&nbsp;
-                <button>审核不通过</button>&nbsp;
+                <button class="btnUpdateStatus" name="shtg" type="button">审核通过</button>&nbsp;
+                <button class="btnUpdateStatus" name="shsb" type="button">审核不通过</button>&nbsp;
                 <button onclick="ChaKanGuanBi();">关闭</button>
             </div>
         </div>
@@ -329,6 +329,7 @@
         $("[name=shsb]").click(function () {
             ztvalue = "审核失败";
         });
+
         //分页按钮
         $("[name=first]").click(function () {
             bindData(1);
@@ -353,8 +354,26 @@
         $(".btnQuery").click(function () {
             bindData(pageIndexvalue);
         });
+        $(".btnUpdateStatus").click(function () {
+            UpdateStatus();
+        });
         bindData(1);
     });
+
+    //修改审核状态
+    function UpdateStatus() {
+        var ids = $("[name=xgztid]").val();
+        $.ajax({
+            url: "@Url.Action("UpdtStatus")",
+            data: { status: ztvalue, Id: ids },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                bindData(1);
+                ChaKanGuanBi();
+            }
+        });
+    };
 
     //入库管理主页查询
     function bindData(pageIndexvalue) {
@@ -370,7 +389,6 @@
             type: "get",
             success: function (result) {
                 $("#zhubiao tr:gt(0)").remove();
-                $("[name=PageIndex]").val(result.PageIndex);
                 $.each(result.InstorageInfo, function (index, value) {
                         var str = "<tr>";
                         str += "<td><input type='checkbox' /></td>";
@@ -396,6 +414,7 @@
                             $("#zhubiao tbody").append(str);
                 });
                 $("#fenyeshu").text("当前页是第" + result.PageIndex + "页,共计" + result.Count + "条" + result.PageCount + "页");
+                $("[name=PageIndex]").val(result.PageIndex);
             }
         });
     }
@@ -463,6 +482,7 @@
         p.style.display = "none";
         o.style.display = "none";
     }
+
     //审核入库单
     function Shenhe(idvalue) {
         personal_1.style.display = "block";
@@ -502,9 +522,10 @@
                 str += "<tr>";
                 str += "<th>备注</th>";
                 str += "<td colspan='5'>" + result.InstorageInfo.beizhu + "</td>";
+                str += "<input type='hidden' name='xgztid' value='" + result.InstorageInfo.id + "' />";
                 str += "</tr>";
                 $(".chakan tbody").append(str);
-
+                
                 $(".XiangXi tr:gt(0)").remove();
                 $.each(result.XiangXiInfo, function (index, value) {
                     var str = "<tr>";
