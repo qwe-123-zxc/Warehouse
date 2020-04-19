@@ -178,6 +178,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MasterPageController.cs" />
+    <Compile Include="Models\Dto\QueryBaseDto.cs" />
+    <Compile Include="Models\Dto\QueryInStorageDto.cs" />
     <Compile Include="SystemSetup\PermissionGrantedController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Global.asax.cs">
@@ -207,6 +209,7 @@
     <Compile Include="TheWarehouseOperation\InStoragesController.cs" />
     <Compile Include="TheWarehouseOperation\MoveReportsController.cs" />
     <Compile Include="TheWarehouseOperation\OutStoragesController.cs" />
+    <Compile Include="TheWarehouseOperation\QueryBaseControllers.cs" />
     <Compile Include="TheWarehouseOperation\ReturnOrderStocksController.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -423,6 +426,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="Views\QueryBaseControllers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

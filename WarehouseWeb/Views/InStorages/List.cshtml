@@ -372,28 +372,28 @@
                 $("#zhubiao tr:gt(0)").remove();
                 $("[name=PageIndex]").val(result.PageIndex);
                 $.each(result.InstorageInfo, function (index, value) {
-                    var str = "<tr>";
-                    str += "<td><input type='checkbox' /></td>";
-                    str += "<td>" + value.InSNum + "</td>";
-                    str += "<td>" + value.InSTypeId + "</td>";
-                    str += "<td>" + value.SupplierId + "</td>";
-                    str += "<td>" + value.Num + "</td>";
-                    str += "<td>" + value.SumMoney + "</td>";
-                    str += "<td>" + value.Status + "</td>";
-                    str += "<td>" + value.AuditUser + "</td>";
-                    str += "<td>" + value.AuditTime + "</td>";
-                    str += "<td>";
-                    if (value.Status!="审核通过") {
-                        str += "<a title='编辑' href='@Url.Action("ListAdd")'><img src='../Image/Write.png' /></a>"
-                    }
-                    str += "<a title='删除' href='javascript:void(0)'><img src='../Image/cha.png' /></a>"
-                    str += "<a title='查看' href='javascript:ChaKan(" + value.id + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
-                    if (value.Status != "审核通过") {
-                        str += "<a title='审核' href='javascript:Shenhe(" + value.id + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
-                    }
-                    str += "</td>";
-                    str += "</tr>";
-                    $("#zhubiao tbody").append(str);
+                        var str = "<tr>";
+                        str += "<td><input type='checkbox' /></td>";
+                        str += "<td>" + value.InSNum + "</td>";
+                            str += "<td>" + value.InSTypeId + "</td>";
+                        str += "<td>" + value.SupplierId + "</td>";
+                        str += "<td>" + value.Num + "</td>";
+                        str += "<td>" + value.SumMoney + "</td>";
+                        str += "<td>" + value.Status + "</td>";
+                        str += "<td>" + value.AuditUser + "</td>";
+                        str += "<td>" + value.AuditTime + "</td>";
+                        str += "<td>";
+                        if (value.Status!="审核通过") {
+                            str += "<a title='编辑' href='@Url.Action("ListAdd")'><img src='../Image/Write.png' /></a>"
+                        }
+                        str += "<a title='删除' href='javascript:void(0)'><img src='../Image/cha.png' /></a>"
+                        str += "<a title='查看' href='javascript:ChaKan(" + value.id + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
+                        if (value.Status != "审核通过") {
+                            str += "<a title='审核' href='javascript:Shenhe(" + value.id + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
+                        }
+                        str += "</td>";
+                        str += "</tr>";
+                            $("#zhubiao tbody").append(str);
                 });
                 $("#fenyeshu").text("当前页是第" + result.PageIndex + "页,共计" + result.Count + "条" + result.PageCount + "页");
             }
