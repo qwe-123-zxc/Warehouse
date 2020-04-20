@@ -83,19 +83,19 @@
             <div class="row">
                 <div class="col-md-3 form-group">
                     入库单编号
-                    <input class="form-control" type="text" />
+                    <input disabled="disabled" placeholder="自动生成" class="form-control" type="text" />
                 </div>
                 <div class="col-md-3 form-group">
                     入库单类型
-                    <input class="form-control" type="text" />
+                    @Html.DropDownList("InSTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
                 </div>
                 <div class="col-md-3 form-group">
                     制单人
-                    <input class="form-control" type="text" />
+                    <input value="@(Session["userName"])" disabled="disabled" class="form-control" type="text" />
                 </div>
                 <div class="col-md-3 form-group">
-                    供应商编号
-                    <input class="form-control" type="text" />
+                    供应商
+                    @Html.DropDownList("SupplierId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
                 </div>
             </div>
             <div class="row">
@@ -105,7 +105,7 @@
                 </div>
                 <div class="col-md-5 form-group">
                     备注
-                    <input class="form-control" type="text" />
+                    <input name="Remark" class="form-control" type="text" />
                 </div>
             </div>
         </div>
@@ -129,7 +129,7 @@
                 <a href="javascript:ChaKan()">
                     <span class="btn btn-primary">新增产品</span>
                 </a>
-                <button class="btn btn-primary">保存</button>
+                <button class="btn btn-primary" id="OK">保存</button>
                 <button class="btn btn-default">取消</button>
             </div>
         </div>
@@ -152,48 +152,44 @@
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">产品编码</label>&nbsp;&nbsp;
-                    <input disabled="disabled" class="form-control" style="width:200px;" />
+                    <input name="ProductNum" disabled="disabled" class="form-control" style="width:200px;" />
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">产品名称</label>&nbsp;&nbsp;
-                    <select class="form-control" style="width:200px;" >
-                        <option>请选择产品</option>
-                    </select>
+                    @Html.DropDownList("Product", null, htmlAttributes: new { @class = "form-control", @style = "width:200px;" })
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">产品规格</label>&nbsp;&nbsp;
-                    <input disabled="disabled" class="form-control" style="width:200px;" />
+                    <input name="Size" disabled="disabled" class="form-control" style="width:200px;" />
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">产品单价</label>&nbsp;&nbsp;
-                    <input type="text" class="form-control" style="width:200px;" />
+                    <input name="OutPrice" disabled="disabled" type="text" class="form-control" style="width:200px;" />
                     <label class="control-label">元</label>
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">入库库位</label>&nbsp;&nbsp;
-                    <select class="form-control" style="width:200px;">
-                        <option>请选择库位</option>
-                    </select>
+                    @Html.DropDownList("location", null, htmlAttributes: new { @class = "form-control", @style = "width:200px;" })
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">入库数量</label>&nbsp;&nbsp;
-                    <input type="text" class="form-control" style="width:200px;" />
+                    <input name="Quantity" type="text" class="form-control" style="width:200px;" />
                 </div>
             </div>
         </div>
         <div class="row XinZenChanPingDiBu">
             <div class="col-md-12 text-right">
-                <button style="margin-top: 3px;">确认</button>
+                <button style="margin-top: 3px;" id="ProductAdd">确认</button>
                 <button style="margin-top: 3px;" onclick="ChaKanGuanBi();">关闭</button>
             </div>
         </div>
@@ -202,6 +198,79 @@
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script>
+    $(function () {
+        $("#Product").change(function () {
+            //获取被选中的option标签
+            var ProductId = $("#Product  option:selected").val();
+            $.ajax({
+                url: "@Url.Action("QueryByProductId")",
+                data: { id: ProductId },
+                type: "post",
+                dataType: "json",
+                success: function (result) {
+                    $("[name=ProductNum]").val(result.ProductNum);
+                    $("[name=ProductName]").val(result.ProductName);
+                    $("[name=Size]").val(result.Size);
+                    $("[name=OutPrice]").val(result.OutPrice);
+                }
+            });
+        });
+        var list="";
+        $("#ProductAdd").click(function () {
+            var ProductNum = $("[name=ProductNum]").val();
+            var ProductName = $("[name=Product] option:selected").text();
+            var Size = $("[name=Size]").val();
+            var OutPrice = $("[name=OutPrice]").val();
+            var location = $("[name=location]  option:selected").text();
+            var Quantity = $("[name=Quantity").val();
+            var str = "<tr><td>" + ProductName + "</td><td>" + ProductNum + "</td><td>" + Size + "</td><td>" + OutPrice + "</td><td>" + Quantity + "</td><td>" + OutPrice * Quantity + "</td><td>" + location + "</td><td><a href='javascript:remove(this);'>删除</a></td></tr >";
+            $("tbody").append(str);
+            //关闭弹窗
+            ChaKanGuanBi();
+        });
+
+        //保存
+        $("#OK").click(function () {
+            var InSTypeId = $("[name=InSTypeId]").val();
+            var AuditUser = "@(Session["userName"])";
+            var SupplierId = $("[name=SupplierId]").val();
+            var Remark = $("[name=Remark]").val();
+
+            //入库明细表
+            var trs = document.getElementsByTagName("tr"); //获取表格中的所有行
+            var sum = [];//新建一个数组
+            for (var i = 1; i < trs.length; i++) {
+                var tds = trs[i].cells;//获取第i行的所有列
+                var stu = {};//新建一个对象
+                //把属性和属性的值添加到对象中
+                stu.DetailNum = "";
+                stu.InStorageId = "";
+                stu.ProductName = tds[0].innerHTML;
+                stu.ProductNum = tds[1].innerHTML;
+                stu.Size = tds[2].innerHTML;
+                stu.UnitPrice = tds[3].innerHTML;
+                stu.Quantity = tds[4].innerHTML;
+                stu.SumMoney = tds[5].innerHTML;
+                stu.Location = tds[6].innerHTML;
+                stu.CreateTime = "";
+                stu.IsDelete = 0;
+                sum.push(stu);//使用push方法把对象添加到数组中
+            }
+            $.ajax({
+                url: "@Url.Action("Insert")",
+                data: { detail: sum, InSTypeId: InSTypeId, SupplierId: SupplierId, Remark: Remark, AuditUser: AuditUser },
+                type: "post",
+                dataType: "json",
+                success: function (result) {
+                    alert(result);
+                }
+            });
+        });
+    });
+    function Delete(obj) {
+        $(obj).parent().parent().remove();
+    }
+
     function ChaKan() {
         $("#p").show();
         $("#o").show();

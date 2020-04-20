@@ -22,7 +22,6 @@ namespace Models
         public int Num { get; set; }
         public double SumMoney { get; set; }
         public string Status { get; set; }
-        public string Operation { get; set; }
         public string AuditUser { get; set; }
         public System.DateTime AuditTime { get; set; }
         public int IsDelete { get; set; }

@@ -20,7 +20,7 @@ namespace Models
         public string ProductNum { get; set; }
         public string ProductName { get; set; }
         public string Size { get; set; }
-        public int Type { get; set; }
+        public string Type { get; set; }
         public string Measure { get; set; }
         public double UnitPrice { get; set; }
         public int Sum { get; set; }

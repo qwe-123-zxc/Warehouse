@@ -15,6 +15,9 @@ namespace WarehouseWeb.TheWarehouseOperation
         InStorageTypeManager inStorageType = new InStorageTypeManager();    //入库类型
         InStorageManager inStorage = new InStorageManager();    //入库管理
         InStorageDetailManager inStorageDetail = new InStorageDetailManager(); //入库明细
+        ProductManager productManager = new ProductManager();//产品表
+        LocationManager locationManager = new LocationManager();//库位表
+
         /// <summary>
         /// 入库管理
         /// </summary>
@@ -70,11 +73,11 @@ namespace WarehouseWeb.TheWarehouseOperation
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult QueryMinXi(int id)
+        public ActionResult QueryMinXi(string id)
         {
-            Expression<Func<InStorage, bool>> where = i => i.Id==id;
+            Expression<Func<InStorage, bool>> where = i => i.InSNum.IndexOf(id)!=-1;
             var s = inStorage.GetByWhere(where).SingleOrDefault();
-            var d = inStorageDetail.GetByWhere(i => i.InStorageId == s.Id);
+            var d = inStorageDetail.GetByWhere(i => i.InStorageId.IndexOf(id) != -1);
             var t = inStorageType.GetByWhere(i => i.Id == s.InSTypeId).SingleOrDefault();
             var g = GonYinShang.GetByWhere(i => i.Id == s.SupplierId).SingleOrDefault();
             //主表显示
@@ -113,7 +116,6 @@ namespace WarehouseWeb.TheWarehouseOperation
             i.Num = ss.Num;
             i.SumMoney = ss.SumMoney;
             i.Status = status;
-            i.Operation = ss.Operation;
             i.AuditUser = ss.AuditUser;
             i.AuditTime = ss.AuditTime;
             i.IsDelete = ss.IsDelete;
@@ -127,9 +129,84 @@ namespace WarehouseWeb.TheWarehouseOperation
             return Json(result,JsonRequestBehavior.AllowGet);
         }
 
+        //新增页面
         public ActionResult ListAdd()
         {
+            //供应商
+            var gys = GonYinShang.GetAll();
+            gys.Insert(0, new Supplier() { Id = 99999999, SupplierName = "请选择供应商" });
+            ViewBag.SupplierId = new SelectList(gys, "Id", "SupplierName");
+            //单据类型
+            var lty = inStorageType.GetAll();
+            lty.Insert(0, new InStorageType() { Id = 9999, InSTypeName = "请选择入库单类型" });
+            ViewBag.InSTypeId = new SelectList(lty, "Id", "InSTypeName");
+            //单据类型
+            var product = productManager.GetAll();
+            product.Insert(0, new Product() { Id = 9999, ProductName = "请选择产品" });
+            ViewBag.Product = new SelectList(product, "Id", "ProductName");
+            //库位类型
+            var location = locationManager.GetAll();
+            location.Insert(0, new Location() { Id = 9999, LocationName = "请选择库位" });
+            ViewBag.location = new SelectList(location, "Id", "LocationName");
             return View();
+        }
+
+        //根据产品ID进行查询
+        public ActionResult QueryByProductId(int id)
+        {
+            Product product = productManager.GetByWhere(item => item.Id == id).SingleOrDefault();
+            return Json(product,JsonRequestBehavior.AllowGet);
+        }
+
+        //新增入库单
+        public ActionResult Insert(List<InStorageDetail> detail,int InSTypeId,int SupplierId,string Remark,string AuditUser)
+        {
+            //获取明细表最大编号
+            string detailNum = inStorageDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
+            //获取入库表最大编号
+            string inSNum = inStorage.GetByWhere(item => true).OrderByDescending(item => item.InSNum).Take(1).Select(item => item.InSNum).FirstOrDefault();
+            
+            bool val = true ;
+            string msg = "";
+            foreach (var item in detail)
+            {
+                item.DetailNum = detailNum;
+                item.InStorageId = inSNum;
+                item.CreateTime = DateTime.Now;
+                val = inStorageDetail.Add(item);
+            }
+            if (val)
+            {
+                var num = inStorageDetail.GetByWhere(item => item.InStorageId==inSNum).Sum(item=>item.Quantity);
+                var sumMoney = inStorageDetail.GetByWhere(item => item.InStorageId == inSNum).Sum(item => item.SumMoney);
+                InStorage inStorages = new InStorage();
+                inStorages.AuditTime = DateTime.Now;
+                inStorages.AuditUser = AuditUser;
+                inStorages.DetailNum = detailNum;
+                inStorages.InSNum = inSNum;
+                inStorages.InSTypeId = InSTypeId;
+                inStorages.IsDelete = 0;
+                inStorages.Num = Convert.ToInt32(num); 
+                inStorages.Remark = Remark;
+                inStorages.Status = "等待审核";
+                inStorages.SumMoney = Convert.ToInt32(sumMoney); 
+                inStorages.SupplierId = SupplierId;
+                bool vall = inStorage.Add(inStorages);
+                if (vall)
+                {
+                    msg = "新增成功";
+                }
+                else
+                {
+                    msg = "新增失败";
+                }
+                msg = "新增成功";
+            }
+            else
+            {
+                msg = "新增失败";
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
         }
     }
 }

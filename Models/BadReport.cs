@@ -17,12 +17,10 @@ namespace Models
         public int Id { get; set; }
         public string BadNum { get; set; }
         public int BadTypeId { get; set; }
-        public int ProductId { get; set; }
         public string DetailNum { get; set; }
         public int Num { get; set; }
         public double SumMoney { get; set; }
         public string Status { get; set; }
-        public string Operation { get; set; }
         public string AuditUser { get; set; }
         public System.DateTime AuditTime { get; set; }
         public int IsDelete { get; set; }

@@ -30,12 +30,10 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BadNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="BadTypeId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="SumMoney" Type="float" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Operation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditUser" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
@@ -73,10 +71,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CheckNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CheckTypeId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Operation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditUser" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
@@ -92,7 +88,7 @@
           <Property Name="ProductNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Measure" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="UnitPrice" Type="float" Nullable="false" />
           <Property Name="Sum" Type="int" Nullable="false" />
@@ -162,7 +158,6 @@
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="SumMoney" Type="float" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Operation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditUser" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
@@ -174,14 +169,14 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="InStorageId" Type="int" Nullable="false" />
+          <Property Name="InStorageId" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ProductNum" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="UnitPrice" Type="float" Nullable="false" />
-          <Property Name="Quantity" Type="int" Nullable="false" />
-          <Property Name="SumMoney" Type="float" Nullable="false" />
-          <Property Name="Location" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="100" />
+          <Property Name="Size" Type="varchar" MaxLength="50" />
+          <Property Name="UnitPrice" Type="float" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="SumMoney" Type="float" />
+          <Property Name="Location" Type="varchar" MaxLength="50" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
         </EntityType>
@@ -238,7 +233,6 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MoveNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="MoveTypeId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
@@ -281,14 +275,12 @@
           <Property Name="OutSNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="OutSTypeId" Type="int" Nullable="false" />
           <Property Name="CustomerId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="SumMoney" Type="float" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Contacts" Type="varchar" MaxLength="50" />
           <Property Name="SendDate" Type="datetime" />
-          <Property Name="Operation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditUser" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
@@ -334,6 +326,7 @@
           <Property Name="OutPrice" Type="float" />
           <Property Name="Size" Type="varchar" MaxLength="50" />
           <Property Name="Color" Type="varchar" MaxLength="50" />
+          <Property Name="StockNum" Type="int" />
           <Property Name="PCateId" Type="int" Nullable="false" />
           <Property Name="MeasureId" Type="int" Nullable="false" />
           <Property Name="LocationId" Type="int" Nullable="false" />
@@ -376,11 +369,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ReturnNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ReturnTypeId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Operation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditUser" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
@@ -533,12 +524,10 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BadNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="BadTypeId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="SumMoney" Type="Double" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
@@ -576,10 +565,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CheckNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CheckTypeId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
@@ -595,7 +582,7 @@
           <Property Name="ProductNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Measure" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="UnitPrice" Type="Double" Nullable="false" />
           <Property Name="Sum" Type="Int32" Nullable="false" />
@@ -665,7 +652,6 @@
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="SumMoney" Type="Double" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
@@ -677,14 +663,14 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="InStorageId" Type="Int32" Nullable="false" />
+          <Property Name="InStorageId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ProductNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UnitPrice" Type="Double" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="SumMoney" Type="Double" Nullable="false" />
-          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UnitPrice" Type="Double" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="SumMoney" Type="Double" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
         </EntityType>
@@ -741,7 +727,6 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MoveNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MoveTypeId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -784,14 +769,12 @@
           <Property Name="OutSNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="OutSTypeId" Type="Int32" Nullable="false" />
           <Property Name="CustomerId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="SumMoney" Type="Double" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Contacts" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SendDate" Type="DateTime" Precision="3" />
-          <Property Name="Operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
@@ -837,6 +820,7 @@
           <Property Name="OutPrice" Type="Double" />
           <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StockNum" Type="Int32" />
           <Property Name="PCateId" Type="Int32" Nullable="false" />
           <Property Name="MeasureId" Type="Int32" Nullable="false" />
           <Property Name="LocationId" Type="Int32" Nullable="false" />
@@ -879,11 +863,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ReturnNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReturnTypeId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
@@ -1037,12 +1019,10 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="BadNum" ColumnName="BadNum" />
                 <ScalarProperty Name="BadTypeId" ColumnName="BadTypeId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Operation" ColumnName="Operation" />
                 <ScalarProperty Name="AuditUser" ColumnName="AuditUser" />
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
@@ -1083,10 +1063,8 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CheckNum" ColumnName="CheckNum" />
                 <ScalarProperty Name="CheckTypeId" ColumnName="CheckTypeId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Operation" ColumnName="Operation" />
                 <ScalarProperty Name="AuditUser" ColumnName="AuditUser" />
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
@@ -1178,7 +1156,6 @@
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Operation" ColumnName="Operation" />
                 <ScalarProperty Name="AuditUser" ColumnName="AuditUser" />
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
@@ -1260,7 +1237,6 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="MoveNum" ColumnName="MoveNum" />
                 <ScalarProperty Name="MoveTypeId" ColumnName="MoveTypeId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
@@ -1306,14 +1282,12 @@
                 <ScalarProperty Name="OutSNum" ColumnName="OutSNum" />
                 <ScalarProperty Name="OutSTypeId" ColumnName="OutSTypeId" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Contacts" ColumnName="Contacts" />
                 <ScalarProperty Name="SendDate" ColumnName="SendDate" />
-                <ScalarProperty Name="Operation" ColumnName="Operation" />
                 <ScalarProperty Name="AuditUser" ColumnName="AuditUser" />
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
@@ -1362,6 +1336,7 @@
                 <ScalarProperty Name="OutPrice" ColumnName="OutPrice" />
                 <ScalarProperty Name="Size" ColumnName="Size" />
                 <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="StockNum" ColumnName="StockNum" />
                 <ScalarProperty Name="PCateId" ColumnName="PCateId" />
                 <ScalarProperty Name="MeasureId" ColumnName="MeasureId" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
@@ -1407,11 +1382,9 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ReturnNum" ColumnName="ReturnNum" />
                 <ScalarProperty Name="ReturnTypeId" ColumnName="ReturnTypeId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Operation" ColumnName="Operation" />
                 <ScalarProperty Name="AuditUser" ColumnName="AuditUser" />
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />

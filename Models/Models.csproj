@@ -170,11 +170,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
+    <None Include="bin\Debug\Models.dll.config" />
     <EntityDeploy Include="Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="bin\Debug\Models.dll.config" />
     <None Include="Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </None>
