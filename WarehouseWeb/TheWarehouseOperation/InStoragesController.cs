@@ -190,7 +190,7 @@ namespace WarehouseWeb.TheWarehouseOperation
                 inStorages.IsDelete = 0;
                 inStorages.Num = Convert.ToInt32(num); 
                 inStorages.Remark = Remark;
-                inStorages.Status = "等待审核";
+                inStorages.Status = "待审核";
                 inStorages.SumMoney = Convert.ToInt32(sumMoney); 
                 inStorages.SupplierId = SupplierId;
                 bool vall = inStorage.Add(inStorages);

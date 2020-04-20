@@ -16,7 +16,7 @@ namespace Models
     {
         public int Id { get; set; }
         public string DetailNum { get; set; }
-        public int OutStorageId { get; set; }
+        public string OutStorageId { get; set; }
         public string ProductNum { get; set; }
         public string ProductName { get; set; }
         public string Size { get; set; }

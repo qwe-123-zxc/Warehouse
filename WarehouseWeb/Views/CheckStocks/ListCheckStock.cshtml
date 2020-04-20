@@ -388,9 +388,9 @@
                         str += "<a title='编辑' href='@Url.Action("ListAdd")'><img src='../Image/Write.png' /></a>"
                     }
                     str += "<a title='删除' href='javascript:void(0)'><img src='../Image/cha.png' /></a>"
-                    str += "<a title='查看' href='javascript:ChaKan(" + value.id + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
+                    str += "<a title='查看' href='javascript:ChaKan(" + value.CheckNum + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
                     if (value.Status != "审核通过") {
-                        str += "<a title='审核' href='javascript:Shenhe(" + value.id + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
+                        str += "<a title='审核' href='javascript:Shenhe(" + value.CheckNum + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
                     }
                     str += "</td>";
                     str += "</tr>";
@@ -422,8 +422,6 @@
                 str += "<td>" + result.CheckStockInfo.Status + "</td>";
                 str += "</tr>";
                 str += "<tr>";
-                str += "<th class='bt'>操作方式</th>";
-                str += "<td>" + result.CheckStockInfo.Operation + "</td>";
                 str += "<th class='bt'>创建人</th>";
                 str += "<td>" + result.CheckStockInfo.AuditUser + "</td>";
                 str += "<th class='bt'>创建时间</th>";
@@ -477,8 +475,6 @@
                 str += "<td>" + result.CheckStockInfo.Status + "</td>";
                 str += "</tr>";
                 str += "<tr>";
-                str += "<th class='bt'>操作方式</th>";
-                str += "<td>" + result.CheckStockInfo.Operation + "</td>";
                 str += "<th class='bt'>创建人</th>";
                 str += "<td>" + result.CheckStockInfo.AuditUser + "</td>";
                 str += "<th class='bt'>创建时间</th>";

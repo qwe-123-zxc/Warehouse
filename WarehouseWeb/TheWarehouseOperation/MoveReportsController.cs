@@ -53,11 +53,11 @@ namespace WarehouseWeb.TheWarehouseOperation
         }
 
         //查询明细
-        public ActionResult QueryMinXi(int id)
+        public ActionResult QueryMinXi(string id)
         {
-            Expression<Func<MoveReport, bool>> where = i => i.Id == id;
+            Expression<Func<MoveReport, bool>> where = i => i.MoveNum.IndexOf(id) != -1;
             var s = moveReport.GetByWhere(where).SingleOrDefault();
-            var d = moveReportDetail.GetByWhere(i => i.MoveId == s.Id);
+            var d = moveReportDetail.GetByWhere(i => i.MoveId.IndexOf(id) != -1);
             var t = moveReportType.GetByWhere(i => i.Id == s.MoveTypeId).SingleOrDefault();
             //主表显示
             var info = new

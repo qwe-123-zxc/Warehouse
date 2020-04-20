@@ -23,7 +23,6 @@ namespace Models
         public Nullable<double> OutPrice { get; set; }
         public string Size { get; set; }
         public string Color { get; set; }
-        public Nullable<int> StockNum { get; set; }
         public int PCateId { get; set; }
         public int MeasureId { get; set; }
         public int LocationId { get; set; }

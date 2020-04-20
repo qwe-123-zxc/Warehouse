@@ -53,11 +53,11 @@ namespace WarehouseWeb.TheWarehouseOperation
         }
 
         //查询明细
-        public ActionResult QueryMinXi(int id)
+        public ActionResult QueryMinXi(string id)
         {
-            Expression<Func<BadReport, bool>> where = i => i.Id == id;
+            Expression<Func<BadReport, bool>> where = i => i.BadNum.IndexOf(id) != -1;
             var b = badReport.GetByWhere(where).SingleOrDefault();
-            var d = badReportDetail.GetByWhere(i => i.BadId == b.Id);
+            var d = badReportDetail.GetByWhere(i => i.BadId.IndexOf(id) != -1);
             var t = badReportType.GetByWhere(i => i.Id == b.BadTypeId).SingleOrDefault();
             //主表显示
             var info = new

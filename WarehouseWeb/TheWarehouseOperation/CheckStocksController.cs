@@ -53,11 +53,11 @@ namespace WarehouseWeb.TheWarehouseOperation
         }
 
         //查询明细
-        public ActionResult QueryMinXi(int id)
+        public ActionResult QueryMinXi(string id)
         {
-            Expression<Func<CheckStock, bool>> where = i => i.Id == id;
+            Expression<Func<CheckStock, bool>> where = i => i.CheckNum.IndexOf(id) != -1;
             var s = checkStock.GetByWhere(where).SingleOrDefault();
-            var d = checkStockDetail.GetByWhere(i => i.CheckId == s.Id);
+            var d = checkStockDetail.GetByWhere(i => i.CheckId.IndexOf(id) != -1);
             var t = checkStockType.GetByWhere(i => i.Id == s.CheckTypeId).SingleOrDefault();
             //主表显示
             var info = new
