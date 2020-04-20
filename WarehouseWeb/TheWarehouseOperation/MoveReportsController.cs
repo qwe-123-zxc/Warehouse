@@ -52,6 +52,57 @@ namespace WarehouseWeb.TheWarehouseOperation
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        //查询明细
+        public ActionResult QueryMinXi(int id)
+        {
+            Expression<Func<MoveReport, bool>> where = i => i.Id == id;
+            var s = moveReport.GetByWhere(where).SingleOrDefault();
+            var d = moveReportDetail.GetByWhere(i => i.MoveId == s.Id);
+            var t = moveReportType.GetByWhere(i => i.Id == s.MoveTypeId).SingleOrDefault();
+            //主表显示
+            var info = new
+            {
+                id = s.Id,
+                MoveNum = s.MoveNum,
+                MoveTypeId = t.MoveTypeName,
+                Status = s.Status,
+                Num = s.Num,
+                AuditUser = s.AuditUser,
+                AuditTime = s.AuditTime.ToString("yyyy-MM-dd"),
+                Remark = s.Remark
+            };
+            //明细
+            var dd = d.Select(i => new { Id = i.Id, DetailNum = i.DetailNum, MoveId = i.MoveId, ProductNum = i.ProductNum, ProductName = i.ProductName, Size = i.Size, Quantity = i.Quantity, TheCurrentLocation = i.TheCurrentLocation, MovingLocation = i.MovingLocation });
+            var result = new
+            {
+                MoveReportInfo = info,
+                XiangXiInfo = dd
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        //修改审核状态
+        public ActionResult UpdtStatus(MoveReport i, string status)
+        {
+            var ss = moveReport.GetByWhere(item => item.Id == i.Id).SingleOrDefault();
+            i.MoveNum = ss.MoveNum;
+            i.MoveTypeId = ss.MoveTypeId;
+            i.DetailNum = ss.DetailNum;
+            i.Num = ss.Num;
+            i.Status = status;
+            i.AuditUser = ss.AuditUser;
+            i.AuditTime = ss.AuditTime;
+            i.IsDelete = ss.IsDelete;
+            i.Remark = ss.Remark;
+            var moveReports = new MoveReportManager();
+            var s = moveReports.Update(i);
+            var result = new
+            {
+                ActionResult = s
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult ListAdd()
         {
             return View();

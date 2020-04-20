@@ -52,6 +52,57 @@ namespace WarehouseWeb.TheWarehouseOperation
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        //查询明细
+        public ActionResult QueryMinXi(int id)
+        {
+            Expression<Func<CheckStock, bool>> where = i => i.Id == id;
+            var s = checkStock.GetByWhere(where).SingleOrDefault();
+            var d = checkStockDetail.GetByWhere(i => i.CheckId == s.Id);
+            var t = checkStockType.GetByWhere(i => i.Id == s.CheckTypeId).SingleOrDefault();
+            //主表显示
+            var info = new
+            {
+                id = s.Id,
+                CheckNum = s.CheckNum,
+                CheckTypeId = t.MoveTypeName,
+                Status = s.Status,
+                Operation = s.Operation,
+                AuditUser = s.AuditUser,
+                AuditTime = s.AuditTime.ToString("yyyy-MM-dd"),
+                Remark = s.Remark
+            };
+            //明细
+            var dd = d.Select(i => new { Id = i.Id, DetailNum = i.DetailNum, CheckId = i.CheckId, ProductNum = i.ProductNum, ProductName = i.ProductName, Size = i.Size, Type = i.Type, Measure = i.Measure, UnitPrice = i.UnitPrice, Sum =i.Sum });
+            var result = new
+            {
+                CheckStockInfo = info,
+                XiangXiInfo = dd
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        //修改审核状态
+        public ActionResult UpdtStatus(CheckStock i, string status)
+        {
+            var ss = checkStock.GetByWhere(item => item.Id == i.Id).SingleOrDefault();
+            i.CheckNum = ss.CheckNum;
+            i.CheckTypeId = ss.CheckTypeId;
+            i.DetailNum = ss.DetailNum;
+            i.Operation = ss.Operation;
+            i.Status = status;
+            i.AuditUser = ss.AuditUser;
+            i.AuditTime = ss.AuditTime;
+            i.IsDelete = ss.IsDelete;
+            i.Remark = ss.Remark;
+            var checkStocks = new CheckStockManager();
+            var s = checkStocks.Update(i);
+            var result = new
+            {
+                ActionResult = s
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult ListAdd()
         {
             return View();
