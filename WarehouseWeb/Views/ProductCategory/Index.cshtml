@@ -108,8 +108,8 @@
             </div>
         </div>
         <div class="row">
-            <input placeholder="请输入类别编号或名称" class="form-control" style="width:300px;margin: 10px 0px 10px 30px;" />
-            <button class="btn btn-primary" style="float:left;width: 70px;margin-left: 340px;margin-top:-45px;">搜索</button>
+            <input id="ProductCategory" placeholder="请输入类别编号或名称" class="form-control" style="width:300px;margin: 10px 0px 10px 30px;" />
+            <button id="btnSearch" class="btn btn-primary" style="float:left;width: 70px;margin-left: 340px;margin-top:-45px;">搜索</button>
         </div>
         <table class="table tab-content table-hover table-bordered" style="width:1120px;margin-left:16px;">
             <tr>
@@ -118,16 +118,6 @@
                 <th>类别名称</th>
                 <th>创建时间</th>
                 <th>操作</th>
-            </tr>
-            <tr>
-                <td style="width:20px"><input type="checkbox" /></td>
-                <td>000001</td>
-                <td>纸张</td>
-                <td>2016-02-10</td>
-                <td>
-                    <a href="javascript:bianJiProductCategory();" title="编辑"><img src="~/Image/Write.png" /></a>
-                    <a href="javascript:void(0);" title="删除"><img src="~/Image/cha.png" />  </a>
-                </td>
             </tr>
         </table>
         <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
@@ -152,10 +142,10 @@
         <span style="margin-left:25px">编号</span><input value="自动生成,可不填" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:25px">名称</span><input class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">名称</span><input name="PCateName" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
-        <button style="margin:6px 10px 0px 180px;">确定</button>
+        <button style="margin:6px 10px 0px 180px;" onclick="Addproduct()">确定</button>
         <button onclick="hideProductCategory();">关闭</button>
     </div>
 </div>
@@ -165,18 +155,74 @@
         <button class="btn" onclick="hideProductCategory();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:25px">编号</span><input value="000001" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">编号</span><input name="pcateNum" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:25px">名称</span><input value="纸张" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">名称</span><input name="pcateName" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
-        <button style="margin:6px 10px 0px 180px;">确定</button>
+        <button style="margin:6px 10px 0px 180px;" onclick="Update();">确定</button>
         <button onclick="hideProductCategory();">关闭</button>
     </div>
 </div>
 
 <script type="text/javascript">
+    $(function () {
+        $(".first").click(function () {
+            bindData(1);
+        });
+
+        $(".up").click(function () {
+            var pageIndex = parseInt($(".PageIndex").val()) - 1;
+            bindData(pageIndex);
+        });
+
+        $(".next").click(function () {
+            var pageIndex = parseInt($(".PageIndex").val()) + 1;
+            bindData(pageIndex);
+        });
+
+        $(".last").click(function () {
+            bindData(9999999);
+        });
+
+        $(".go").click(function () {
+            var pageIndex = parseInt($(".PageIndex").val());
+            bindData(pageIndex);
+        });
+
+        $("#btnSearch").click(function () {
+            bindData(1);
+        });
+        bindData(1);
+    });
+        function bindData(pageIndexValue) {
+            var ProductCategory = $("#ProductCategory").val();
+        $.ajax({
+            url: "@Url.Action("Query")",
+            data: { PCateNum: ProductCategory, pageIndex: pageIndexValue },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+
+                $("#lbMsg").html("当前第" + result.PageIndex + "页" + "    共计" + result.Count + "条/" + result.PageCount + "页");
+                $(".PageIndex").val(result.PageIndex);
+
+                $("table tr:gt(0)").remove();
+
+                $.each(result.RoleInfies, function (index, value) {
+                    var str = "<tr>";
+                    str += "<td><input type='checkbox' /></td>";
+                    str += "<td>" + value.PCateNum + "</td>";
+                    str += "<td>" + value.PCateName + "</td>";
+                    str += "<td>" + value.CreateTime + "</td>";
+                    str += "<td><a href = 'javascript:bianJiProductCategory(" + value.PCateNum + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:Delete(" + value.PCateNum + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";
+                    str += "</tr>";
+                    $("table tbody").append(str);
+                });
+            }
+        });
+    }
     //新增
     function insertProductCategory() {
         insert.style.display = "block";
@@ -188,8 +234,61 @@
         o.style.display = "none";
     }
     //编辑
-    function bianJiProductCategory() {
+    function bianJiProductCategory(num) {
         bianJi.style.display = "block";
         o.style.display = "block";
+        $.ajax({
+            url: "@Url.Action("QueryById")",
+            data: { pcateNum: num },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                $("[name=pcateNum]").val(result.PCateNum);
+                $("[name=pcateName]").val(result.PCateName);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function Addproduct() {
+        var PCateName = $("[name=PCateName]").val();
+        var PCateNum = $("[name=PCateNum]").val();
+        $.ajax({
+            url: "@Url.Action("Insert")",
+            data: { pcateName: PCateName },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result)
+                window.location.href = "@Url.Action("Index")";
+            }
+        });
+    }
+        function Update() {
+            var PCateName = $("[name=pcateName]").val();
+            var PCateNum = $("[name=pcateNum]").val();
+
+        $.ajax({
+            url: "@Url.Action("Update")",
+            data: { pcateName: PCateName, pcateNum: PCateNum },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result)
+                window.location.href = "@Url.Action("Index")";
+            }
+        });
+    }
+        function Delete(num) {
+        $.ajax({
+            url: "@Url.Action("Delete")",
+            data: { pcateNum: num },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result)
+                window.location.href = "@Url.Action("Index")";
+            }
+        });
     }
 </script>
