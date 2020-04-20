@@ -116,7 +116,6 @@ namespace WarehouseWeb.TheWarehouseOperation
             i.Status = status;
             i.Contacts = ss.Contacts;
             i.SendDate = ss.SendDate;
-            i.Operation = ss.Operation;
             i.AuditUser = ss.AuditUser;
             i.AuditTime = ss.AuditTime;
             i.IsDelete = ss.IsDelete;

@@ -66,7 +66,6 @@ namespace WarehouseWeb.TheWarehouseOperation
                 CheckNum = s.CheckNum,
                 CheckTypeId = t.MoveTypeName,
                 Status = s.Status,
-                Operation = s.Operation,
                 AuditUser = s.AuditUser,
                 AuditTime = s.AuditTime.ToString("yyyy-MM-dd"),
                 Remark = s.Remark
@@ -88,7 +87,6 @@ namespace WarehouseWeb.TheWarehouseOperation
             i.CheckNum = ss.CheckNum;
             i.CheckTypeId = ss.CheckTypeId;
             i.DetailNum = ss.DetailNum;
-            i.Operation = ss.Operation;
             i.Status = status;
             i.AuditUser = ss.AuditUser;
             i.AuditTime = ss.AuditTime;

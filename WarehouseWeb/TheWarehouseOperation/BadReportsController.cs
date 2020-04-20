@@ -91,7 +91,6 @@ namespace WarehouseWeb.TheWarehouseOperation
             i.Num = ss.Num;
             i.SumMoney = ss.SumMoney;
             i.Status = status;
-            i.Operation = ss.Operation;
             i.AuditUser = ss.AuditUser;
             i.AuditTime = ss.AuditTime;
             i.IsDelete = ss.IsDelete;

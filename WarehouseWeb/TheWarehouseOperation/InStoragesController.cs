@@ -162,10 +162,12 @@ namespace WarehouseWeb.TheWarehouseOperation
         public ActionResult Insert(List<InStorageDetail> detail,int InSTypeId,int SupplierId,string Remark,string AuditUser)
         {
             //获取明细表最大编号
-            string detailNum = inStorageDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
+            string detailNumBig = inStorageDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
+            string detailNum = "00000" + (int.Parse(detailNumBig) + 1);
             //获取入库表最大编号
-            string inSNum = inStorage.GetByWhere(item => true).OrderByDescending(item => item.InSNum).Take(1).Select(item => item.InSNum).FirstOrDefault();
-            
+            string inSNumBig = inStorage.GetByWhere(item => true).OrderByDescending(item => item.InSNum).Take(1).Select(item => item.InSNum).FirstOrDefault();
+            string inSNum = "00000" + (int.Parse(inSNumBig) + 1);
+
             bool val = true ;
             string msg = "";
             foreach (var item in detail)

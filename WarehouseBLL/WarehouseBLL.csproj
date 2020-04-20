@@ -61,6 +61,7 @@
     <Compile Include="OutStorageDetailManager.cs" />
     <Compile Include="OutStorageManager.cs" />
     <Compile Include="OutStorageTypeManager.cs" />
+    <Compile Include="ProductCategoryManager.cs" />
     <Compile Include="ProductManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReturnOrderDetailManager.cs" />
