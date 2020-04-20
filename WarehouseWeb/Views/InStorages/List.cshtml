@@ -123,7 +123,7 @@
         #p, #personal_1 {
             display: none;
             width: 680px;
-            height: 361px;
+            /*height: 361px;*/
             position: absolute;
             top: 50px;
             left: 250px;
@@ -278,11 +278,11 @@
             </div>
         </div>
         <div class="row ChaKanZhuTi">
-            <table class="table table-bordered table-responsive chakan">
+            <table class="table table-bordered table-responsive " id="chakan">
                 <tbody></tbody>
             </table>
             <br />
-            <table class="table table-bordered table-hover table-responsive XiangXi">
+            <table class="table table-bordered table-hover table-responsive " id="XiangXi">
                 <thead class="BTGDT">
                     <tr>
                         <th>产品名称</th>
@@ -408,7 +408,7 @@
                         str += "<a title='删除' href='javascript:void(0)'><img src='../Image/cha.png' /></a>"
                     str += "<a title='查看' href='javascript:ChaKan(" + value.InSNum + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
                         if (value.Status != "审核通过") {
-                            str += "<a title='审核' href='javascript:Shenhe(" + value.id + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
+                            str += "<a title='审核' href='javascript:Shenhe(" + value.InSNum + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
                         }
                         str += "</td>";
                         str += "</tr>";
@@ -495,7 +495,7 @@
             dataType: "json",
             type: "get",
             success: function (result) {
-                $(".chakan tr").remove();
+                $("#chakan tr").remove();
                 var str = "<tr>";
                 str += "<th class='bt'>入库单号</th>";
                 str += "<td>" + result.InstorageInfo.rukudanhao + "</td>";
@@ -525,9 +525,9 @@
                 str += "<td colspan='5'>" + result.InstorageInfo.beizhu + "</td>";
                 str += "<input type='hidden' name='xgztid' value='" + result.InstorageInfo.id + "' />";
                 str += "</tr>";
-                $(".chakan tbody").append(str);
+                $("#chakan tbody").append(str);
 
-                $(".XiangXi tbody .remove").remove();
+                $("#XiangXi tbody .remove").remove();
                 $.each(result.XiangXiInfo, function (index, value) {
                     var str = "<tr class='remove'>";
                     str += "<td>" + value.ProductName + "</td>";
@@ -538,7 +538,7 @@
                     str += "<td>" + value.SumMoney + "<span>元</span></td>";
                     str += "<td>" + value.Location + "</td>";
                     str += "</tr>";
-                    $(".XiangXi tbody").append(str);
+                    $("#XiangXi tbody").append(str);
                 });
             }
         });

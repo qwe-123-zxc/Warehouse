@@ -75,7 +75,7 @@ namespace WarehouseWeb.TheWarehouseOperation
 
         public ActionResult QueryMinXi(string id)
         {
-            Expression<Func<InStorage, bool>> where = i => i.InSNum.IndexOf(id)!=-1;
+            Expression<Func<InStorage, bool>> where = i => i.InSNum.IndexOf(id) != -1;
             var s = inStorage.GetByWhere(where).SingleOrDefault();
             var d = inStorageDetail.GetByWhere(i => i.InStorageId.IndexOf(id) != -1);
             var t = inStorageType.GetByWhere(i => i.Id == s.InSTypeId).SingleOrDefault();
