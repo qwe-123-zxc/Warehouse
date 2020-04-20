@@ -15,6 +15,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         OutStorageTypeManager outStorageType = new OutStorageTypeManager();
         OutStorageDetailManager outStorageDetail = new OutStorageDetailManager();
         CustomerManager customer = new CustomerManager();
+        AdminManger admin = new AdminManger();
 
         /// <summary>
         /// 出库管理
@@ -66,6 +67,65 @@ namespace WarehouseWeb.TheWarehouseOperation
                 Count = count,
                 PageIndex = pageIndex,
                 OutstorageInfo = newFormatList
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        //查询明细
+        public ActionResult QueryMinXi(int id)
+        {
+            Expression<Func<OutStorage, bool>> where = i => i.Id == id;
+            var s = outStorage.GetByWhere(where).SingleOrDefault();
+            var d = outStorageDetail.GetByWhere(i => i.OutStorageId == s.Id);
+            var t = outStorageType.GetByWhere(i => i.Id == s.OutSTypeId).SingleOrDefault();
+            var k = customer.GetByWhere(i => i.Id == s.CustomerId).SingleOrDefault();
+            //主表显示
+            var info = new
+            {
+                id = s.Id,
+                OutSNum = s.OutSNum,
+                OutSTypeId = t.OutSTypeName,
+                Status = s.Status,
+                CustomerNum = k.CustomerNum,
+                CustomerName = k.CustomerName,
+                Num = s.Num,
+                AuditUser = s.AuditUser,
+                AuditTime = s.AuditTime.ToString("yyyy-MM-dd"),
+                Remark = s.Remark
+            };
+            //明细
+            var dd = d.Select(i => new { Id = i.Id, DetailNum = i.DetailNum, OutStorageId = i.OutStorageId, ProductNum = i.ProductNum, ProductName = i.ProductName, Size = i.Size, UnitPrice = i.UnitPrice, Quantity = i.Quantity, SumMoney = i.SumMoney, Location = i.Location });
+            var result = new
+            {
+                outStorageInfo = info,
+                XiangXiInfo = dd
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        //修改审核状态
+        public ActionResult UpdtStatus(OutStorage i, string status)
+        {
+            var ss = outStorage.GetByWhere(item => item.Id == i.Id).SingleOrDefault();
+            i.OutSNum = ss.OutSNum;
+            i.OutSTypeId = ss.OutSTypeId;
+            i.CustomerId = ss.CustomerId;
+            i.DetailNum = ss.DetailNum;
+            i.Num = ss.Num;
+            i.SumMoney = ss.SumMoney;
+            i.Status = status;
+            i.Contacts = ss.Contacts;
+            i.SendDate = ss.SendDate;
+            i.Operation = ss.Operation;
+            i.AuditUser = ss.AuditUser;
+            i.AuditTime = ss.AuditTime;
+            i.IsDelete = ss.IsDelete;
+            i.Remark = ss.Remark;
+            var outStorages = new OutStorageManager();
+            var s = outStorages.Update(i);
+            var result = new
+            {
+                ActionResult = s
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }

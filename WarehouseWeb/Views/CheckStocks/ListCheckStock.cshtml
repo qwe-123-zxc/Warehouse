@@ -124,7 +124,7 @@
         #p, #personal_1 {
             display: none;
             width: 680px;
-            height: 300px;
+            /*height: 300px;*/
             position: absolute;
             top: 100px;
             left: 250px;
@@ -221,47 +221,24 @@
             </div>
         </div>
         <div class="row ChaKanZhuTi">
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered table-responsive chakan">
                 <tbody>
-                    <tr>
-                        <th class="bt">盘点单号</th>
-                        <td>000001</td>
-                        <th class="bt">类型</th>
-                        <td>产品盘点</td>
-                        <th class="bt">状态</th>
-                        <td>等待审核</td>
-                    </tr>
-                    <tr>
-                        <th>制单人</th>
-                        <td>administrator</td>
-                        <th>创建时间</th>
-                        <td>2020-04-11 12:12:13</td>
-                        <th>备注</th>
-                        <td></td>
-                    </tr>
                 </tbody>
             </table>
             <br />
-            <table class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
+            <table class="table table-bordered table-hover table-responsive XiangXi" style="table-layout:fixed;">
                 <thead class="BTGDT">
                     <tr>
                         <th>产品名称</th>
                         <th>产品条码</th>
                         <th>规格</th>
-                        <th>库位名称</th>
-                        <th>库存数</th>
+                        <th>类别</th>
+                        <th>单位</th>
+                        <th>单价</th>
                         <th>盘点数</th>
                     </tr>
                 </thead>
                 <tbody class="InfoGDT">
-                    <tr>
-                        <td>三星 WB200F正品无线w...</td>
-                        <td>545657667</td>
-                        <td>6767</td>
-                        <td>成品库位</td>
-                        <td>20</td>
-                        <td>3</td>
-                    </tr>
                 </tbody>
             </table>
             <div class="XinZenChanPingDiBu">
@@ -285,54 +262,31 @@
             </div>
         </div>
         <div class="row ChaKanZhuTi">
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered table-responsive" id="chakan">
                 <tbody>
-                    <tr>
-                        <th class="bt">盘点单号</th>
-                        <td>000001</td>
-                        <th class="bt">类型</th>
-                        <td>产品盘点</td>
-                        <th class="bt">状态</th>
-                        <td>等待审核</td>
-                    </tr>
-                    <tr>
-                        <th>制单人</th>
-                        <td>administrator</td>
-                        <th>创建时间</th>
-                        <td>2020-04-11 12:12:13</td>
-                        <th>备注</th>
-                        <td></td>
-                    </tr>
                 </tbody>
             </table>
             <br />
-            <table class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
+            <table class="table table-bordered table-hover table-responsive" id="XiangXi" style="table-layout:fixed;">
                 <thead class="BTGDT">
                     <tr>
                         <th>产品名称</th>
                         <th>产品条码</th>
                         <th>规格</th>
-                        <th>库位名称</th>
-                        <th>库存数</th>
+                        <th>类别</th>
+                        <th>单位</th>
+                        <th>单价</th>
                         <th>盘点数</th>
                     </tr>
                 </thead>
                 <tbody class="InfoGDT">
-                    <tr>
-                        <td>三星 WB200F正品无线w...</td>
-                        <td>545657667</td>
-                        <td>6767</td>
-                        <td>成品库位</td>
-                        <td>20</td>
-                        <td>3</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
         <div class="row XinZenChanPingDiBu">
             <div class="col-md-12 text-right" style="margin-top: 3px;">
-                <button>审核通过</button>&nbsp;
-                <button>审核不通过</button>&nbsp;
+                <button class="btnUpdateStatus" name="shtg" type="button">审核通过</button>&nbsp;
+                <button class="btnUpdateStatus" name="shsb" type="button">审核不通过</button>&nbsp;
                 <button onclick="ChaKanGuanBi();">关闭</button>
             </div>
         </div>
@@ -387,8 +341,26 @@
         $(".btnQuery").click(function () {
             bindData(pageIndexvalue);
         });
+        $(".btnUpdateStatus").click(function () {
+            UpdateStatus();
+        });
         bindData(1);
     });
+
+    //修改审核状态
+    function UpdateStatus() {
+        var ids = $("[name=xgztid]").val();
+        $.ajax({
+            url: "@Url.Action("UpdtStatus")",
+            data: { status: ztvalue, Id: ids },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                bindData(1);
+                ChaKanGuanBi();
+            }
+        });
+    };
 
     //盘点管理主页查询
     function bindData(pageIndexvalue) {
@@ -430,9 +402,54 @@
     }
 
     //查看明细
-    function ChaKan() {
+    function ChaKan(idvalue) {
         p.style.display = "block";
         o.style.display = "block";
+        
+        $.ajax({
+            url: "@Url.Action("QueryMinXi")",
+            data: { id: idvalue },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                $(".chakan tr").remove();
+                var str = "<tr>";
+                str += "<th class='bt'>盘点单号</th>";
+                str += "<td>" + result.CheckStockInfo.CheckNum + "</td>";
+                str += "<th class='bt'>类型</th>";
+                str += "<td>" + result.CheckStockInfo.CheckTypeId + "</td>";
+                str += "<th class='bt'>状态</th>";
+                str += "<td>" + result.CheckStockInfo.Status + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th class='bt'>操作方式</th>";
+                str += "<td>" + result.CheckStockInfo.Operation + "</td>";
+                str += "<th class='bt'>创建人</th>";
+                str += "<td>" + result.CheckStockInfo.AuditUser + "</td>";
+                str += "<th class='bt'>创建时间</th>";
+                str += "<td>" + result.CheckStockInfo.AuditTime + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th>备注</th>";
+                str += "<td colspan='5'>" + result.CheckStockInfo.Remark + "</td>";
+                str += "</tr>";
+                $(".chakan tbody").append(str);
+
+                $(".XiangXi tr:gt(0)").remove();
+                $.each(result.XiangXiInfo, function (index, value) {
+                    var str = "<tr>";
+                    str += "<td>" + value.ProductName + "</td>";
+                    str += "<td>" + value.ProductNum + "</td>";
+                    str += "<td>" + value.Size + "</td>";
+                    str += "<td>" + value.Type + "</td>";
+                    str += "<td>" + value.Measure + "</td>";
+                    str += "<td>" + value.UnitPrice + "<span>元</span></td>"; 
+                    str += "<td>" + value.Sum + "</td>";
+                    str += "</tr>";
+                    $(".XiangXi tbody").append(str);
+                });
+            }
+        });
     }
     function ChaKanGuanBi() {
         personal_1.style.display = "none";
@@ -440,9 +457,55 @@
         o.style.display = "none";
     }
     //审核盘点单
-    function Shenhe() {
+    function Shenhe(idvalue) {
         personal_1.style.display = "block";
         o.style.display = "block";
+        
+        $.ajax({
+            url: "@Url.Action("QueryMinXi")",
+            data: { id: idvalue },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                $("#chakan tr").remove();
+                var str = "<tr>";
+                str += "<th class='bt'>盘点单号</th>";
+                str += "<td>" + result.CheckStockInfo.CheckNum + "</td>";
+                str += "<th class='bt'>类型</th>";
+                str += "<td>" + result.CheckStockInfo.CheckTypeId + "</td>";
+                str += "<th class='bt'>状态</th>";
+                str += "<td>" + result.CheckStockInfo.Status + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th class='bt'>操作方式</th>";
+                str += "<td>" + result.CheckStockInfo.Operation + "</td>";
+                str += "<th class='bt'>创建人</th>";
+                str += "<td>" + result.CheckStockInfo.AuditUser + "</td>";
+                str += "<th class='bt'>创建时间</th>";
+                str += "<td>" + result.CheckStockInfo.AuditTime + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th>备注</th>";
+                str += "<td colspan='5'>" + result.CheckStockInfo.Remark + "</td>";
+                str += "<input type='hidden' name='xgztid' value='" + result.CheckStockInfo.id + "' />";
+                str += "</tr>";
+                $("#chakan tbody").append(str);
+
+                $("#XiangXi tr:gt(0)").remove();
+                $.each(result.XiangXiInfo, function (index, value) {
+                    var str = "<tr>";
+                    str += "<td>" + value.ProductName + "</td>";
+                    str += "<td>" + value.ProductNum + "</td>";
+                    str += "<td>" + value.Size + "</td>";
+                    str += "<td>" + value.Type + "</td>";
+                    str += "<td>" + value.Measure + "</td>";
+                    str += "<td>" + value.UnitPrice + "<span>元</span></td>"; 
+                    str += "<td>" + value.Sum + "</td>";
+                    str += "</tr>";
+                    $("#XiangXi tbody").append(str);
+                });
+            }
+        });
     }
     //新增盘点单
     function insertInStorage() {

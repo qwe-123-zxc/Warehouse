@@ -52,6 +52,59 @@ namespace WarehouseWeb.TheWarehouseOperation
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        //查询明细
+        public ActionResult QueryMinXi(int id)
+        {
+            Expression<Func<ReturnOrderStock, bool>> where = i => i.Id == id;
+            var s = returnOrderStock.GetByWhere(where).SingleOrDefault();
+            var d = returnOrderdetail.GetByWhere(i => i.ReturnId == s.Id);
+            var t = returnOrderType.GetByWhere(i => i.Id == s.ReturnTypeId).SingleOrDefault();
+            //主表显示
+            var info = new
+            {
+                id = s.Id,
+                ReturnNum = s.ReturnNum,
+                ReturnTypeId = t.ReturnTypeName,
+                Status = s.Status,
+                Num = s.Num,
+                AuditUser = s.AuditUser,
+                AuditTime = s.AuditTime.ToString("yyyy-MM-dd"),
+                Remark = s.Remark
+            };
+            //明细
+            var dd = d.Select(i => new { Id = i.Id, DetailNum = i.DetailNum, ReturnId = i.ReturnId, ProductNum = i.ProductNum, ProductName = i.ProductName, Size = i.Size, Sum = i.Sum, Location = i.Location});
+            var result = new
+            {
+                ReturnOrderStockInfo = info,
+                XiangXiInfo = dd
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        //修改审核状态
+        public ActionResult UpdtStatus(ReturnOrderStock i, string status)
+        {
+            var ss = returnOrderStock.GetByWhere(item => item.Id == i.Id).SingleOrDefault();
+            i.ReturnNum = ss.ReturnNum;
+            i.ReturnTypeId = ss.ReturnTypeId;
+            i.DetailNum = ss.DetailNum;
+            i.Num = ss.Num;
+            i.Status = status;
+            i.Operation = ss.Operation;
+            i.AuditUser = ss.AuditUser;
+            i.AuditTime = ss.AuditTime;
+            i.IsDelete = ss.IsDelete;
+            i.Remark = ss.Remark;
+            var returnOrderStocks = new ReturnOrderStockManager();
+            var s = returnOrderStocks.Update(i);
+            var result = new
+            {
+                ActionResult = s
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult ListAdd()
         {
             return View();

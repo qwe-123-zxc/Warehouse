@@ -124,7 +124,7 @@
         #p, #personal_1 {
             display: none;
             width: 680px;
-            height: 300px;
+            /*height: 300px;*/
             position: absolute;
             top: 100px;
             left: 250px;
@@ -221,26 +221,12 @@
             </div>
         </div>
         <div class="row ChaKanZhuTi">
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered table-responsive chakan">
                 <tbody>
-                    <tr>
-                        <th class="bt">报损单号</th>
-                        <td>000001</td>
-                        <th class="bt">报损人</th>
-                        <td>administrator</td>
-                        <th class="bt">创建时间</th>
-                        <td>2020-03-27 13:49:08</td>
-                    </tr>
-                    <tr>
-                        <th class="bt">当前状态</th>
-                        <td>等待审核</td>
-                        <th class="bt">备注</th>
-                        <td colspan="3"></td>
-                    </tr>
                 </tbody>
             </table>
             <br />
-            <table class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
+            <table class="table table-bordered table-hover table-responsive XiangXi" style="table-layout:fixed;">
                 <thead class="BTGDT">
                     <tr>
                         <th>产品名称</th>
@@ -281,26 +267,12 @@
             </div>
         </div>
         <div class="row ChaKanZhuTi">
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered table-responsive " id="chakan">
                 <tbody>
-                    <tr>
-                        <th class="bt">报损单号</th>
-                        <td>000001</td>
-                        <th class="bt">报损人</th>
-                        <td>administrator</td>
-                        <th class="bt">创建时间</th>
-                        <td>2020-03-27 13:49:08</td>
-                    </tr>
-                    <tr>
-                        <th class="bt">当前状态</th>
-                        <td>等待审核</td>
-                        <th class="bt">备注</th>
-                        <td colspan="3"></td>
-                    </tr>
                 </tbody>
             </table>
             <br />
-            <table class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
+            <table class="table table-bordered table-hover table-responsive " id="XiangXi" style="table-layout:fixed;">
                 <thead class="BTGDT">
                     <tr>
                         <th>产品名称</th>
@@ -311,20 +283,14 @@
                     </tr>
                 </thead>
                 <tbody class="InfoGDT">
-                    <tr>
-                        <td>Huawei/华为P7-L07移动联通电信4G版</td>
-                        <td>45645</td>
-                        <td>1</td>
-                        <td>待入库位</td>
-                        <td>待检库位</td>
-                    </tr>
+                    <tr class="remove"></tr>
                 </tbody>
             </table>
         </div>
         <div class="row XinZenChanPingDiBu">
             <div class="col-md-12 text-right" style="margin-top: 3px;">
-                <button>审核通过</button>&nbsp;
-                <button>审核不通过</button>&nbsp;
+                <button class="btnUpdateStatus" name="shtg" type="button">审核通过</button>&nbsp;
+                <button class="btnUpdateStatus" name="shsb" type="button">审核不通过</button>&nbsp;
                 <button onclick="ChaKanGuanBi();">关闭</button>
             </div>
         </div>
@@ -379,8 +345,26 @@
         $(".btnQuery").click(function () {
             bindData(pageIndexvalue);
         });
+        $(".btnUpdateStatus").click(function () {
+            UpdateStatus();
+        });
         bindData(1);
     });
+    
+    //修改审核状态
+    function UpdateStatus() {
+        var ids = $("[name=xgztid]").val();
+        $.ajax({
+            url: "@Url.Action("UpdtStatus")",
+            data: { status: ztvalue, Id: ids },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                bindData(1);
+                ChaKanGuanBi();
+            }
+        });
+    };
 
     //入库管理主页查询
     function bindData(pageIndexvalue) {
@@ -423,9 +407,52 @@
     }
 
     //查看明细
-    function ChaKan() {
+    function ChaKan(idvalue) {
         p.style.display = "block";
         o.style.display = "block";
+        
+        $.ajax({
+            url: "@Url.Action("QueryMinXi")",
+            data: { id: idvalue },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                $(".chakan tr").remove();
+                var str = "<tr>";
+                str += "<th class='bt'>移库单号</th>";
+                str += "<td>" + result.MoveReportInfo.MoveNum + "</td>";
+                str += "<th class='bt'>类型</th>";
+                str += "<td>" + result.MoveReportInfo.MoveTypeId + "</td>";
+                str += "<th class='bt'>状态</th>";
+                str += "<td>" + result.MoveReportInfo.Status + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th class='bt'>移库总数</th>";
+                str += "<td>" + result.MoveReportInfo.Num + "</td>";
+                str += "<th class='bt'>创建人</th>";
+                str += "<td>" + result.MoveReportInfo.AuditUser + "</td>";
+                str += "<th class='bt'>创建时间</th>";
+                str += "<td>" + result.MoveReportInfo.AuditTime + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th>备注</th>";
+                str += "<td colspan='5'>" + result.MoveReportInfo.Remark + "</td>";
+                str += "</tr>";
+                $(".chakan tbody").append(str);
+
+                $(".XiangXi tr:gt(0)").remove();
+                $.each(result.XiangXiInfo, function (index, value) {
+                    var str = "<tr>";
+                    str += "<td>" + value.ProductName + "</td>";
+                    str += "<td>" + value.ProductNum + "</td>";
+                    str += "<td>" + value.Quantity + "</td>";
+                    str += "<td>" + value.TheCurrentLocation + "</td>";
+                    str += "<td>" + value.MovingLocation +"</td>";
+                    str += "</tr>";
+                    $(".XiangXi tbody").append(str);
+                });
+            }
+        });
     }
     function ChaKanGuanBi() {
         personal_1.style.display = "none";
@@ -433,9 +460,53 @@
         o.style.display = "none";
     }
     //审核入库单
-    function Shenhe() {
+    function Shenhe(idvalue) {
         personal_1.style.display = "block";
         o.style.display = "block";
+
+        $.ajax({
+            url: "@Url.Action("QueryMinXi")",
+            data: { id: idvalue },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                $("#chakan tr").remove();
+                var str = "<tr>";
+                str += "<th class='bt'>移库单号</th>";
+                str += "<td>" + result.MoveReportInfo.MoveNum + "</td>";
+                str += "<th class='bt'>类型</th>";
+                str += "<td>" + result.MoveReportInfo.MoveTypeId + "</td>";
+                str += "<th class='bt'>状态</th>";
+                str += "<td>" + result.MoveReportInfo.Status + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th class='bt'>移库总数</th>";
+                str += "<td>" + result.MoveReportInfo.Num + "</td>";
+                str += "<th class='bt'>创建人</th>";
+                str += "<td>" + result.MoveReportInfo.AuditUser + "</td>";
+                str += "<th class='bt'>创建时间</th>";
+                str += "<td>" + result.MoveReportInfo.AuditTime + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th>备注</th>";
+                str += "<td colspan='5'>" + result.MoveReportInfo.Remark + "</td>";
+                str += "<input type='hidden' name='xgztid' value='" + result.MoveReportInfo.id + "' />";
+                str += "</tr>";
+                $("#chakan tbody").append(str);
+
+                $("#XiangXi tbody .remove").remove();
+                $.each(result.XiangXiInfo, function (index, value) {
+                    var str = "<tr class='remove'>";
+                    str += "<td>" + value.ProductName + "</td>";
+                    str += "<td>" + value.ProductNum + "</td>";
+                    str += "<td>" + value.Quantity + "</td>";
+                    str += "<td>" + value.TheCurrentLocation + "</td>";
+                    str += "<td>" + value.MovingLocation +"</td>";
+                    str += "</tr>";
+                    $("#XiangXi tbody").append(str);
+                });
+            }
+        });
     }
     //新增入库单
     function insertInStorage() {

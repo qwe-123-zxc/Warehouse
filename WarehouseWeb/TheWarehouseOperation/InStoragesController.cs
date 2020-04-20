@@ -70,6 +70,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        //查询明细
         public ActionResult QueryMinXi(int id)
         {
             Expression<Func<InStorage, bool>> where = i => i.Id==id;
