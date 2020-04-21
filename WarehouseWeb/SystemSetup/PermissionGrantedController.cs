@@ -28,14 +28,14 @@ namespace WarehouseWeb.SystemSetup
         {
             List<Function> list = functionManager.GetByLinqRoleId(roleId);
             List<Function> rootMeun = list.Where(item => item.ParentNodeId == 0 && item.IsDelete == 0).ToList();
-            List<Function> list1 = functionManager.GetByLinqRoleIdNot(roleId);
-            List<Function> rootMeun1 = list.Where(item => item.ParentNodeId == 0 && item.IsDelete == 0).ToList();
+            List<Function> rootMeun1 = functionManager.GetByLinqRoleIdNot(roleId);
+            List<Function> listParentNodeId = functionManager.GetByLinqParentNodeId(roleId);
             var result = new
             {
                 rightList = list,
                 rightListRoot = rootMeun,
-                leftList = list1,
-                leftListRoot = rootMeun1
+                leftListRoot = rootMeun1,
+                listParentNodeId = listParentNodeId
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
