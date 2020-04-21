@@ -1,8 +1,9 @@
 ﻿
 @{
-    ViewBag.Title = "ListAdd";
+    ViewBag.Title = "UpdtList";
     Layout = "~/Views/MasterPage/Main.cshtml";
 }
+
 
 <head>
     <style>
@@ -77,13 +78,13 @@
     <div id="Info" class="container">
         <div style="height:40px;background-color:#eeeeee;border-bottom:1px solid #ddd;width: 1158px;margin-left: -15px;">
             <img src="~/Image/diqiu.png" style="float: left;margin:12px 0px 10px 20px" />
-            <span style="margin-top:10px;float: left;font-weight: bold;">新增入库单</span>
+            <span style="margin-top:10px;float: left;font-weight: bold;">修改入库单</span>
         </div>
         <div class="ZhuTiXinZen">
             <div class="row">
                 <div class="col-md-3 form-group">
                     入库单编号
-                    <input disabled="disabled" placeholder="自动生成" class="form-control" type="text" />
+                    <input disabled="disabled" name="InSNum" placeholder="@Model.InSNum" value="@Model.InSNum" class="form-control" type="text" />
                 </div>
                 <div class="col-md-3 form-group">
                     入库单类型
@@ -91,7 +92,7 @@
                 </div>
                 <div class="col-md-3 form-group">
                     制单人
-                    <input value="@(Session["userName"])" disabled="disabled" class="form-control" type="text" />
+                    <input value="@Model.AuditUser" name="AuditUser" disabled="disabled" class="form-control" type="text" />
                 </div>
                 <div class="col-md-3 form-group">
                     供应商
@@ -101,11 +102,11 @@
             <div class="row">
                 <div class="col-md-3 form-group">
                     制单时间
-                    <input class="form-control" type="datetime" />
+                    <input class="form-control" name="AuditTime" value="@Model.AuditTime" type="datetime" />
                 </div>
                 <div class="col-md-5 form-group">
                     备注
-                    <input name="Remark" class="form-control" type="text" />
+                    <input name="Remark" value="@Model.Remark" class="form-control" type="text" />
                 </div>
             </div>
         </div>
@@ -195,7 +196,6 @@
         </div>
     </div>
 </div>
-
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script>
     $(function () {
@@ -229,12 +229,15 @@
             ChaKanGuanBi();
         });
 
+        //查询详细信息
+        QueryXiangXi(@Model.InSNum);
+        
         //保存
         $("#OK").click(function () {
-            var InSTypeId = $("[name=InSTypeId]").val();
-            var AuditUser = "@(Session["userName"])";
-            var SupplierId = $("[name=SupplierId]").val();
-            var Remark = $("[name=Remark]").val();
+            var InSTypeIdvalue = $("#InSTypeId  option:selected").val();
+            var SupplierIdvalue = $("#SupplierId  option:selected").val();
+            var Remarkvalue = $("[name=Remark]").val();
+            var InSNumvalue = $("[name=InSNum]").val();
 
             //入库明细表
             var trs = document.getElementsByTagName("tr"); //获取表格中的所有行
@@ -257,8 +260,8 @@
                 sum.push(stu);//使用push方法把对象添加到数组中
             }
             $.ajax({
-                url: "@Url.Action("Insert")",
-                data: { detail: sum, InSTypeId: InSTypeId, SupplierId: SupplierId, Remark: Remark, AuditUser: AuditUser },
+                url: "@Url.Action("UpdtInfo")",
+                data: { detail: sum, inSTypeId: InSTypeIdvalue, supplierId: SupplierIdvalue, Remark: Remarkvalue, id: InSNumvalue},
                 type: "post",
                 dataType: "json",
                 success: function (result) {
@@ -267,6 +270,23 @@
             });
         });
     });
+
+    //查询详细信息
+    function QueryXiangXi(InSNumvalue) {
+        $.ajax({
+            url: "@Url.Action("QueryByIdMinXiInfo")",
+            data: { id: InSNumvalue },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                $.each(result, function (index, value) {
+                    var str = "<tr><td>" + value.ProductName + "</td><td>" + value.ProductNum + "</td><td>" + value.Size + "</td><td>" + value.UnitPrice + "</td><td>" + value.Quantity + "</td><td>" + value.SumMoney + "</td><td>" + value.Location + "</td><td><a href='javascript:remove(this)'>删除</a></td></tr >";
+                    $("tbody").append(str);
+                });
+            }
+        });
+    }
+
     function Delete(obj) {
         $(obj).parent().parent().remove();
     }
@@ -281,5 +301,3 @@
         $("#o").hide();
     }
 </script>
-
-

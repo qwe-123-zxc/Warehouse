@@ -210,5 +210,92 @@ namespace WarehouseWeb.TheWarehouseOperation
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+        //修改页面
+        public ActionResult UpdtList(string id)
+        {
+            Expression<Func<InStorage, bool>> where = i => i.InSNum.IndexOf(id) != -1;
+            var s = inStorage.GetByWhere(where).SingleOrDefault();
+            //供应商
+            var gys = GonYinShang.GetAll();
+            gys.Insert(0, new Supplier() { Id = 99999999, SupplierName = "请选择供应商" });
+            ViewBag.SupplierId = new SelectList(gys, "Id", "SupplierName",s.SupplierId);
+            //单据类型
+            var lty = inStorageType.GetAll();
+            lty.Insert(0, new InStorageType() { Id = 9999, InSTypeName = "请选择入库单类型" });
+            ViewBag.InSTypeId = new SelectList(lty, "Id", "InSTypeName",s.InSTypeId);
+            //单据类型
+            var product = productManager.GetAll();
+            product.Insert(0, new Product() { Id = 9999, ProductName = "请选择产品" });
+            ViewBag.Product = new SelectList(product, "Id", "ProductName");
+            //库位类型
+            var location = locationManager.GetAll();
+            location.Insert(0, new Location() { Id = 9999, LocationName = "请选择库位" });
+            ViewBag.location = new SelectList(location, "Id", "LocationName");
+            return View(s);
+        }
+
+        //根据id获取详细
+        public ActionResult QueryByIdMinXiInfo(string id)
+        {
+            var mx = inStorageDetail.GetByWhere(i => i.InStorageId.IndexOf(id) != -1 && i.IsDelete == 0);
+            return Json(mx, JsonRequestBehavior.AllowGet);
+        }
+
+        //修改入库单
+        public ActionResult UpdtInfo(List<InStorageDetail> detail, int inSTypeId, int supplierId, string Remark,string id)
+        {
+            //先删除明细
+            bool val_1 = true;
+            var inStorageDetails = new InStorageDetailManager();
+            var mx = inStorageDetails.GetByWhere(i => i.InStorageId.IndexOf(id) != -1);
+            foreach (var item in mx)
+            {
+                val_1 = inStorageDetails.Delete(item);
+            }
+
+            //获取明细表最大编号
+            string detailNumBig = inStorageDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
+            string detailNum = "00000" + (int.Parse(detailNumBig) + 1);
+
+            string msg = "";
+            bool val = true;
+            foreach (var item in detail)
+            {
+                item.DetailNum = detailNum;
+                item.InStorageId = id;
+                item.CreateTime = DateTime.Now;
+                val = inStorageDetail.Add(item);
+            }
+            if (val)
+            {
+                var num = inStorageDetail.GetByWhere(item => item.InStorageId == id).Sum(item => item.Quantity);
+                var sumMoney = inStorageDetail.GetByWhere(item => item.InStorageId == id).Sum(item => item.SumMoney);
+                var inStorage_1 = new InStorageManager();
+                var s = inStorage_1.GetByWhere(i => i.InSNum.IndexOf(id) != -1).SingleOrDefault();
+                s.DetailNum = detailNum;
+                s.InSTypeId = inSTypeId;
+                s.SupplierId = supplierId;
+                s.Remark = Remark;
+                s.Num = Convert.ToInt32(num);
+                s.SumMoney = Convert.ToInt32(sumMoney);
+                bool vall = inStorage.Update(s);
+                if (vall)
+                {
+                    msg = "修改成功";
+                }
+                else
+                {
+                    msg = "修改失败";
+                }
+                msg = "修改成功";
+            }
+            else
+            {
+                msg = "修改失败";
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+        
     }
 }
