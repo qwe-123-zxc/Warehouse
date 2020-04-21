@@ -38,10 +38,11 @@ namespace WarehouseWeb.SystemSetup
 
             if (!string.IsNullOrEmpty(RoleNum))
             {
-                //角色编号查询
+                //条件查询
                 where = where.And(item => item.RoleNum.Equals(RoleNum)||item.RoleName==RoleNum);
             }
-            
+           
+
             var pageCount = 0;
             var count = 0;
             var list = service.GetByWhereDesc(where, item => item.CreateTime, ref pageIndex,ref  count, ref pageCount,PageSize);

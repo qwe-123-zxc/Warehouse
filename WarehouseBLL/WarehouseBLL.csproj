@@ -42,8 +42,9 @@
   <ItemGroup>
     <Compile Include="BaseManager.cs" />
     <Compile Include="Customer.cs" />
+    <Compile Include="Departmanager.cs" />
     <Compile Include="FunctionManager.cs" />
-    <Compile Include="AdminManger.cs" />
+    <Compile Include="Adminmanager.cs" />
     <Compile Include="InStorageManager.cs" />
     <Compile Include="InStorageTypeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

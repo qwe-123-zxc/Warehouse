@@ -286,8 +286,10 @@
         });
 
         //绑定查询按钮事件
-        $("#btnSearch").click(bindData);
-        //加载 ，调用绑定数据方法
+        $("#btnSearch").click(function () {
+            bindData(1);
+        });
+        //加载，调用绑定数据方法
         bindData(1);
 
         //复选框事件
@@ -327,7 +329,7 @@
             success: function (result) {
                 //设置文本框中显示的当前页
                 $("#lbMsg").html("当前第" + result.PageIndex + "页" + "    共计" + result.PageCount + "页    共有" + result.Count + "条");
-                $("#PageIndex").val(result.PageIndex);
+                $(".PageIndex").val(result.PageIndex);
 
 
                 //清空所有表格（数据行）行
