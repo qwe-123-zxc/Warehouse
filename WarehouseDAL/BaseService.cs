@@ -60,10 +60,29 @@ namespace WarehouseDAL
         public List<Function> GetByLinqRoleIdNot(int roleId)
         {
             WarehouseEntities entities = new WarehouseEntities();
-            var obj = from r in entities.RolePower
-                      join f in entities.Function
-                      on r.NodeId equals f.NodeId
-                      where r.RoleId != roleId
+            var obj = from f in entities.Function
+                      where !
+                      (from r in entities.RolePower join ff in entities.Function
+                        on r.NodeId equals ff.NodeId
+                              where r.RoleId == roleId
+                              select ff.NodeId).Contains(f.NodeId)
+                      select f;
+            return obj.ToList();
+        }
+
+        public List<Function> GetByLinqParentNodeId(int roleId)
+        {
+            WarehouseEntities entities = new WarehouseEntities();
+            var obj = from f in entities.Function
+                      where !(from ff in entities.Function
+                              where !
+                              (from r in entities.RolePower
+                               join fff in entities.Function
+                                on r.NodeId equals fff.NodeId
+                               where r.RoleId == roleId
+                               select fff.NodeId).Contains(ff.NodeId)
+                              select ff.ParentNodeId).Contains(f.ParentNodeId)
+                               && f.ParentNodeId == 0
                       select f;
             return obj.ToList();
         }

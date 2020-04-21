@@ -62,6 +62,10 @@ namespace WarehouseBLL
         {
             return MyService.GetByLinqRoleIdNot(roleId);
         }
+        public List<Function> GetByLinqParentNodeId(int roleId)
+        {
+            return MyService.GetByLinqParentNodeId(roleId);
+        }
 
         /// <summary>
         /// 条件降序查询 带分页 

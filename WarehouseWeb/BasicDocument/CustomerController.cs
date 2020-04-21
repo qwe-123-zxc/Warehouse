@@ -86,6 +86,24 @@ namespace WarehouseWeb.BasicDocument
             }
         }
 
+        //全选单选删除
+        public ActionResult DeleteOther(List<Customer> list)
+        {
+            bool val = true;
+            foreach (var item in list)
+            {
+                val = service.Delete(item);
+            }
+            if (val)
+            {
+                return Json("删除成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("删除失败", JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult QueryById(string customerNum) {
             Customer customer = service.GetByWhere(item => item.CustomerNum.IndexOf(customerNum)!=-1).SingleOrDefault();
             return Json(customer,JsonRequestBehavior.AllowGet);
