@@ -26,10 +26,14 @@ namespace WarehouseWeb.SystemSetup
 
         public ActionResult ShowData(int roleId)
         {
+            //已分配
             List<Function> list = functionManager.GetByLinqRoleId(roleId);
             List<Function> rootMeun = list.Where(item => item.ParentNodeId == 0 && item.IsDelete == 0).ToList();
+            //未分配
             List<Function> rootMeun1 = functionManager.GetByLinqRoleIdNot(roleId);
+            //父级编号
             List<Function> listParentNodeId = functionManager.GetByLinqParentNodeId(roleId);
+
             var result = new
             {
                 rightList = list,
