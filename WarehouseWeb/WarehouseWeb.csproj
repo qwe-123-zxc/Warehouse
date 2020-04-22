@@ -422,6 +422,7 @@
     <Content Include="Views\ProductCategory\Index.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Warehouse\LoginPage.cshtml" />
+    <Content Include="Views\InStorages\UpdtList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

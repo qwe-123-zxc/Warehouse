@@ -253,9 +253,7 @@
                         <th>库位</th>
                     </tr>
                 </thead>
-                <tbody class="InfoGDT">
-                    
-                </tbody>
+                <tbody class="InfoGDT"></tbody>
             </table>
         </div>
         <div class="row XinZenChanPingDiBu">
@@ -402,10 +400,10 @@
                         str += "<td>" + value.AuditUser + "</td>";
                         str += "<td>" + value.AuditTime + "</td>";
                         str += "<td>";
-                        if (value.Status!="审核通过") {
-                            str += "<a title='编辑' href='@Url.Action("ListAdd")'><img src='../Image/Write.png' /></a>"
+                    if (value.Status != "审核通过") {
+                        str += "<a title='编辑' href='/InStorages/UpdtList/" + value.InSNum + "'><img src='../Image/Write.png' /></a>"
                         }
-                        str += "<a title='删除' href='javascript:void(0)'><img src='../Image/cha.png' /></a>"
+                    str += "<a title='删除' href=''><img src='../Image/cha.png' /></a>"
                     str += "<a title='查看' href='javascript:ChaKan(" + value.InSNum + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
                         if (value.Status != "审核通过") {
                             str += "<a title='审核' href='javascript:Shenhe(" + value.InSNum + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
