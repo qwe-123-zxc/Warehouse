@@ -15,6 +15,8 @@ namespace WarehouseWeb.TheWarehouseOperation
         OutStorageTypeManager outStorageType = new OutStorageTypeManager();
         OutStorageDetailManager outStorageDetail = new OutStorageDetailManager();
         CustomerManager customer = new CustomerManager();
+        ProductManager productManager = new ProductManager();//产品表
+        LocationManager location = new LocationManager();
         AdminManger admin = new AdminManger();
 
         /// <summary>
@@ -60,7 +62,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             var count = 0;
             var s = outStorage.GetByWhereDesc(where, item => item.AuditTime, ref pageIndex, ref count, ref pageCount, 2);
             //格式转换
-            var newFormatList = s.Select(i => new { id = i.Id, OutSNum = i.OutSNum, OutSTypeId = i.OutSTypeId, CustomerId = i.CustomerId, Num = i.Num, SumMoney = i.SumMoney, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd") });
+            var newFormatList = s.Select(i => new { id = i.Id, OutSNum = i.OutSNum, OutSTypeId = i.OutStorageType.OutSTypeName, CustomerId = i.Customer.CustomerName, Num = i.Num, SumMoney = i.SumMoney, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd") });
             var result = new
             {
                 PageCount = pageCount,
@@ -131,7 +133,120 @@ namespace WarehouseWeb.TheWarehouseOperation
 
         public ActionResult ListAdd()
         {
+            //出库单类型
+            var outtype = outStorageType.GetAll();
+            outtype.Insert(0, new OutStorageType() { Id = 9999, OutSTypeName = "请选择出库单类型" });
+            ViewBag.OutSTypeId = new SelectList(outtype, "Id", "OutSTypeName");
+            //客户
+            var cust = customer.GetAll();
+            cust.Insert(0, new Customer() { Id = 9999, CustomerName = "请选择客户" });
+            ViewBag.CustomerId = new SelectList(cust, "Id", "CustomerName");
+            //产品
+            var product = productManager.GetAll();
+            product.Insert(0, new Product() { Id = 9999, ProductName = "请选择产品" });
+            ViewBag.Product = new SelectList(product, "Id", "ProductName");
             return View();
+        }
+
+        public ActionResult QueryByProductId(int id)
+        {
+            var productInfo = productManager.GetByWhere(i => i.Id == id).SingleOrDefault();
+            var locationInfo = location.GetByWhere(i => i.Id == productInfo.LocationId).SingleOrDefault();
+            var result = new
+            {
+                info = productInfo,
+                lcinfo = locationInfo
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Insert(List<OutStorageDetail> detail, int OutSTypeId, int CustomerId, string Remark, string AuditUser)
+        {
+            //获取明细表最大编号
+            string detailNumBig = outStorageDetail.GetByWhere(i => true).OrderByDescending(i => i.DetailNum).Take(1).Select(i => i.DetailNum).FirstOrDefault();
+            string detailNum = "00000" + (int.Parse(detailNumBig) + 1);
+            int num_1 = int.Parse(detailNumBig);
+            if (num_1 >= 9)
+            {
+                detailNum = "0000" + (int.Parse(detailNumBig) + 1);
+            }
+            if (num_1 >= 99)
+            {
+                detailNum = "000" + (int.Parse(detailNumBig) + 1);
+            }
+            //获取出库表最大编号
+            string outSNumBig = outStorage.GetByWhere(i => true).OrderByDescending(i => i.OutSNum).Take(1).Select(i => i.OutSNum).FirstOrDefault();
+            string outSNum = "00000" + (int.Parse(outSNumBig) + 1);
+            int num_2 = int.Parse(outSNumBig);
+            if (num_2 >= 9)
+            {
+                outSNum = "0000" + (int.Parse(outSNumBig) + 1);
+            }
+            if (num_2 >= 99)
+            {
+                outSNum = "000" + (int.Parse(outSNumBig) + 1);
+            }
+
+            bool val = true;
+            string msg = "";
+            foreach (var item in detail)
+            {
+                item.CreateTime = DateTime.Now;
+                item.DetailNum = detailNum;
+                item.OutStorageId = outSNum;
+                val = outStorageDetail.Add(item);
+            }
+            if (val)
+            {
+                var num = outStorageDetail.GetByWhere(i => i.OutStorageId == outSNum).Sum(i => i.Quantity); //获取总出货数
+                var sumMoney = outStorageDetail.GetByWhere(i => i.OutStorageId == outSNum).Sum(i => i.SumMoney); //获取总价格
+                OutStorage ost = new OutStorage();
+                ost.OutSNum = outSNum;
+                ost.OutSTypeId = OutSTypeId;
+                ost.CustomerId = CustomerId;
+                ost.DetailNum = detailNum;
+                ost.Num = Convert.ToInt32(num); ;
+                ost.SumMoney = Convert.ToInt32(sumMoney);
+                ost.Status = "待审核";
+                ost.AuditTime = DateTime.Now;
+                ost.AuditUser = AuditUser;
+                ost.Remark = Remark;
+                ost.IsDelete = 0;
+                bool val1 = outStorage.Add(ost);
+                if (val1)
+                {
+                    msg = "新增成功";
+                }
+                else
+                {
+                    msg = "新增失败";
+                }
+                msg = "新增成功";
+            }
+            else
+            {
+                msg = "新增失败";
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult UpdtList(int id)
+        {
+            Expression<Func<OutStorage, bool>> where = i => i.Id == id;
+            var s = outStorage.GetByWhere(where).SingleOrDefault();
+            //出库单类型
+            var outtype = outStorageType.GetAll();
+            outtype.Insert(0, new OutStorageType() { Id = 9999, OutSTypeName = "请选择出库单类型" });
+            ViewBag.OutSTypeId = new SelectList(outtype, "Id", "OutSTypeName");
+            //客户
+            var cust = customer.GetAll();
+            cust.Insert(0, new Customer() { Id = 9999, CustomerName = "请选择客户" });
+            ViewBag.CustomerId = new SelectList(cust, "Id", "CustomerName");
+            //产品
+            var product = productManager.GetAll();
+            product.Insert(0, new Product() { Id = 9999, ProductName = "请选择产品" });
+            ViewBag.Product = new SelectList(product, "Id", "ProductName");
+            return View(s);
         }
     }
 }
