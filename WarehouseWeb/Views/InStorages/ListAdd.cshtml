@@ -130,7 +130,7 @@
                     <span class="btn btn-primary">新增产品</span>
                 </a>
                 <button class="btn btn-primary" id="OK">保存</button>
-                <button class="btn btn-default">取消</button>
+                <button class="btn btn-default" onclick="QuXiao();">取消</button>
             </div>
         </div>
     </div>
@@ -223,7 +223,7 @@
             var OutPrice = $("[name=OutPrice]").val();
             var location = $("[name=location]  option:selected").text();
             var Quantity = $("[name=Quantity").val();
-            var str = "<tr><td>" + ProductName + "</td><td>" + ProductNum + "</td><td>" + Size + "</td><td>" + OutPrice + "</td><td>" + Quantity + "</td><td>" + OutPrice * Quantity + "</td><td>" + location + "</td><td><a href='javascript:remove(this);'>删除</a></td></tr >";
+            var str = "<tr><td>" + ProductName + "</td><td>" + ProductNum + "</td><td>" + Size + "</td><td>" + OutPrice + "</td><td>" + Quantity + "</td><td>" + OutPrice * Quantity + "</td><td>" + location + "</td><td onclick='Delete(this);'><a>删除</a></td></tr >";
             $("tbody").append(str);
             //关闭弹窗
             ChaKanGuanBi();
@@ -268,7 +268,7 @@
         });
     });
     function Delete(obj) {
-        $(obj).parent().parent().remove();
+        $(obj).parent().remove();
     }
 
     function ChaKan() {
@@ -279,6 +279,10 @@
     function ChaKanGuanBi() {
         $("#p").hide();
         $("#o").hide();
+    }
+
+    function QuXiao() {
+        window.location.href = "@Url.Action("List")";
     }
 </script>
 

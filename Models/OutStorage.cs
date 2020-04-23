@@ -28,5 +28,8 @@ namespace Models
         public System.DateTime AuditTime { get; set; }
         public int IsDelete { get; set; }
         public string Remark { get; set; }
+    
+        public virtual Customer Customer { get; set; }
+        public virtual OutStorageType OutStorageType { get; set; }
     }
 }

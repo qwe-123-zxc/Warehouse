@@ -14,11 +14,20 @@ namespace Models
     
     public partial class Role
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Role()
+        {
+            this.Admin = new HashSet<Admin>();
+        }
+    
         public int Id { get; set; }
         public string RoleNum { get; set; }
         public string RoleName { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
         public string Remark { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Admin> Admin { get; set; }
     }
 }

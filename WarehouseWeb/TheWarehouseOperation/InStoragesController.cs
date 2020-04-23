@@ -62,7 +62,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             var count = 0;
             var s = inStorage.GetByWhereDesc(where, item => item.AuditTime, ref pageIndex, ref count, ref pageCount, 2);
             //格式转换
-            var newFormatList = s.Select(i => new { id=i.Id, InSNum = i.InSNum, InSTypeId = i.InSTypeId, SupplierId = i.SupplierId, Num = i.Num, SumMoney = i.SumMoney, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd") });
+            var newFormatList = s.Select(i => new { id=i.Id, InSNum = i.InSNum, InSTypeId = i.InStorageType.InSTypeName, SupplierId = i.Supplier.SupplierName, Num = i.Num, SumMoney = i.SumMoney, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd") });
             var result = new
             {
                 PageCount = pageCount,
@@ -164,10 +164,27 @@ namespace WarehouseWeb.TheWarehouseOperation
             //获取明细表最大编号
             string detailNumBig = inStorageDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
             string detailNum = "00000" + (int.Parse(detailNumBig) + 1);
+            int numD = int.Parse(detailNumBig);
+            if (numD >= 9)
+            {
+                detailNum = "0000" + (int.Parse(detailNumBig) + 1);
+            }
+            else if (numD >= 99)
+            {
+                detailNum = "000" + (int.Parse(detailNumBig) + 1);
+            }
             //获取入库表最大编号
             string inSNumBig = inStorage.GetByWhere(item => true).OrderByDescending(item => item.InSNum).Take(1).Select(item => item.InSNum).FirstOrDefault();
             string inSNum = "00000" + (int.Parse(inSNumBig) + 1);
-
+            int numS = int.Parse(inSNumBig);
+            if (numS >= 9)
+            {
+                inSNum = "0000" + (int.Parse(inSNumBig) + 1);
+            }
+            else if (numS >= 99)
+            {
+                inSNum = "000" + (int.Parse(inSNumBig) + 1);
+            }
             bool val = true ;
             string msg = "";
             foreach (var item in detail)
@@ -319,6 +336,35 @@ namespace WarehouseWeb.TheWarehouseOperation
                 else
                 {
                     msg = "删除失败";
+                }
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
+        //全选单选删除
+        public ActionResult DeleteOther(List<InStorage> list)
+        {
+            string msg = "";
+            foreach (var item in list)
+            {
+                InStorage ins = inStorage.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
+                List<InStorageDetail> listDetail = inStorageDetail.GetByWhere(i => i.InStorageId == ins.InSNum);
+                bool val = true;
+                foreach (var listd in listDetail)
+                {
+                    val = inStorageDetail.Delete(listd);
+                }
+                if (val)
+                {
+                    bool vall = inStorage.Delete(ins);
+                    if (vall)
+                    {
+                        msg = "删除成功";
+                    }
+                    else
+                    {
+                        msg = "删除失败";
+                    }
                 }
             }
             return Json(msg, JsonRequestBehavior.AllowGet);

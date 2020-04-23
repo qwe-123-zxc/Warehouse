@@ -14,10 +14,19 @@ namespace Models
     
     public partial class ReturnOrderType
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ReturnOrderType()
+        {
+            this.ReturnOrderStock = new HashSet<ReturnOrderStock>();
+        }
+    
         public int Id { get; set; }
         public string ReturnTypeName { get; set; }
         public string CreateUser { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ReturnOrderStock> ReturnOrderStock { get; set; }
     }
 }
