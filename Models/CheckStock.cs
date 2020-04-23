@@ -17,13 +17,13 @@ namespace Models
         public int Id { get; set; }
         public string CheckNum { get; set; }
         public int CheckTypeId { get; set; }
-        public int ProductId { get; set; }
         public string DetailNum { get; set; }
         public string Status { get; set; }
-        public string Operation { get; set; }
         public string AuditUser { get; set; }
         public System.DateTime AuditTime { get; set; }
         public int IsDelete { get; set; }
         public string Remark { get; set; }
+    
+        public virtual CheckStockType CheckStockType { get; set; }
     }
 }

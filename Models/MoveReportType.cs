@@ -14,10 +14,19 @@ namespace Models
     
     public partial class MoveReportType
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public MoveReportType()
+        {
+            this.MoveReport = new HashSet<MoveReport>();
+        }
+    
         public int Id { get; set; }
         public string MoveTypeName { get; set; }
         public string CreateUser { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MoveReport> MoveReport { get; set; }
     }
 }

@@ -14,6 +14,12 @@ namespace Models
     
     public partial class Customer
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Customer()
+        {
+            this.OutStorage = new HashSet<OutStorage>();
+        }
+    
         public int Id { get; set; }
         public string CustomerNum { get; set; }
         public string CustomerName { get; set; }
@@ -26,5 +32,8 @@ namespace Models
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
         public string Remark { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OutStorage> OutStorage { get; set; }
     }
 }

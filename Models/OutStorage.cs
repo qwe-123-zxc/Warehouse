@@ -18,17 +18,18 @@ namespace Models
         public string OutSNum { get; set; }
         public int OutSTypeId { get; set; }
         public int CustomerId { get; set; }
-        public int ProductId { get; set; }
         public string DetailNum { get; set; }
         public int Num { get; set; }
         public double SumMoney { get; set; }
         public string Status { get; set; }
         public string Contacts { get; set; }
         public Nullable<System.DateTime> SendDate { get; set; }
-        public string Operation { get; set; }
         public string AuditUser { get; set; }
         public System.DateTime AuditTime { get; set; }
         public int IsDelete { get; set; }
         public string Remark { get; set; }
+    
+        public virtual Customer Customer { get; set; }
+        public virtual OutStorageType OutStorageType { get; set; }
     }
 }

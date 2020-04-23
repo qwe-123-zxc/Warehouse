@@ -103,7 +103,7 @@
             <span style="margin-top:10px;float: left;font-weight: bold;">员工管理</span>
             <div style="width: 200px; margin-top:3px;float: right;">
                 <button class="btn" onclick="insertEmployee();" style="width:60px;background-color:rgb(0, 89, 204);color:white">新增</button>
-                <button class="btn" style="width:60px;background-color:rgb(207, 69, 63);color:white">删除</button>
+                <button class="btn" onclick="test();"style="width:60px;background-color:rgb(207, 69, 63);color:white">删除</button>
                 <button class="btn" style="width:60px;background-color:rgb(56, 159, 189);color:white">导出</button>
             </div>
         </div>
@@ -118,7 +118,7 @@
         @* 高级搜索 *@
         <div class="form-inline" id="conceal" style="width:1120px;height:80px;margin:5px 0px 15px 18px;border:1px solid #ddd;border-radius:3px;background-color:#f9f9f9;display:none">
             <div style="margin:20px">
-                <span style="margin:0px 10px">员工编号</span><input name="UserCode" class="form-control" style="width:150px;" />
+                <span style="margin:0px 10px">员工编号</span><input name="UserCode1" class="form-control" style="width:150px;" />
                 <span style="margin:0px 10px">员工名称</span><input name="UserName" class="form-control" style="width:150px;" />
                 <span style="margin:0px 10px">部门</span>
 
@@ -195,10 +195,10 @@
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">用户编号</span><input disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
-        <span style="margin-left:25px">用户名</span><input  class="form-control" name="UserName"  style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">用户名</span><input  class="form-control" id="UserName"  style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">密<span style="margin-left:28px">码</span></span><input class="form-control"     name="Password"   style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">密<span style="margin-left:28px">码</span></span><input class="form-control" name="Password"   style="width:150px;margin-left:10px" />
         <span style="margin-left:25px">真<span style="margin-left:15px">名</span></span><input class="form-control" name="RealName" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
@@ -207,13 +207,9 @@
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">部<span style="margin-left:25px">门</span></span>
-        <select class="form-control" style="width:150px;margin-left:10px">
-            <option>请选择部门</option>
-        </select>
+        @Html.DropDownList("DepartId", null, htmlAttributes: new { @class = "form-control DepartId", @style = "width:150px;" })
         <span style="margin-left:25px">角<span style="margin-left:15px">色</span></span>
-        <select class="form-control" style="width:145px;margin-left:10px">
-            <option>请选择角色</option>
-        </select>
+        @Html.DropDownList("RoleId", null, htmlAttributes: new { @class = "form-control RoleId", @style = "width:150px;" })
     </div>
     <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
         <button  onclick="btnAdd();" style="margin:6px 10px 0px 380px;">确定</button>
@@ -226,22 +222,19 @@
         <button class="btn" onclick="hideEmployee();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">用户名</span><input name="userName" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+        <input name="userCode" type="hidden" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">用户名</span><input name="userName" class="form-control" style="width:150px;margin-left:10px" />
         <span style="margin-left:10px">真<span style="margin-left:28px">名</span></span><input class="form-control" name="realName" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">Email&nbsp;&nbsp;</span><input class="form-control" name="Email" style="width:150px;margin-left:10px" />
-        <span style="margin-left:10px">电<span style="margin-left:28px">话</span></span><input class="form-control"  name="Phone" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">Email&nbsp;&nbsp;</span><input class="form-control" name="email" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">电<span style="margin-left:28px">话</span></span><input class="form-control" name="phone" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">部<span style="margin-left:12px">门</span></span>
-        <select class="form-control" style="width:150px;margin-left:10px">
-            <option>仓库部门</option>
-        </select>
+        @Html.DropDownList("departId", null, htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
         <span style="margin-left:10px">角<span style="margin-left:27px">色</span></span>
-        <select class="form-control" style="width:150px;margin-left:6px">
-            <option>仓管员</option>
-        </select>
+        @Html.DropDownList("roleId", null, htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
     </div>
     <div style="height:40px;background-color:#eeeeee;margin-top:36px;border-top:1px solid #ddd">
         <button onclick="updateAdmin();" style="margin:6px 10px 0px 380px;">确定</button>
@@ -265,9 +258,85 @@
         o.style.display = "none";
     }
     //编辑
-    function bianJiEmployee() {
-        bianJi.style.display = "block";
+    function bianJiEmployee(num) {
+       bianJi.style.display = "block";
         o.style.display = "block";
+        //获取当前编号信息
+        $.ajax({
+            url: "@Url.Action("QueryByAdminId")",
+            data: { UserId:num },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(JSON.stringify(result))
+                $("[name=userCode]").val(result.UserCode);
+                $("[name=userName]").val(result.UserName);
+                $("[name=password]").val(result.Password);
+                $("[name=realName]").val(result.RealName);
+                $("[name=email]").val(result.Email);
+                $("[name=phone]").val(result.Phone);
+                $("[name=departId]").val(result.DepartId);
+                $("[name=roleId]").val(result.RoleId);
+            }
+        });
+    }
+
+     //新增
+    function btnAdd() {
+        //取值
+        var AdminNameValue = $("#UserName").val();
+        var AdminPasswordValue = $("[name=Password]").val();
+        var AdminRealNameValue = $("[name=RealName]").val();
+        var AdminEmailValue = $("[name=Email]").val();
+        var AdminPhoneValue = $("[name=Phone]").val();
+        var AdminDepartIdValue = $(".DepartId").val();
+        var AdminRoleIdValue = $(".RoleId").val();
+            $.ajax({
+                url: "@Url.Action("AddAjax")",
+                data: { UserName: AdminNameValue, Password: AdminPasswordValue, RealName: AdminRealNameValue, Email: AdminEmailValue, Phone: AdminPhoneValue, DepartId: AdminDepartIdValue, RoleId: AdminRoleIdValue},
+                dataType: "json",
+                type: "get",
+                success: function (result) {
+                    alert(result);
+                    window.location.href = "@Url.Action("Index")";
+                }
+            });
+    }
+
+//修改
+    function updateAdmin() {
+        //取值
+        var AdminUserCodeValue = $("[name=userCode]").val();
+        var AdminNameValue = $("[name=userName]").val();
+        var AdminRealNameValue = $("[name=realName]").val();
+        var AdminEmailValue = $("[name=email]").val();
+        var AdminPhoneValue = $("[name=phone]").val();
+        var AdminDepartIdValue = $("#departId").val();
+        var AdminRoleIdValue = $("#roleId").val();
+        alert(AdminUserCodeValue);
+            $.ajax({
+                url: "@Url.Action("Update")",
+                data: { UserCode: AdminUserCodeValue, userName: AdminNameValue, realName: AdminRealNameValue, email: AdminEmailValue, phone: AdminPhoneValue, departId: AdminDepartIdValue, roleId: AdminRoleIdValue},
+                dataType: "json",
+                type: "get",
+                success: function (result) {
+                    alert(result);
+                    window.location.href = "@Url.Action("Index")";
+                }
+            });
+    }
+    //删除
+    function DeleteAdmin(num) {
+        $.ajax({
+            url: "@Url.Action("Delete")",
+            data: { adminId:num },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result);
+                window.location.href = "@Url.Action("Index")";
+            }
+        });
     }
 </script>
 
@@ -340,8 +409,8 @@
         var UserCodeValue = $("#UserCode").val();
         var RoleIdValue = $("#RoleId").val();
         var DepartIdValue = $("#DepartId").val();
-        var UserNameValue = $("#UserName").val();
-        var UserCode1Value = $("#UserCode1").val();
+        var UserNameValue = $("[name=UserName]").val();
+        var UserCode1Value = $("[name=UserCode1]").val();
         //获取数据
         $.ajax({
             url: "@Url.Action("GetAdmin")",
@@ -368,7 +437,7 @@
                     str += "<td>" + value.LoginCount + "</td>";
                     str += "<td>" + value.DepartId + "</td>";
                     str += "<td>" + value.RoleId + "</td>";
-                    str += "<td><a href = 'javascript:bianJiDepart(" + value.Id + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:DeleteDepart(" + value.Id + ");' title='删除'><img src='../Image/cha.png' /> </a><a href='~/PermissionGranted/Index' title='权限分配'><img src='../Image/daochu_icon.png' /></a></td>";
+                    str += "<td><a href = 'javascript:bianJiEmployee(" + value.Id + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:DeleteAdmin(" + value.Id + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";
                     str += "</tr>";
                     $("tbody").append(str);
                 });

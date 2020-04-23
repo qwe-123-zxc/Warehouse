@@ -16,8 +16,12 @@ namespace Models
     {
         public int Id { get; set; }
         public string DetailNum { get; set; }
-        public int ReturnId { get; set; }
-        public int ProductId { get; set; }
+        public string ReturnId { get; set; }
+        public string ProductNum { get; set; }
+        public string ProductName { get; set; }
+        public string Size { get; set; }
+        public int Sum { get; set; }
+        public string Location { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
     }

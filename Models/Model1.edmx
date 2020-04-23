@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="WarehouseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="WarehouseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Admin">
           <Key>
             <PropertyRef Name="Id" />
@@ -30,12 +30,10 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BadNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="BadTypeId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="SumMoney" Type="float" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Operation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditUser" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
@@ -47,8 +45,12 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="BadId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="BadId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductNum" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Location" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
         </EntityType>
@@ -69,10 +71,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CheckNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CheckTypeId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Operation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditUser" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
@@ -84,8 +84,14 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="CheckId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="CheckId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductNum" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Measure" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UnitPrice" Type="float" Nullable="false" />
+          <Property Name="Sum" Type="int" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
         </EntityType>
@@ -152,7 +158,6 @@
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="SumMoney" Type="float" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Operation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditUser" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
@@ -164,8 +169,14 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="InStorageId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="InStorageId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductNum" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="100" />
+          <Property Name="Size" Type="varchar" MaxLength="50" />
+          <Property Name="UnitPrice" Type="float" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="SumMoney" Type="float" />
+          <Property Name="Location" Type="varchar" MaxLength="50" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
         </EntityType>
@@ -222,7 +233,6 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MoveNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="MoveTypeId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
@@ -237,8 +247,13 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="MoveId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="MoveId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductNum" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="TheCurrentLocation" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MovingLocation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
         </EntityType>
@@ -260,14 +275,12 @@
           <Property Name="OutSNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="OutSTypeId" Type="int" Nullable="false" />
           <Property Name="CustomerId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="SumMoney" Type="float" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Contacts" Type="varchar" MaxLength="50" />
           <Property Name="SendDate" Type="datetime" />
-          <Property Name="Operation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditUser" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
@@ -279,8 +292,14 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="OutStorageId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="OutStorageId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductNum" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UnitPrice" Type="float" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="SumMoney" Type="float" Nullable="false" />
+          <Property Name="Location" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
         </EntityType>
@@ -307,6 +326,7 @@
           <Property Name="OutPrice" Type="float" />
           <Property Name="Size" Type="varchar" MaxLength="50" />
           <Property Name="Color" Type="varchar" MaxLength="50" />
+          <Property Name="StockNum" Type="int" />
           <Property Name="PCateId" Type="int" Nullable="false" />
           <Property Name="MeasureId" Type="int" Nullable="false" />
           <Property Name="LocationId" Type="int" Nullable="false" />
@@ -333,8 +353,12 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="ReturnId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="ReturnId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductNum" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sum" Type="int" Nullable="false" />
+          <Property Name="Location" Type="varchar" MaxLength="50" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
         </EntityType>
@@ -345,11 +369,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ReturnNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ReturnTypeId" Type="int" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Operation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditUser" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AuditTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
@@ -437,6 +459,186 @@
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Admin_Depart">
+          <End Role="Depart" Type="Self.Depart" Multiplicity="0..1" />
+          <End Role="Admin" Type="Self.Admin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depart">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Admin">
+              <PropertyRef Name="DepartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Admin_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Admin" Type="Self.Admin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Admin">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BadReport_BadReportType">
+          <End Role="BadReportType" Type="Self.BadReportType" Multiplicity="1" />
+          <End Role="BadReport" Type="Self.BadReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BadReportType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BadReport">
+              <PropertyRef Name="BadTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CheckStock_CheckStockType">
+          <End Role="CheckStockType" Type="Self.CheckStockType" Multiplicity="1" />
+          <End Role="CheckStock" Type="Self.CheckStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CheckStockType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckStock">
+              <PropertyRef Name="CheckTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InStorage_InStorageType">
+          <End Role="InStorageType" Type="Self.InStorageType" Multiplicity="1" />
+          <End Role="InStorage" Type="Self.InStorage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InStorageType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InStorage">
+              <PropertyRef Name="InSTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InStorage_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="InStorage" Type="Self.InStorage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InStorage">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Location_LocationType">
+          <End Role="LocationType" Type="Self.LocationType" Multiplicity="1" />
+          <End Role="Location" Type="Self.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocationType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="LocaTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Location_Storage">
+          <End Role="Storage" Type="Self.Storage" Multiplicity="1" />
+          <End Role="Location" Type="Self.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Storage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="StorageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoveReport_MoveReportType">
+          <End Role="MoveReportType" Type="Self.MoveReportType" Multiplicity="1" />
+          <End Role="MoveReport" Type="Self.MoveReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoveReportType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MoveReport">
+              <PropertyRef Name="MoveTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OutStorage_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="OutStorage" Type="Self.OutStorage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OutStorage">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OutStorage_OutStorageType">
+          <End Role="OutStorageType" Type="Self.OutStorageType" Multiplicity="1" />
+          <End Role="OutStorage" Type="Self.OutStorage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OutStorageType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OutStorage">
+              <PropertyRef Name="OutSTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Measure">
+          <End Role="Measure" Type="Self.Measure" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Measure">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="MeasureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_ProductCategory">
+          <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="PCateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReturnOrderStock_ReturnOrderType">
+          <End Role="ReturnOrderType" Type="Self.ReturnOrderType" Multiplicity="1" />
+          <End Role="ReturnOrderStock" Type="Self.ReturnOrderStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReturnOrderType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReturnOrderStock">
+              <PropertyRef Name="ReturnTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Supplier_SupplierType">
+          <End Role="SupplierType" Type="Self.SupplierType" Multiplicity="1" />
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Supplier">
+              <PropertyRef Name="SupTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="WarehouseModelStoreContainer">
           <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BadReport" EntityType="Self.BadReport" Schema="dbo" store:Type="Tables" />
@@ -471,6 +673,66 @@
           <EntitySet Name="Storage" EntityType="Self.Storage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupplierType" EntityType="Self.SupplierType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Admin_Depart" Association="Self.FK_Admin_Depart">
+            <End Role="Depart" EntitySet="Depart" />
+            <End Role="Admin" EntitySet="Admin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Admin_Role" Association="Self.FK_Admin_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Admin" EntitySet="Admin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BadReport_BadReportType" Association="Self.FK_BadReport_BadReportType">
+            <End Role="BadReportType" EntitySet="BadReportType" />
+            <End Role="BadReport" EntitySet="BadReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CheckStock_CheckStockType" Association="Self.FK_CheckStock_CheckStockType">
+            <End Role="CheckStockType" EntitySet="CheckStockType" />
+            <End Role="CheckStock" EntitySet="CheckStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InStorage_InStorageType" Association="Self.FK_InStorage_InStorageType">
+            <End Role="InStorageType" EntitySet="InStorageType" />
+            <End Role="InStorage" EntitySet="InStorage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InStorage_Supplier" Association="Self.FK_InStorage_Supplier">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="InStorage" EntitySet="InStorage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_LocationType" Association="Self.FK_Location_LocationType">
+            <End Role="LocationType" EntitySet="LocationType" />
+            <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_Storage" Association="Self.FK_Location_Storage">
+            <End Role="Storage" EntitySet="Storage" />
+            <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoveReport_MoveReportType" Association="Self.FK_MoveReport_MoveReportType">
+            <End Role="MoveReportType" EntitySet="MoveReportType" />
+            <End Role="MoveReport" EntitySet="MoveReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OutStorage_Customer" Association="Self.FK_OutStorage_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="OutStorage" EntitySet="OutStorage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OutStorage_OutStorageType" Association="Self.FK_OutStorage_OutStorageType">
+            <End Role="OutStorageType" EntitySet="OutStorageType" />
+            <End Role="OutStorage" EntitySet="OutStorage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Measure" Association="Self.FK_Product_Measure">
+            <End Role="Measure" EntitySet="Measure" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_ProductCategory" Association="Self.FK_Product_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReturnOrderStock_ReturnOrderType" Association="Self.FK_ReturnOrderStock_ReturnOrderType">
+            <End Role="ReturnOrderType" EntitySet="ReturnOrderType" />
+            <End Role="ReturnOrderStock" EntitySet="ReturnOrderStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Supplier_SupplierType" Association="Self.FK_Supplier_SupplierType">
+            <End Role="SupplierType" EntitySet="SupplierType" />
+            <End Role="Supplier" EntitySet="Supplier" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -494,6 +756,8 @@
           <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Depart" Relationship="Self.FK_Admin_Depart" FromRole="Admin" ToRole="Depart" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_Admin_Role" FromRole="Admin" ToRole="Role" />
         </EntityType>
         <EntityType Name="BadReport">
           <Key>
@@ -502,16 +766,15 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BadNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="BadTypeId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="SumMoney" Type="Double" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BadReportType" Relationship="Self.FK_BadReport_BadReportType" FromRole="BadReport" ToRole="BadReportType" />
         </EntityType>
         <EntityType Name="BadReportDetail">
           <Key>
@@ -519,8 +782,12 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="BadId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="BadId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
         </EntityType>
@@ -533,6 +800,7 @@
           <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BadReport" Relationship="Self.FK_BadReport_BadReportType" FromRole="BadReportType" ToRole="BadReport" />
         </EntityType>
         <EntityType Name="CheckStock">
           <Key>
@@ -541,14 +809,13 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CheckNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CheckTypeId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CheckStockType" Relationship="Self.FK_CheckStock_CheckStockType" FromRole="CheckStock" ToRole="CheckStockType" />
         </EntityType>
         <EntityType Name="CheckStockDetail">
           <Key>
@@ -556,8 +823,14 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CheckId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="CheckId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Measure" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UnitPrice" Type="Double" Nullable="false" />
+          <Property Name="Sum" Type="Int32" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
         </EntityType>
@@ -570,6 +843,7 @@
           <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CheckStock" Relationship="Self.FK_CheckStock_CheckStockType" FromRole="CheckStockType" ToRole="CheckStock" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -587,6 +861,7 @@
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OutStorage" Relationship="Self.FK_OutStorage_Customer" FromRole="Customer" ToRole="OutStorage" />
         </EntityType>
         <EntityType Name="Depart">
           <Key>
@@ -598,6 +873,7 @@
           <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Admin" Relationship="Self.FK_Admin_Depart" FromRole="Depart" ToRole="Admin" />
         </EntityType>
         <EntityType Name="Function">
           <Key>
@@ -624,11 +900,12 @@
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="SumMoney" Type="Double" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="InStorageType" Relationship="Self.FK_InStorage_InStorageType" FromRole="InStorage" ToRole="InStorageType" />
+          <NavigationProperty Name="Supplier" Relationship="Self.FK_InStorage_Supplier" FromRole="InStorage" ToRole="Supplier" />
         </EntityType>
         <EntityType Name="InStorageDetail">
           <Key>
@@ -636,8 +913,14 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="InStorageId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="InStorageId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UnitPrice" Type="Double" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="SumMoney" Type="Double" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
         </EntityType>
@@ -650,6 +933,7 @@
           <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InStorage" Relationship="Self.FK_InStorage_InStorageType" FromRole="InStorageType" ToRole="InStorage" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -665,6 +949,8 @@
           <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LocationType" Relationship="Self.FK_Location_LocationType" FromRole="Location" ToRole="LocationType" />
+          <NavigationProperty Name="Storage" Relationship="Self.FK_Location_Storage" FromRole="Location" ToRole="Storage" />
         </EntityType>
         <EntityType Name="LocationType">
           <Key>
@@ -675,6 +961,7 @@
           <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_Location_LocationType" FromRole="LocationType" ToRole="Location" />
         </EntityType>
         <EntityType Name="Measure">
           <Key>
@@ -686,6 +973,7 @@
           <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Measure" FromRole="Measure" ToRole="Product" />
         </EntityType>
         <EntityType Name="MoveReport">
           <Key>
@@ -694,7 +982,6 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MoveNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MoveTypeId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -702,6 +989,7 @@
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MoveReportType" Relationship="Self.FK_MoveReport_MoveReportType" FromRole="MoveReport" ToRole="MoveReportType" />
         </EntityType>
         <EntityType Name="MoveReportDetail">
           <Key>
@@ -709,8 +997,13 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="MoveId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="MoveId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="TheCurrentLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MovingLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
         </EntityType>
@@ -723,6 +1016,7 @@
           <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MoveReport" Relationship="Self.FK_MoveReport_MoveReportType" FromRole="MoveReportType" ToRole="MoveReport" />
         </EntityType>
         <EntityType Name="OutStorage">
           <Key>
@@ -732,18 +1026,18 @@
           <Property Name="OutSNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="OutSTypeId" Type="Int32" Nullable="false" />
           <Property Name="CustomerId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="SumMoney" Type="Double" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Contacts" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SendDate" Type="DateTime" Precision="3" />
-          <Property Name="Operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_OutStorage_Customer" FromRole="OutStorage" ToRole="Customer" />
+          <NavigationProperty Name="OutStorageType" Relationship="Self.FK_OutStorage_OutStorageType" FromRole="OutStorage" ToRole="OutStorageType" />
         </EntityType>
         <EntityType Name="OutStorageDetail">
           <Key>
@@ -751,8 +1045,14 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="OutStorageId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="OutStorageId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UnitPrice" Type="Double" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="SumMoney" Type="Double" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
         </EntityType>
@@ -765,6 +1065,7 @@
           <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="OutStorage" Relationship="Self.FK_OutStorage_OutStorageType" FromRole="OutStorageType" ToRole="OutStorage" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -779,6 +1080,7 @@
           <Property Name="OutPrice" Type="Double" />
           <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StockNum" Type="Int32" />
           <Property Name="PCateId" Type="Int32" Nullable="false" />
           <Property Name="MeasureId" Type="Int32" Nullable="false" />
           <Property Name="LocationId" Type="Int32" Nullable="false" />
@@ -786,6 +1088,8 @@
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Measure" Relationship="Self.FK_Product_Measure" FromRole="Product" ToRole="Measure" />
+          <NavigationProperty Name="ProductCategory" Relationship="Self.FK_Product_ProductCategory" FromRole="Product" ToRole="ProductCategory" />
         </EntityType>
         <EntityType Name="ProductCategory">
           <Key>
@@ -798,6 +1102,7 @@
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_ProductCategory" FromRole="ProductCategory" ToRole="Product" />
         </EntityType>
         <EntityType Name="ReturnOrderDetail">
           <Key>
@@ -805,8 +1110,12 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ReturnId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="ReturnId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Sum" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
         </EntityType>
@@ -817,15 +1126,14 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ReturnNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReturnTypeId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ReturnOrderType" Relationship="Self.FK_ReturnOrderStock_ReturnOrderType" FromRole="ReturnOrderStock" ToRole="ReturnOrderType" />
         </EntityType>
         <EntityType Name="ReturnOrderType">
           <Key>
@@ -836,6 +1144,7 @@
           <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ReturnOrderStock" Relationship="Self.FK_ReturnOrderStock_ReturnOrderType" FromRole="ReturnOrderType" ToRole="ReturnOrderStock" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -847,6 +1156,7 @@
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Admin" Relationship="Self.FK_Admin_Role" FromRole="Role" ToRole="Admin" />
         </EntityType>
         <EntityType Name="RolePower">
           <Key>
@@ -880,6 +1190,7 @@
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_Location_Storage" FromRole="Storage" ToRole="Location" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -898,6 +1209,8 @@
           <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InStorage" Relationship="Self.FK_InStorage_Supplier" FromRole="Supplier" ToRole="InStorage" />
+          <NavigationProperty Name="SupplierType" Relationship="Self.FK_Supplier_SupplierType" FromRole="Supplier" ToRole="SupplierType" />
         </EntityType>
         <EntityType Name="SupplierType">
           <Key>
@@ -908,7 +1221,188 @@
           <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Supplier" Relationship="Self.FK_Supplier_SupplierType" FromRole="SupplierType" ToRole="Supplier" />
         </EntityType>
+        <Association Name="FK_Admin_Depart">
+          <End Role="Depart" Type="Self.Depart" Multiplicity="0..1" />
+          <End Role="Admin" Type="Self.Admin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depart">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Admin">
+              <PropertyRef Name="DepartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Admin_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Admin" Type="Self.Admin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Admin">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BadReport_BadReportType">
+          <End Role="BadReportType" Type="Self.BadReportType" Multiplicity="1" />
+          <End Role="BadReport" Type="Self.BadReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BadReportType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BadReport">
+              <PropertyRef Name="BadTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CheckStock_CheckStockType">
+          <End Role="CheckStockType" Type="Self.CheckStockType" Multiplicity="1" />
+          <End Role="CheckStock" Type="Self.CheckStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CheckStockType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckStock">
+              <PropertyRef Name="CheckTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OutStorage_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="OutStorage" Type="Self.OutStorage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OutStorage">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InStorage_InStorageType">
+          <End Role="InStorageType" Type="Self.InStorageType" Multiplicity="1" />
+          <End Role="InStorage" Type="Self.InStorage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InStorageType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InStorage">
+              <PropertyRef Name="InSTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InStorage_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="InStorage" Type="Self.InStorage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InStorage">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Location_LocationType">
+          <End Role="LocationType" Type="Self.LocationType" Multiplicity="1" />
+          <End Role="Location" Type="Self.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocationType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="LocaTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Location_Storage">
+          <End Role="Storage" Type="Self.Storage" Multiplicity="1" />
+          <End Role="Location" Type="Self.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Storage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="StorageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Measure">
+          <End Role="Measure" Type="Self.Measure" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Measure">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="MeasureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoveReport_MoveReportType">
+          <End Role="MoveReportType" Type="Self.MoveReportType" Multiplicity="1" />
+          <End Role="MoveReport" Type="Self.MoveReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoveReportType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MoveReport">
+              <PropertyRef Name="MoveTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OutStorage_OutStorageType">
+          <End Role="OutStorageType" Type="Self.OutStorageType" Multiplicity="1" />
+          <End Role="OutStorage" Type="Self.OutStorage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OutStorageType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OutStorage">
+              <PropertyRef Name="OutSTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_ProductCategory">
+          <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="PCateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReturnOrderStock_ReturnOrderType">
+          <End Role="ReturnOrderType" Type="Self.ReturnOrderType" Multiplicity="1" />
+          <End Role="ReturnOrderStock" Type="Self.ReturnOrderStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReturnOrderType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReturnOrderStock">
+              <PropertyRef Name="ReturnTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Supplier_SupplierType">
+          <End Role="SupplierType" Type="Self.SupplierType" Multiplicity="1" />
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Supplier">
+              <PropertyRef Name="SupTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="WarehouseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Admin" EntityType="Self.Admin" />
           <EntitySet Name="BadReport" EntityType="Self.BadReport" />
@@ -943,6 +1437,66 @@
           <EntitySet Name="Storage" EntityType="Self.Storage" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" />
           <EntitySet Name="SupplierType" EntityType="Self.SupplierType" />
+          <AssociationSet Name="FK_Admin_Depart" Association="Self.FK_Admin_Depart">
+            <End Role="Depart" EntitySet="Depart" />
+            <End Role="Admin" EntitySet="Admin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Admin_Role" Association="Self.FK_Admin_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Admin" EntitySet="Admin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BadReport_BadReportType" Association="Self.FK_BadReport_BadReportType">
+            <End Role="BadReportType" EntitySet="BadReportType" />
+            <End Role="BadReport" EntitySet="BadReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CheckStock_CheckStockType" Association="Self.FK_CheckStock_CheckStockType">
+            <End Role="CheckStockType" EntitySet="CheckStockType" />
+            <End Role="CheckStock" EntitySet="CheckStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OutStorage_Customer" Association="Self.FK_OutStorage_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="OutStorage" EntitySet="OutStorage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InStorage_InStorageType" Association="Self.FK_InStorage_InStorageType">
+            <End Role="InStorageType" EntitySet="InStorageType" />
+            <End Role="InStorage" EntitySet="InStorage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InStorage_Supplier" Association="Self.FK_InStorage_Supplier">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="InStorage" EntitySet="InStorage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_LocationType" Association="Self.FK_Location_LocationType">
+            <End Role="LocationType" EntitySet="LocationType" />
+            <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_Storage" Association="Self.FK_Location_Storage">
+            <End Role="Storage" EntitySet="Storage" />
+            <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Measure" Association="Self.FK_Product_Measure">
+            <End Role="Measure" EntitySet="Measure" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoveReport_MoveReportType" Association="Self.FK_MoveReport_MoveReportType">
+            <End Role="MoveReportType" EntitySet="MoveReportType" />
+            <End Role="MoveReport" EntitySet="MoveReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OutStorage_OutStorageType" Association="Self.FK_OutStorage_OutStorageType">
+            <End Role="OutStorageType" EntitySet="OutStorageType" />
+            <End Role="OutStorage" EntitySet="OutStorage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_ProductCategory" Association="Self.FK_Product_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReturnOrderStock_ReturnOrderType" Association="Self.FK_ReturnOrderStock_ReturnOrderType">
+            <End Role="ReturnOrderType" EntitySet="ReturnOrderType" />
+            <End Role="ReturnOrderStock" EntitySet="ReturnOrderStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Supplier_SupplierType" Association="Self.FK_Supplier_SupplierType">
+            <End Role="SupplierType" EntitySet="SupplierType" />
+            <End Role="Supplier" EntitySet="Supplier" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -975,12 +1529,10 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="BadNum" ColumnName="BadNum" />
                 <ScalarProperty Name="BadTypeId" ColumnName="BadTypeId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Operation" ColumnName="Operation" />
                 <ScalarProperty Name="AuditUser" ColumnName="AuditUser" />
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
@@ -994,7 +1546,11 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="BadId" ColumnName="BadId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductNum" ColumnName="ProductNum" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
               </MappingFragment>
@@ -1017,10 +1573,8 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CheckNum" ColumnName="CheckNum" />
                 <ScalarProperty Name="CheckTypeId" ColumnName="CheckTypeId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Operation" ColumnName="Operation" />
                 <ScalarProperty Name="AuditUser" ColumnName="AuditUser" />
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
@@ -1034,7 +1588,13 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="CheckId" ColumnName="CheckId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductNum" ColumnName="ProductNum" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Measure" ColumnName="Measure" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Sum" ColumnName="Sum" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
               </MappingFragment>
@@ -1106,7 +1666,6 @@
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Operation" ColumnName="Operation" />
                 <ScalarProperty Name="AuditUser" ColumnName="AuditUser" />
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
@@ -1120,7 +1679,13 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="InStorageId" ColumnName="InStorageId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductNum" ColumnName="ProductNum" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
               </MappingFragment>
@@ -1182,7 +1747,6 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="MoveNum" ColumnName="MoveNum" />
                 <ScalarProperty Name="MoveTypeId" ColumnName="MoveTypeId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
@@ -1199,7 +1763,12 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="MoveId" ColumnName="MoveId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductNum" ColumnName="ProductNum" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="TheCurrentLocation" ColumnName="TheCurrentLocation" />
+                <ScalarProperty Name="MovingLocation" ColumnName="MovingLocation" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
               </MappingFragment>
@@ -1223,14 +1792,12 @@
                 <ScalarProperty Name="OutSNum" ColumnName="OutSNum" />
                 <ScalarProperty Name="OutSTypeId" ColumnName="OutSTypeId" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Contacts" ColumnName="Contacts" />
                 <ScalarProperty Name="SendDate" ColumnName="SendDate" />
-                <ScalarProperty Name="Operation" ColumnName="Operation" />
                 <ScalarProperty Name="AuditUser" ColumnName="AuditUser" />
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
@@ -1244,7 +1811,13 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="OutStorageId" ColumnName="OutStorageId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductNum" ColumnName="ProductNum" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
               </MappingFragment>
@@ -1273,6 +1846,7 @@
                 <ScalarProperty Name="OutPrice" ColumnName="OutPrice" />
                 <ScalarProperty Name="Size" ColumnName="Size" />
                 <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="StockNum" ColumnName="StockNum" />
                 <ScalarProperty Name="PCateId" ColumnName="PCateId" />
                 <ScalarProperty Name="MeasureId" ColumnName="MeasureId" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
@@ -1302,7 +1876,11 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="ReturnId" ColumnName="ReturnId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductNum" ColumnName="ProductNum" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Sum" ColumnName="Sum" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
               </MappingFragment>
@@ -1314,11 +1892,9 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ReturnNum" ColumnName="ReturnNum" />
                 <ScalarProperty Name="ReturnTypeId" ColumnName="ReturnTypeId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Operation" ColumnName="Operation" />
                 <ScalarProperty Name="AuditUser" ColumnName="AuditUser" />
                 <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />

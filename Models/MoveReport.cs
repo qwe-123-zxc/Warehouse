@@ -17,7 +17,6 @@ namespace Models
         public int Id { get; set; }
         public string MoveNum { get; set; }
         public int MoveTypeId { get; set; }
-        public int ProductId { get; set; }
         public string DetailNum { get; set; }
         public int Num { get; set; }
         public string Status { get; set; }
@@ -25,5 +24,7 @@ namespace Models
         public System.DateTime AuditTime { get; set; }
         public int IsDelete { get; set; }
         public string Remark { get; set; }
+    
+        public virtual MoveReportType MoveReportType { get; set; }
     }
 }

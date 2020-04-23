@@ -27,5 +27,8 @@ namespace Models
         public string CreateUser { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
+    
+        public virtual Depart Depart { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

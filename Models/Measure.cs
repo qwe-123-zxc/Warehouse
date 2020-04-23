@@ -14,11 +14,20 @@ namespace Models
     
     public partial class Measure
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Measure()
+        {
+            this.Product = new HashSet<Product>();
+        }
+    
         public int Id { get; set; }
         public string MeasureNum { get; set; }
         public string MeasureName { get; set; }
         public string CreateUser { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product> Product { get; set; }
     }
 }

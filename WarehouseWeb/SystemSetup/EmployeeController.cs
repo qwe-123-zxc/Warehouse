@@ -50,7 +50,7 @@ namespace WarehouseWeb.SystemSetup
             if (!string.IsNullOrEmpty(UserCode))
             {
                 //条件查询
-                where = where.And(item => item.UserCode.Equals(UserCode) || item.UserName == UserCode);
+                where = where.And(item => item.UserCode.IndexOf(UserCode)!=-1 || item.UserName.IndexOf(UserCode) != -1);
             }
             if (RoleId!=0)
             {
@@ -65,12 +65,12 @@ namespace WarehouseWeb.SystemSetup
             if (!string.IsNullOrEmpty(UserCode1))
             {
                 //员工编号条件查询
-                where = where.And(item => item.UserCode.Equals(UserCode1));
+                where = where.And(item => item.UserCode.IndexOf(UserCode1) != -1);
             }
             if (!string.IsNullOrEmpty(UserName))
             {
                 //员工名称条件查询
-                where = where.And(item => item.UserName.Equals(UserName));
+                where = where.And(item => item.UserName.IndexOf(UserName) != -1);
             }
 
 
@@ -104,13 +104,19 @@ namespace WarehouseWeb.SystemSetup
         /// </summary>
         /// <param name="admin"></param>
         /// <returns></returns>
-        public ActionResult AddAjax(string UserName)
+        public ActionResult AddAjax(string UserName,string Password, string RealName, string Email, string Phone, int DepartId, int RoleId)
         {
             Admin admin = new Admin();
             //获取最大编号
-            string adminNum = Adminmanager.GetByWhere(item => item.Id != 1).OrderByDescending(item => item.UserName).Take(1).Select(item => item.UserCode).FirstOrDefault();
-            admin.UserCode = "00000" + (int.Parse(adminNum) + 1);
+            string UserCode = Adminmanager.GetByWhere(item => item.Id != 1).OrderByDescending(item => item.UserCode).Take(1).Select(item => item.UserCode).FirstOrDefault();
+            admin.UserCode = "00000" + (int.Parse(UserCode) + 1);
             admin.UserName = UserName;
+            admin.Password = Password;
+            admin.RealName = RealName;
+            admin.Email = Email;
+            admin.Phone = Phone;
+            admin.DepartId = DepartId;
+            admin.RoleId = RoleId;
             admin.IsDelete = 0;
             admin.CreateTime = DateTime.Now;
             bool val = Adminmanager.Add(admin);
@@ -140,11 +146,17 @@ namespace WarehouseWeb.SystemSetup
         /// </summary>
         /// <param name="USerId"></param>
         /// <returns></returns>
-        public ActionResult Update(string userName, string UserName)
+        public ActionResult Update(string UserCode, string userName, string UserName,string RealName, string realName, string Email, string email, string Phone, string phone, int DepartId, int departId, int RoleId, int roleId)
         {
-            Admin admin = Adminmanager.GetByWhere(item => item.UserName == userName).SingleOrDefault();
+            Admin admin = Adminmanager.GetByWhere(item => item.UserCode == UserCode).SingleOrDefault();
             admin.UserName = UserName;
-
+            admin.RealName = RealName;
+            admin.Email = Email;
+            admin.Phone = Phone;
+            admin.DepartId = DepartId;
+            admin.RoleId = RoleId;
+            admin.IsDelete = 0;
+            admin.CreateTime = DateTime.Now;
             bool val = Adminmanager.Update(admin);
             if (val)
             {

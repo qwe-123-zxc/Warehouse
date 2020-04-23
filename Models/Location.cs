@@ -24,5 +24,8 @@ namespace Models
         public string CreateUser { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
+    
+        public virtual LocationType LocationType { get; set; }
+        public virtual Storage Storage { get; set; }
     }
 }
