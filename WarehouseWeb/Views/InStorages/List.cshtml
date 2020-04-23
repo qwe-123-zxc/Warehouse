@@ -390,9 +390,9 @@
                 $("#zhubiao tr:gt(0)").remove();
                 $.each(result.InstorageInfo, function (index, value) {
                         var str = "<tr>";
-                        str += "<td><input type='checkbox' /></td>";
+                        str += "<td><input type='checkbox'/></td>";
                         str += "<td>" + value.InSNum + "</td>";
-                            str += "<td>" + value.InSTypeId + "</td>";
+                        str += "<td>" + value.InSTypeId + "</td>";
                         str += "<td>" + value.SupplierId + "</td>";
                         str += "<td>" + value.Num + "</td>";
                         str += "<td>" + value.SumMoney + "</td>";
@@ -401,9 +401,9 @@
                         str += "<td>" + value.AuditTime + "</td>";
                         str += "<td>";
                     if (value.Status != "审核通过") {
-                        str += "<a title='编辑' href='/InStorages/UpdtList/" + value.InSNum + "'><img src='../Image/Write.png' /></a>"
+                        str += "<a title='编辑' href='/InStorages/UpdtList/" + value.id + "'><img src='../Image/Write.png' /></a>"
                         }
-                    str += "<a title='删除' href=''><img src='../Image/cha.png' /></a>"
+                    str += "<a title='删除' href='javascript:Delete(" + value.id+");'><img src='../Image/cha.png' /></a>"
                     str += "<a title='查看' href='javascript:ChaKan(" + value.InSNum + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
                         if (value.Status != "审核通过") {
                             str += "<a title='审核' href='javascript:Shenhe(" + value.InSNum + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
@@ -544,5 +544,20 @@
     //新增入库单
     function insertInStorage() {
         window.location.href = "@Url.Action("ListAdd")";
+    }
+
+    //删除入库单
+    function Delete(num) {
+        alert(num);
+        $.ajax({
+            url: "@Url.Action("DeleteInfo")",
+            data: { id: num },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result);
+                bindData(1);
+            }
+        });
     }
 </script>

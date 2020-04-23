@@ -212,9 +212,9 @@ namespace WarehouseWeb.TheWarehouseOperation
         }
 
         //修改页面
-        public ActionResult UpdtList(string id)
+        public ActionResult UpdtList(int id)
         {
-            Expression<Func<InStorage, bool>> where = i => i.InSNum.IndexOf(id) != -1;
+            Expression<Func<InStorage, bool>> where = i => i.Id == id;
             var s = inStorage.GetByWhere(where).SingleOrDefault();
             //供应商
             var gys = GonYinShang.GetAll();
@@ -236,9 +236,10 @@ namespace WarehouseWeb.TheWarehouseOperation
         }
 
         //根据id获取详细
-        public ActionResult QueryByIdMinXiInfo(string id)
+        public ActionResult QueryByIdMinXiInfo(int id)
         {
-            var mx = inStorageDetail.GetByWhere(i => i.InStorageId.IndexOf(id) != -1 && i.IsDelete == 0);
+            InStorage ins = inStorage.GetByWhere(i => i.Id == id).SingleOrDefault();
+            var mx = inStorageDetail.GetByWhere(i => i.InStorageId==ins.InSNum && i.IsDelete == 0);
             return Json(mx, JsonRequestBehavior.AllowGet);
         }
 
@@ -296,6 +297,31 @@ namespace WarehouseWeb.TheWarehouseOperation
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
-        
+
+        //删除入库单
+        public ActionResult DeleteInfo(int id)
+        {
+            InStorage ins = inStorage.GetByWhere(item => item.Id == id).SingleOrDefault();
+            List<InStorageDetail> listDetail = inStorageDetail.GetByWhere(item => item.InStorageId == ins.InSNum);
+            bool val = true;
+            string msg = "";
+            foreach (var list in listDetail)
+            {
+                val = inStorageDetail.Delete(list);
+            }
+            if (val)
+            {
+                bool vall = inStorage.Delete(ins);
+                if (vall)
+                {
+                    msg = "删除成功";
+                }
+                else
+                {
+                    msg = "删除失败";
+                }
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
     }
 }
