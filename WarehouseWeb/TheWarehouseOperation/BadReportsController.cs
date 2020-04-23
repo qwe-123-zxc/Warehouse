@@ -210,5 +210,90 @@ namespace WarehouseWeb.TheWarehouseOperation
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult UpdtList(int id)
+        {
+            Expression<Func<BadReport, bool>> where = i => i.Id == id;
+            var s = badReport.GetByWhere(where).SingleOrDefault();
+            //报损类型
+            var type = badReportType.GetAll();
+            type.Insert(0, new BadReportType() { Id = 9999, BadTypeName = "请选择报损类型" });
+            ViewBag.BadTypeId = new SelectList(type, "Id", "BadTypeName");
+            //产品
+            var product_1 = product.GetAll();
+            product_1.Insert(0, new Product() { Id = 9999, ProductName = "请选择产品" });
+            ViewBag.Product = new SelectList(product_1, "Id", "ProductName");
+            return View(s);
+        }
+
+        public ActionResult QueryByIdMinXiInfo(int id)
+        {
+            BadReport ins = badReport.GetByWhere(i => i.Id == id).SingleOrDefault();
+            var mx = badReportDetail.GetByWhere(i => i.BadId == ins.BadNum && i.IsDelete == 0);
+            return Json(mx, JsonRequestBehavior.AllowGet);
+        }
+
+        ////修改出库单
+        //public ActionResult UpdtInfo(List<BadReportDetail> detail, int BadTypeId, int customerId, string Remark, string OutSNum)
+        //{
+        //    //先删除明细
+        //    bool val_1 = true;
+        //    var outStorageDetails = new OutStorageDetailManager();
+        //    var mx = outStorageDetails.GetByWhere(i => i.OutStorageId == OutSNum);
+        //    foreach (var item in mx)
+        //    {
+        //        val_1 = outStorageDetails.Delete(item);
+        //    }
+
+        //    //获取明细表最大编号
+        //    string detailNumBig = outStorageDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
+        //    string detailNum = "00000" + (int.Parse(detailNumBig) + 1);
+        //    int num1 = int.Parse(detailNumBig);
+        //    if (num1 >= 9)
+        //    {
+        //        detailNumBig = "0000" + (int.Parse(detailNumBig) + 1);
+        //    }
+        //    else if (num1 >= 99)
+        //    {
+        //        detailNumBig = "000" + (int.Parse(detailNumBig) + 1);
+        //    }
+        //    string msg = "";
+        //    bool val = true;
+        //    foreach (var item in detail)
+        //    {
+        //        item.DetailNum = detailNum;
+        //        item.OutStorageId = OutSNum;
+        //        item.CreateTime = DateTime.Now;
+        //        val = outStorageDetail.Add(item);
+        //    }
+        //    if (val)
+        //    {
+        //        var num = outStorageDetail.GetByWhere(item => item.OutStorageId == OutSNum).Sum(item => item.Quantity);
+        //        var sumMoney = outStorageDetail.GetByWhere(item => item.OutStorageId == OutSNum).Sum(item => item.SumMoney);
+        //        var outStorage_1 = new OutStorageManager();
+        //        var s = outStorage_1.GetByWhere(i => i.OutSNum == OutSNum).SingleOrDefault();
+        //        s.DetailNum = detailNum;
+        //        s.OutSTypeId = outSTypeId;
+        //        s.CustomerId = customerId;
+        //        s.Remark = Remark;
+        //        s.Num = Convert.ToInt32(num);
+        //        s.SumMoney = Convert.ToInt32(sumMoney);
+        //        bool vall = outStorage.Update(s);
+        //        if (vall)
+        //        {
+        //            msg = "修改成功";
+        //        }
+        //        else
+        //        {
+        //            msg = "修改失败";
+        //        }
+        //        msg = "修改成功";
+        //    }
+        //    else
+        //    {
+        //        msg = "修改失败";
+        //    }
+        //    return Json(msg, JsonRequestBehavior.AllowGet);
+        //}
     }
 }

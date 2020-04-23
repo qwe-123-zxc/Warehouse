@@ -4,12 +4,11 @@
     Layout = "~/Views/MasterPage/Main.cshtml";
 }
 
-
 <head>
     <style>
         #Info {
             margin: 25px;
-            background-color: white;
+            background-color: rgb(239, 239, 239);
             border: 1px solid #c1b5b5;
             border-radius: 5px;
         }
@@ -25,7 +24,19 @@
             border: 1px solid #c1b5b5;
             border-radius: 5px;
             padding: 15px;
-            margin: 0px 0px 10px 5px;
+            margin: 3px;
+        }
+
+        #personal {
+            display: none;
+            width: 740px;
+            height: 450px;
+            position: absolute;
+            top: 50px;
+            left: 220px;
+            z-index: 2;
+            background: white;
+            border: 1px solid #ddd;
         }
 
         .ChaKanBiaoTi {
@@ -68,35 +79,32 @@
         <img src="~/Image/xiangyou.png" width="10" height="10" />
         <a href="#" style="margin-top:20px;">仓库作业</a>
         <img src="~/Image/xiangyou.png" width="10" height="10" />
-        <a href="/OutStorages/ListOutStorage" style="margin-top:20px;">出库管理</a>
+        <a href="/BadReports/ListBadReport" style="margin-top:20px;">报损管理</a>
         <img src="~/Image/xiangyou.png" width="10" height="10" />
-        <a href="#" style="margin-top:20px;">新增出库</a>
+        <a href="#" style="margin-top:20px;">新增报损</a>
     </div>
 </div>
 
 <div class="menuContent">
     <div id="Info" class="container">
-        <div style="height:40px;background-color:#eeeeee;border-bottom:1px solid #ddd;width: 1158px;margin-left: -15px;">
-            <img src="~/Image/diqiu.png" style="float: left;margin:12px 0px 10px 20px" />
-            <span style="margin-top:10px;float: left;font-weight: bold;">新增出库单</span>
+        <div class="row">
+            <div class="col-md-12" style="border-bottom:1px solid #c1b5b5">
+                <h5 style="font-weight:bold;">新增报损单</h5>
+            </div>
         </div>
         <div class="ZhuTiXinZen">
             <div class="row">
                 <div class="col-md-3 form-group">
-                    出库单编号
-                    <input class="form-control" name="OutSNum" value="@Model.OutSNum" disabled="disabled" placeholder="自动生成" type="text" />
+                    报损单编号
+                    <input class="form-control" name="BadNum" value="@Model.BadNum" disabled="disabled" placeholder="自动生成" type="text" />
                 </div>
                 <div class="col-md-3 form-group">
-                    出库单类型
-                    @Html.DropDownList("OutSTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+                    报损类型
+                    @Html.DropDownList("BadTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
                 </div>
                 <div class="col-md-3 form-group">
                     制单人
-                    <input value="@Model.AuditUser" disabled="disabled" class="form-control" type="text" />
-                </div>
-                <div class="col-md-3 form-group">
-                    客户编号
-                    @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+                    <input value="@Model.AuditUser" name="AuditUser" disabled="disabled" class="form-control" type="text" />
                 </div>
             </div>
             <div class="row">
@@ -106,21 +114,21 @@
                 </div>
                 <div class="col-md-5 form-group">
                     备注
-                    <input name="Remark" class="form-control" value="@Model.Remark" type="text" />
+                    <input name="Remark" value="@Model.Remark" class="form-control" type="text" />
                 </div>
             </div>
         </div>
         <table class="table table-bordered table-hover table-responsive" style="margin-left: 5px;width: 1120px;table-layout:fixed">
             <thead>
                 <tr>
-                    <td>产品编号</td>
-                    <td>产品名称</td>
-                    <td>规格</td>
-                    <td>单价</td>
-                    <td>数量</td>
-                    <td>总价</td>
-                    <td>库位</td>
-                    <td>操作</td>
+                    <th>产品编号</th>
+                    <th>产品名称</th>
+                    <th>规格</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>总价</th>
+                    <th>库位</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -136,15 +144,13 @@
         </div>
     </div>
 </div>
-
-
 @*新增产品*@
 <div id="o"></div>
 <div id="p">
     <div class="container">
         <div class="row ChaKanBiaoTi">
             <div class="col-md-6">
-                <span style="color:white">出库产品</span>
+                <span style="color:white">报损产品</span>
             </div>
             <div class="col-md-6 text-right">
                 <a href="javascript:ChaKanGuanBi()" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
@@ -189,7 +195,7 @@
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
-                    <label class="control-label">出库数量</label>&nbsp;&nbsp;
+                    <label class="control-label">报损数量</label>&nbsp;&nbsp;
                     <input type="text" name="Num" class="form-control" style="width:200px;" />
                 </div>
             </div>
@@ -202,7 +208,6 @@
         </div>
     </div>
 </div>
-
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script>
@@ -230,7 +235,7 @@
         //添加产品到表格
         $("#ProductAdd").click(function () {
             var stockNum = parseInt($("[name=StockNum]").val());  //现有库存
-            var numvalue_1 = parseInt($("[name=Num]").val());   //出货数
+            var numvalue_1 = parseInt($("[name=Num]").val());   //报损数
             if (numvalue_1 <= stockNum && numvalue_1 != 0) {
                 var ProductNum = $("[name=ProductNum]").val();
                 var ProductName = $("[name=Product] option:selected").text();
@@ -238,36 +243,33 @@
                 var OutPrice = $("[name=OutPrice]").val();
                 var location = $("[name=LocationId]").val();
                 var numvalue = $("[name=Num]").val();
-                var str = "<tr><td>" + ProductNum + "</td><td>" + ProductName + "</td><td>" + Size + "</td><td>" + OutPrice + "</td><td>" + numvalue + "</td><td>" + OutPrice * numvalue + "</td><td>" + location + "</td><td onclick='Delete(this);'><a>删除</a></td></tr >";
+                var str = "<tr><td>" + ProductNum + "</td><td>" + ProductName + "</td><td>" + Size + "</td><td>" + OutPrice + "</td><td>" + numvalue + "</td><td>" + OutPrice * numvalue + "</td><td>" + location + "</td><td onclick='Delete(this);'><a href='javascript:void(0);'>删除</a></td></tr >";
                 $("tbody").append(str);
                 //关闭弹窗
                 ChaKanGuanBi();
             }
             else
             {
-                alert("出库数不得大于现有库存！不能为零！");
+                alert("报损数不得大于现有库存！不能为零！");
             }
         });
         QueryXiangXi(@Model.Id);
-        
+
         //保存
         $("#OK").click(function () {
-            var OutSTypeIdvalue = $("#OutSTypeId  option:selected").val();
-            var CustomerIdvalue = $("#CustomerId  option:selected").val();
+            var BadTypeIdvalue = $("#BadTypeId").val();
             var Remarkvalue = $("[name=Remark]").val();
-            var OutSNumvalue = $("[name=OutSNum]").val();
 
             //入库明细表
-            var trs = document.getElementsByTagName("tr"); //获取表格中的所有行
-            var sum = [];//新建一个数组
+            var trs = document.getElementsByTagName("tr");  //获取表格所有行
+            var sum = [];   //新建一个数组
             for (var i = 1; i < trs.length; i++) {
-                var tds = trs[i].cells;//获取第i行的所有列
-                var stu = {};//新建一个对象
-                //把属性和属性的值添加到对象中
+                var tds = trs[i].cells;
+                var stu = {};
                 stu.DetailNum = "";
-                stu.OutStorageId = "";
-                stu.ProductName = tds[0].innerHTML;
-                stu.ProductNum = tds[1].innerHTML;
+                stu.BadId = "";
+                stu.ProductNum = tds[0].innerHTML;
+                stu.ProductName = tds[1].innerHTML;
                 stu.Size = tds[2].innerHTML;
                 stu.UnitPrice = tds[3].innerHTML;
                 stu.Quantity = tds[4].innerHTML;
@@ -275,20 +277,25 @@
                 stu.Location = tds[6].innerHTML;
                 stu.CreateTime = "";
                 stu.IsDelete = 0;
-                sum.push(stu);//使用push方法把对象添加到数组中
+                sum.push(stu);
             }
-            $.ajax({
-                url: "@Url.Action("UpdtInfo")",
-                data: { detail: sum, outSTypeId: OutSTypeIdvalue, customerId: CustomerIdvalue, Remark: Remarkvalue, OutSNum: OutSNumvalue},
-                type: "post",
-                dataType: "json",
-                success: function (result) {
-                    alert(result);
-                }
-            });
+            if (sum.length <= 0) {
+                alert("请添加产品");
+            }
+            else
+            {
+                 $.ajax({
+                    url: "@Url.Action("Insert")",
+                     data: { detail: sum, BadTypeId: BadTypeIdvalue, Remark: Remarkvalue, AuditUser: AuditUservalue },
+                    type: "post",
+                    dataType: "json",
+                    success: function (result) {
+                        alert(result);
+                    }
+                });
+            }
         });
     });
-
     //查询详细信息
     function QueryXiangXi(InSNumvalue) {
         $.ajax({

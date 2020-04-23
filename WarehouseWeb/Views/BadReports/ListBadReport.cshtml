@@ -383,9 +383,9 @@
                     str += "<td>" + value.AuditTime + "</td>";
                     str += "<td>";
                     if (value.Status!="审核通过") {
-                        str += "<a title='编辑' href='@Url.Action("ListAdd")'><img src='../Image/Write.png' /></a>"
+                        str += "<a title='编辑' href='/BadReports/UpdtList/" + value.id + "'><img src='../Image/Write.png' /></a>"
                     }
-                    str += "<a title='删除' href='javascript:void(0)'><img src='../Image/cha.png' /></a>"
+                    str += "<a title='删除' href='javascript:Delete(" + value.id + ");'><img src='../Image/cha.png' /></a>"
                     str += "<a title='查看' href='javascript:ChaKan(" + value.BadNum + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
                     if (value.Status != "审核通过") {
                         str += "<a title='审核' href='javascript:Shenhe(" + value.BadNum + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
@@ -440,7 +440,7 @@
                     str += "<td>" + value.ProductNum + "</td>";
                     str += "<td>" + value.Size + "</td>";
                     str += "<td>" + value.Location + "</td>";
-                    str += "<td>" + value.Quantity + "</td>"; 
+                    str += "<td>" + value.Quantity + "</td>";
                     str += "</tr>";
                     $(".XiangXi tbody").append(str);
                 });
@@ -456,7 +456,7 @@
     function Shenhe(idvalue) {
         personal_1.style.display = "block";
         o.style.display = "block";
-        
+
         $.ajax({
             url: "@Url.Action("QueryMinXi")",
             data: { id: idvalue },
@@ -504,5 +504,23 @@
     //新增报损单
     function insertInStorage() {
         window.location.href = "@Url.Action("ListAdd")";
+    }
+    
+    //删除出库单
+    function Delete(num) {
+        if (confirm("是否删除？")) {
+            $.ajax({
+                url: "@Url.Action("DeleteInfo")",
+                data: { id: num },
+                dataType: "json",
+                type: "post",
+                success: function (result) {
+                    alert(result);
+                    bindData(1);
+                }
+            });
+        } else {
+            window.event.returnValue = false;
+        }
     }
 </script>
