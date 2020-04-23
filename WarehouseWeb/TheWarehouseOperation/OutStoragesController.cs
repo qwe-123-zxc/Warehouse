@@ -17,8 +17,8 @@ namespace WarehouseWeb.TheWarehouseOperation
         CustomerManager customer = new CustomerManager();
         ProductManager productManager = new ProductManager();//产品表
         LocationManager location = new LocationManager();
-        AdminManger admin = new AdminManger();
-
+        AdminManager admin = new AdminManager();
+        
         /// <summary>
         /// 出库管理
         /// </summary>

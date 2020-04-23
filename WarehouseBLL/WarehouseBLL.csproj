@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminManager.cs" />
     <Compile Include="BadReportDetailManager.cs" />
     <Compile Include="BadReportManager.cs" />
     <Compile Include="BadReportTypeManager.cs" />
@@ -47,11 +48,12 @@
     <Compile Include="CheckStockDetailManager.cs" />
     <Compile Include="CheckStockManager.cs" />
     <Compile Include="CheckStockTypeManager.cs" />
+    <Compile Include="Departmanager.cs" />
     <Compile Include="LocationManager.cs" />
+    <Compile Include="LocationTypeManager.cs" />
     <Compile Include="MeasureManage.cs" />
     <Compile Include="CustomerManager.cs" />
     <Compile Include="FunctionManager.cs" />
-    <Compile Include="AdminManger.cs" />
     <Compile Include="InStorageDetailManager.cs" />
     <Compile Include="InStorageManager.cs" />
     <Compile Include="InStorageTypeManager.cs" />
@@ -67,8 +69,10 @@
     <Compile Include="ReturnOrderDetailManager.cs" />
     <Compile Include="ReturnOrderStockManager.cs" />
     <Compile Include="ReturnOrderTypeManager.cs" />
+    <Compile Include="Rolemanager.cs" />
     <Compile Include="RoleManeger.cs" />
     <Compile Include="RolePowerManager.cs" />
+    <Compile Include="StorageManager.cs" />
     <Compile Include="SupplierManager.cs" />
     <Compile Include="SupplierTypeManager.cs" />
   </ItemGroup>
