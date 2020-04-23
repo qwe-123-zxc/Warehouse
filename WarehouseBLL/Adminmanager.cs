@@ -7,7 +7,7 @@ using Models;
 
 namespace WarehouseBLL
 {
-    public class Adminmanager:BaseManager<Admin>
+    public class AdminManager:BaseManager<Admin>
     {
     }
 }

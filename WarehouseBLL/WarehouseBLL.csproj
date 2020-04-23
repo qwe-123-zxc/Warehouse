@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adminmanager.cs" />
+    <Compile Include="AdminManager.cs" />
     <Compile Include="BadReportDetailManager.cs" />
     <Compile Include="BadReportManager.cs" />
     <Compile Include="BadReportTypeManager.cs" />

@@ -238,7 +238,9 @@
                 type: "get",
                 success: function (result) {
                     alert(result);
+                    $("insert").val("");
                     window.location.href = "@Url.Action("Index")";
+                    bindData(1);
                 }
             });
     }

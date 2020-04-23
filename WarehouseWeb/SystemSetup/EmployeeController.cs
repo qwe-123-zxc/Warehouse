@@ -42,10 +42,10 @@ namespace WarehouseWeb.SystemSetup
         public ActionResult GetAdmin(string UserCode, int RoleId, int DepartId, string UserName, string UserCode1, int pageIndex)
         {
 
-            Adminmanager service = new Adminmanager();
+            AdminManager service = new AdminManager();
            
             //组合条件
-            Expression<Func<Admin, bool>> where = item => true;
+            Expression<Func<Admin, bool>> where = item => item.IsDelete==0;
 
             if (!string.IsNullOrEmpty(UserCode))
             {
@@ -97,7 +97,7 @@ namespace WarehouseWeb.SystemSetup
         }
 
 
-        Adminmanager Adminmanager = new Adminmanager();
+        AdminManager Adminmanager = new AdminManager();
 
         /// <summary>
         /// 添加操作
@@ -110,6 +110,17 @@ namespace WarehouseWeb.SystemSetup
             //获取最大编号
             string UserCode = Adminmanager.GetByWhere(item => item.Id != 1).OrderByDescending(item => item.UserCode).Take(1).Select(item => item.UserCode).FirstOrDefault();
             admin.UserCode = "00000" + (int.Parse(UserCode) + 1);
+
+            int num = int.Parse(UserCode);
+            if (num >= 9)
+            {
+                admin.UserCode = "0000" + (int.Parse(UserCode) + 1);
+            }
+            else if (num >= 99)
+            {
+                admin.UserCode = "000" + (int.Parse(UserCode) + 1);
+            }
+
             admin.UserName = UserName;
             admin.Password = Password;
             admin.RealName = RealName;

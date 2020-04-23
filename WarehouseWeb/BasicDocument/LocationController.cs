@@ -47,7 +47,7 @@ namespace WarehouseWeb.BasicDocument
             LocationManager service = new LocationManager();
 
             //组合条件
-            Expression<Func<Location, bool>> where = item => true;
+            Expression<Func<Location, bool>> where = item =>item.IsDelete==0;
             
             if (!string.IsNullOrEmpty(LocationName))
             {
@@ -103,6 +103,17 @@ namespace WarehouseWeb.BasicDocument
             //获取库位最大编号
             string locationNum = LocationManager.GetByWhere(item => item.Id != 1).OrderByDescending(item => item.LocationNum).Take(1).Select(item => item.LocationNum).FirstOrDefault();
             location.LocationNum = "00000" + (int.Parse(locationNum) + 1);
+
+            int num = int.Parse(locationNum);
+            if (num>=9)
+            {
+                location.LocationNum = "0000" + (int.Parse(LocationNum) + 1);
+            }
+            else if (num>=99)
+            {
+                location.LocationNum = "000" + (int.Parse(LocationNum) + 1);
+            }
+
             location.LocationName = LocationName;
             location.StorageId = StorageId;
             location.LocaTypeId = LocationTypeId;

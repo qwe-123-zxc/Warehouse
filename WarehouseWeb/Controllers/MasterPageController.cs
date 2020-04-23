@@ -22,7 +22,7 @@ namespace WarehouseWeb.Controllers
         }
 
         FunctionManager functionManager = new FunctionManager();
-        Adminmanager adminManger = new Adminmanager();
+        AdminManager adminManger = new AdminManager();
         RolePowerManager rolePowerManager = new RolePowerManager();
         RoleManeger roleManeger = new RoleManeger();
         
