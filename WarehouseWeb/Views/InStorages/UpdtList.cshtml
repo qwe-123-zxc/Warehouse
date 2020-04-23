@@ -85,6 +85,7 @@
                 <div class="col-md-3 form-group">
                     入库单编号
                     <input disabled="disabled" name="InSNum" placeholder="@Model.InSNum" value="@Model.InSNum" class="form-control" type="text" />
+                    <input type="hidden" name="Id" value="@Model.Id"/>
                 </div>
                 <div class="col-md-3 form-group">
                     入库单类型
@@ -208,10 +209,12 @@
                 type: "post",
                 dataType: "json",
                 success: function (result) {
-                    $("[name=ProductNum]").val(result.ProductNum);
-                    $("[name=ProductName]").val(result.ProductName);
-                    $("[name=Size]").val(result.Size);
-                    $("[name=OutPrice]").val(result.OutPrice);
+                    $.each(result, function (index, value) {
+                        $("[name=ProductNum]").val(value.ProductNum);
+                        $("[name=ProductName]").val(value.ProductName);
+                        $("[name=Size]").val(value.Size);
+                        $("[name=OutPrice]").val(value.OutPrice);
+                    });
                 }
             });
         });
@@ -234,10 +237,11 @@
 
         //保存
         $("#OK").click(function () {
-            var InSTypeIdvalue = $("#InSTypeId  option:selected").val();
-            var SupplierIdvalue = $("#SupplierId  option:selected").val();
+            var InSTypeIdvalue = $("#InSTypeId").val();
+            var SupplierIdvalue = $("#SupplierId").val();
             var Remarkvalue = $("[name=Remark]").val();
             var InSNumvalue = $("[name=InSNum]").val();
+            var idvalue = $("[name=Id]").val();
 
             //入库明细表
             var trs = document.getElementsByTagName("tr"); //获取表格中的所有行
@@ -261,7 +265,7 @@
             }
             $.ajax({
                 url: "@Url.Action("UpdtInfo")",
-                data: { detail: sum, inSTypeId: InSTypeIdvalue, supplierId: SupplierIdvalue, Remark: Remarkvalue, id: InSNumvalue},
+                data: { detail: sum, inSTypeId: InSTypeIdvalue, supplierId: SupplierIdvalue, Remark: Remarkvalue, id: InSNumvalue, ids: idvalue},
                 type: "post",
                 dataType: "json",
                 success: function (result) {

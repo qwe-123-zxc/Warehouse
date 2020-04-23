@@ -41,7 +41,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         {
             var stateDate = Convert.ToDateTime(state);
             var endDate = Convert.ToDateTime(end);
-            Expression<Func<InStorage, bool>> where = i => i.AuditTime >= stateDate && i.AuditTime <= endDate;
+            Expression<Func<InStorage, bool>> where = i => i.AuditTime >= stateDate && i.AuditTime <= endDate && i.IsDelete == 0;
             if (!string.IsNullOrEmpty(zt))
             {
                 where = where.And(i => i.Status == zt);
@@ -152,10 +152,11 @@ namespace WarehouseWeb.TheWarehouseOperation
         }
 
         //根据产品ID进行查询
-        public ActionResult QueryByProductId(int id)
+        public ActionResult QueryByProductId(int Id)
         {
-            Product product = productManager.GetByWhere(item => item.Id == id).SingleOrDefault();
-            return Json(product,JsonRequestBehavior.AllowGet);
+            var productInfo = productManager.GetByWhere(i => i.Id == Id);
+            var newFormatList = productInfo.Select(item => new { Id = item.Id, ProductNum = item.ProductNum, ProductName = item.ProductName, Size = item.Size, OutPrice = item.OutPrice });
+            return Json(newFormatList, JsonRequestBehavior.AllowGet);
         }
 
         //新增入库单
@@ -261,7 +262,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         }
 
         //修改入库单
-        public ActionResult UpdtInfo(List<InStorageDetail> detail, int inSTypeId, int supplierId, string Remark,string id)
+        public ActionResult UpdtInfo(List<InStorageDetail> detail, int inSTypeId, int supplierId, string Remark,string id,int ids)
         {
             //先删除明细
             bool val_1 = true;
@@ -290,7 +291,7 @@ namespace WarehouseWeb.TheWarehouseOperation
                 var num = inStorageDetail.GetByWhere(item => item.InStorageId == id).Sum(item => item.Quantity);
                 var sumMoney = inStorageDetail.GetByWhere(item => item.InStorageId == id).Sum(item => item.SumMoney);
                 var inStorage_1 = new InStorageManager();
-                var s = inStorage_1.GetByWhere(i => i.InSNum.IndexOf(id) != -1).SingleOrDefault();
+                var s = inStorage_1.GetByWhere(i => i.Id == ids).SingleOrDefault();
                 s.DetailNum = detailNum;
                 s.InSTypeId = inSTypeId;
                 s.SupplierId = supplierId;
@@ -324,11 +325,13 @@ namespace WarehouseWeb.TheWarehouseOperation
             string msg = "";
             foreach (var list in listDetail)
             {
-                val = inStorageDetail.Delete(list);
+                list.IsDelete = 1;
+                val = inStorageDetail.Update(list);
             }
             if (val)
             {
-                bool vall = inStorage.Delete(ins);
+                ins.IsDelete = 1;
+                bool vall = inStorage.Update(ins);
                 if (vall)
                 {
                     msg = "删除成功";

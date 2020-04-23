@@ -41,7 +41,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         {
             var stateDate = Convert.ToDateTime(state);
             var endDate = Convert.ToDateTime(end);
-            Expression<Func<OutStorage, bool>> where = i => i.AuditTime >= stateDate && i.AuditTime <= endDate;
+            Expression<Func<OutStorage, bool>> where = i => i.AuditTime >= stateDate && i.AuditTime <= endDate && i.IsDelete == 0;
             if (!string.IsNullOrEmpty(zt))
             {
                 where = where.And(i => i.Status == zt);
@@ -157,29 +157,46 @@ namespace WarehouseWeb.TheWarehouseOperation
 
         public ActionResult Insert(List<OutStorageDetail> detail, int OutSTypeId, int CustomerId, string Remark, string AuditUser)
         {
+            string detailNum = "";
             //获取明细表最大编号
             string detailNumBig = outStorageDetail.GetByWhere(i => true).OrderByDescending(i => i.DetailNum).Take(1).Select(i => i.DetailNum).FirstOrDefault();
-            string detailNum = "00000" + (int.Parse(detailNumBig) + 1);
-            int num_1 = int.Parse(detailNumBig);
-            if (num_1 >= 9)
+            if (detailNumBig==null)
             {
-                detailNum = "0000" + (int.Parse(detailNumBig) + 1);
+                detailNum = "000001";
             }
-            if (num_1 >= 99)
+            else
             {
-                detailNum = "000" + (int.Parse(detailNumBig) + 1);
+                detailNum = "00000" + (int.Parse(detailNumBig) + 1);
+                int num_1 = int.Parse(detailNumBig);
+                if (num_1 >= 9)
+                {
+                    detailNum = "0000" + (int.Parse(detailNumBig) + 1);
+                }
+                if (num_1 >= 99)
+                {
+                    detailNum = "000" + (int.Parse(detailNumBig) + 1);
+                }
             }
+
+            string outSNum = "";
             //获取出库表最大编号
             string outSNumBig = outStorage.GetByWhere(i => true).OrderByDescending(i => i.OutSNum).Take(1).Select(i => i.OutSNum).FirstOrDefault();
-            string outSNum = "00000" + (int.Parse(outSNumBig) + 1);
-            int num_2 = int.Parse(outSNumBig);
-            if (num_2 >= 9)
+            if (outSNumBig==null)
             {
-                outSNum = "0000" + (int.Parse(outSNumBig) + 1);
+                outSNum = "000001";
             }
-            if (num_2 >= 99)
+            else
             {
-                outSNum = "000" + (int.Parse(outSNumBig) + 1);
+                outSNum = "00000" + (int.Parse(outSNumBig) + 1);
+                int num_2 = int.Parse(outSNumBig);
+                if (num_2 >= 9)
+                {
+                    outSNum = "0000" + (int.Parse(outSNumBig) + 1);
+                }
+                if (num_2 >= 99)
+                {
+                    outSNum = "000" + (int.Parse(outSNumBig) + 1);
+                }
             }
 
             bool val = true;
@@ -232,16 +249,51 @@ namespace WarehouseWeb.TheWarehouseOperation
             //出库单类型
             var outtype = outStorageType.GetAll();
             outtype.Insert(0, new OutStorageType() { Id = 9999, OutSTypeName = "请选择出库单类型" });
-            ViewBag.OutSTypeId = new SelectList(outtype, "Id", "OutSTypeName");
+            ViewBag.OutSTypeId = new SelectList(outtype, "Id", "OutSTypeName",s.OutSTypeId);
             //客户
             var cust = customer.GetAll();
             cust.Insert(0, new Customer() { Id = 9999, CustomerName = "请选择客户" });
-            ViewBag.CustomerId = new SelectList(cust, "Id", "CustomerName");
+            ViewBag.CustomerId = new SelectList(cust, "Id", "CustomerName",s.CustomerId);
             //产品
             var product = productManager.GetAll();
             product.Insert(0, new Product() { Id = 9999, ProductName = "请选择产品" });
             ViewBag.Product = new SelectList(product, "Id", "ProductName");
             return View(s);
+        }
+
+        public ActionResult QueryByIdMinXiInfo(int id)
+        {
+            OutStorage ins = outStorage.GetByWhere(i => i.Id == id).SingleOrDefault();
+            var mx = outStorageDetail.GetByWhere(i => i.OutStorageId == ins.OutSNum && i.IsDelete == 0);
+            return Json(mx, JsonRequestBehavior.AllowGet);
+        }
+
+        //删除入库单
+        public ActionResult DeleteInfo(int id)
+        {
+            OutStorage ins = outStorage.GetByWhere(item => item.Id == id).SingleOrDefault();
+            List<OutStorageDetail> listDetail = outStorageDetail.GetByWhere(item => item.OutStorageId == ins.OutSNum);
+            bool val = true;
+            string msg = "";
+            foreach (var list in listDetail)
+            {
+                list.IsDelete = 1;
+                val = outStorageDetail.Update(list);
+            }
+            if (val)
+            {
+                ins.IsDelete = 1;
+                bool vall = outStorage.Update(ins);
+                if (vall)
+                {
+                    msg = "删除成功";
+                }
+                else
+                {
+                    msg = "删除失败";
+                }
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
         }
     }
 }
