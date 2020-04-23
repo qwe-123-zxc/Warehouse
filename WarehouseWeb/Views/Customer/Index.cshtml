@@ -248,7 +248,7 @@
                         list.Id = arr[i];
                         str.push(list);
                     }
-                    alert(JSON.stringify(str));
+                    //alert(JSON.stringify(str));
                     $.ajax({
                         url: "@Url.Action("DeleteOther")",
                         data: { list: str },
@@ -344,7 +344,7 @@
             type: "post",
             success: function (result) {
                 alert(result)
-                $(".insert input").val("");
+                $("#insert input").val("");
                 hideCustomer();
                 bindData(1);
             }
