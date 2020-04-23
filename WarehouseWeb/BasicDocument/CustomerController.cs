@@ -24,7 +24,7 @@ namespace WarehouseWeb.BasicDocument
         }
         CustomerManager service = new CustomerManager();
         public ActionResult Query(string CustomerNum, int pageIndex) {
-            Expression<Func<Customer, bool>> where = item => true;
+            Expression<Func<Customer, bool>> where = item => item.IsDelete==0;
             if (!string.IsNullOrEmpty(CustomerNum))
             {
                 where = where.And(item => item.CustomerNum.IndexOf(CustomerNum)!=-1 || item.CustomerName.IndexOf(CustomerNum) != -1);
@@ -81,10 +81,11 @@ namespace WarehouseWeb.BasicDocument
             }
         }
 
-        public ActionResult Delete(string customerNum)
+        public ActionResult Delete(int customerNum)
         {
-            Customer customer = service.GetByWhere(item => item.CustomerNum.IndexOf(customerNum) != -1).SingleOrDefault();
-            bool val = service.Delete(customer);
+            Customer customer = service.GetByWhere(i => i.Id == customerNum).SingleOrDefault();
+            customer.IsDelete = 1;
+            bool val = service.Update(customer);
             if (val)
             {
                 return Json("删除成功", JsonRequestBehavior.AllowGet);
@@ -101,7 +102,9 @@ namespace WarehouseWeb.BasicDocument
             bool val = true;
             foreach (var item in list)
             {
-                val = service.Delete(item);
+                Customer customer = service.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
+                customer.IsDelete = 1;
+                val = service.Update(customer);
             }
             if (val)
             {

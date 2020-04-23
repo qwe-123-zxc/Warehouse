@@ -43,6 +43,7 @@ namespace WarehouseDAL
         /// <returns></returns>
         public List<T> GetByWhere(Expression<Func<T, bool>> where)
         {
+            MyDbContext.Configuration.ProxyCreationEnabled = false;
             return MyDbContext.Set<T>().Where(where).ToList();
         }
 

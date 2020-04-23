@@ -25,7 +25,7 @@ namespace WarehouseWeb.BasicDocument
         ProductCategoryManager service = new ProductCategoryManager();
         public ActionResult Query(string PCateNum, int pageIndex)
         {
-            Expression<Func<ProductCategory, bool>> where = item => true;
+            Expression<Func<ProductCategory, bool>> where = item => item.IsDelete==0;
             if (!string.IsNullOrEmpty(PCateNum))
             {
                 where = where.And(item => item.PCateNum.IndexOf(PCateNum) != -1 || item.PCateName.IndexOf(PCateNum) != -1);
@@ -73,10 +73,11 @@ namespace WarehouseWeb.BasicDocument
                 return Json("新增失败", JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult Delete(string pcateNum)
+        public ActionResult Delete(int pcateNum)
         {
-            ProductCategory productCategory = service.GetByWhere(item => item.PCateNum.IndexOf(pcateNum) != -1).SingleOrDefault();
-            bool val = service.Delete(productCategory);
+            ProductCategory productCategory = service.GetByWhere(item => item.Id == pcateNum).SingleOrDefault();
+            productCategory.IsDelete = 1;
+            bool val = service.Update(productCategory);
             if (val)
             {
                 return Json("删除成功", JsonRequestBehavior.AllowGet);
@@ -86,14 +87,32 @@ namespace WarehouseWeb.BasicDocument
                 return Json("删除失败", JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult QueryById(string pcateNum)
+        public ActionResult DeleteOther(List<Measure> list)
         {
-            ProductCategory productCategory = service.GetByWhere(item => item.PCateNum.IndexOf(pcateNum) != -1).SingleOrDefault();
+            bool val = true;
+            foreach (var item in list)
+            {
+                ProductCategory productCategory = service.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
+                productCategory.IsDelete = 1;
+                val = service.Update(productCategory);
+            }
+            if (val)
+            {
+                return Json("删除成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("删除失败", JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult QueryById(int pcateNum)
+        {
+            ProductCategory productCategory = service.GetByWhere(item => item.Id==pcateNum).SingleOrDefault();
             return Json(productCategory, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Update(string pcateName, string pcateNum)
+        public ActionResult Update(string pcateName, int pcateNum)
         {
-            ProductCategory productCategory = service.GetByWhere(item => item.PCateNum.IndexOf(pcateNum) != -1).SingleOrDefault();
+            ProductCategory productCategory = service.GetByWhere(item => item.Id==pcateNum).SingleOrDefault();
             productCategory.PCateName = pcateName;
             bool val = service.Update(productCategory);
             if (val)

@@ -28,7 +28,7 @@ namespace WarehouseWeb.BasicDocument
         SupplierManager service = new SupplierManager();
         SupplierTypeManager SupplierTypeManager = new SupplierTypeManager();
         public ActionResult Query(string SupplierNum,int pageIndex) {
-            Expression<Func<Supplier, bool>> where = item => true;
+            Expression<Func<Supplier, bool>> where = item => item.IsDelete==0;
             if (!string.IsNullOrEmpty(SupplierNum))
             {
                 where = where.And(item => item.SupplierNum.IndexOf(SupplierNum) != -1 || item.SupplierNum.IndexOf(SupplierNum) != -1);
@@ -48,10 +48,11 @@ namespace WarehouseWeb.BasicDocument
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Delete(string supplierNum)
+        public ActionResult Delete(int supplierNum)
         {
-            Supplier supplier = service.GetByWhere(item => item.SupplierNum.IndexOf(supplierNum) != -1).SingleOrDefault();
-            bool val = service.Delete(supplier);
+            Supplier supplier = service.GetByWhere(item => item.Id == supplierNum).SingleOrDefault();
+            supplier.IsDelete = 1;
+            bool val = service.Update(supplier);
             if (val)
             {
                 return Json("删除成功", JsonRequestBehavior.AllowGet);
@@ -61,12 +62,24 @@ namespace WarehouseWeb.BasicDocument
                 return Json("删除失败", JsonRequestBehavior.AllowGet);
             }
         }
-        //public ActionResult Add() {
-        //    var xlk = SupplierTypeManager.GetAll();
-        //    xlk.Insert(0, new SupplierType() { Id = 9999, SupplierTypeName = "请选择入库单类型" });
-        //    ViewBag.InSTypeId = new SelectList(xlk, "Id", "SupplierTypeName");
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
+        public ActionResult DeleteOther(List<Supplier> list)
+        {
+            bool val = true;
+            foreach (var item in list)
+            {
+                Supplier supplier = service.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
+                supplier.IsDelete = 1;
+                val = service.Update(supplier);
+            }
+            if (val)
+            {
+                return Json("删除成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("删除失败", JsonRequestBehavior.AllowGet);
+            }
+        }
         public ActionResult Insert(string supplierName, int supTypeId, string phone, string contacts, string email, string fax, string address, string describe)
         {
             Supplier supplier = new Supplier();
@@ -103,14 +116,14 @@ namespace WarehouseWeb.BasicDocument
                 return Json("新增失败", JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult QueryById(string supplierNum)
+        public ActionResult QueryById(int supplierNum)
         {
-            Supplier supplier = service.GetByWhere(item => item.SupplierNum.IndexOf(supplierNum) != -1).SingleOrDefault();
+            Supplier supplier = service.GetByWhere(item => item.Id==supplierNum).SingleOrDefault();
             return Json(supplier, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Update(string supplierName, string supplierNum, int supTypeId, string phone, string contacts, string email, string fax, string address, string describe)
+        public ActionResult Update(string supplierName, int supplierNum, int supTypeId, string phone, string contacts, string email, string fax, string address, string describe)
         {
-            Supplier supplier = service.GetByWhere(item => item.SupplierNum.IndexOf(supplierNum) != -1).SingleOrDefault();
+            Supplier supplier = service.GetByWhere(item => item.Id == supplierNum).SingleOrDefault();
             supplier.SupplierName = supplierName;
             supplier.SupTypeId = supTypeId;
             supplier.Phone = phone;

@@ -261,12 +261,12 @@ namespace WarehouseWeb.TheWarehouseOperation
         }
 
         //修改入库单
-        public ActionResult UpdtInfo(List<InStorageDetail> detail, int inSTypeId, int supplierId, string Remark,string id)
+        public ActionResult UpdtInfo(List<InStorageDetail> detail, int inSTypeId, int supplierId, string Remark,string InSNum)
         {
             //先删除明细
             bool val_1 = true;
             var inStorageDetails = new InStorageDetailManager();
-            var mx = inStorageDetails.GetByWhere(i => i.InStorageId.IndexOf(id) != -1);
+            var mx = inStorageDetails.GetByWhere(i => i.InStorageId == InSNum);
             foreach (var item in mx)
             {
                 val_1 = inStorageDetails.Delete(item);
@@ -275,22 +275,30 @@ namespace WarehouseWeb.TheWarehouseOperation
             //获取明细表最大编号
             string detailNumBig = inStorageDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
             string detailNum = "00000" + (int.Parse(detailNumBig) + 1);
-
+            int num1 = int.Parse(detailNumBig);
+            if (num1 >= 9)
+            {
+                detailNumBig = "0000" + (int.Parse(detailNumBig) + 1);
+            }
+            else if (num1 >= 99)
+            {
+                detailNumBig = "000" + (int.Parse(detailNumBig) + 1);
+            }
             string msg = "";
             bool val = true;
             foreach (var item in detail)
             {
                 item.DetailNum = detailNum;
-                item.InStorageId = id;
+                item.InStorageId = InSNum;
                 item.CreateTime = DateTime.Now;
                 val = inStorageDetail.Add(item);
             }
             if (val)
             {
-                var num = inStorageDetail.GetByWhere(item => item.InStorageId == id).Sum(item => item.Quantity);
-                var sumMoney = inStorageDetail.GetByWhere(item => item.InStorageId == id).Sum(item => item.SumMoney);
+                var num = inStorageDetail.GetByWhere(item => item.InStorageId == InSNum).Sum(item => item.Quantity);
+                var sumMoney = inStorageDetail.GetByWhere(item => item.InStorageId == InSNum).Sum(item => item.SumMoney);
                 var inStorage_1 = new InStorageManager();
-                var s = inStorage_1.GetByWhere(i => i.InSNum.IndexOf(id) != -1).SingleOrDefault();
+                var s = inStorage_1.GetByWhere(i => i.InSNum== InSNum).SingleOrDefault();
                 s.DetailNum = detailNum;
                 s.InSTypeId = inSTypeId;
                 s.SupplierId = supplierId;

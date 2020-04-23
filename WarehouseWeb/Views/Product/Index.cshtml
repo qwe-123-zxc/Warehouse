@@ -103,49 +103,34 @@
             <span style="margin-top:10px;float: left;font-weight: bold;">角色管理</span>
             <div style="width: 200px; margin-top:3px;float: right;">
                 <button class="btn" onclick="insertProduct();" style="width:60px;background-color:rgb(0, 89, 204);color:white">新增</button>
-                <button class="btn" style="width:60px;background-color:rgb(207, 69, 63);color:white">删除</button>
+                <button class="btn" style="width:60px;background-color:rgb(207, 69, 63);color:white" id="del">删除</button>
                 <button class="btn" style="width:60px;background-color:rgb(56, 159, 189);color:white">导出</button>
             </div>
         </div>
         <div class="row form-inline" style="margin:15px">
             <span style="margin: 0px 10px;">产品</span>
-            <input class="form-control" style="width:150px;" />
+            <input name="Name" class="form-control" style="width:150px;" />
             <span style="margin: 0px 10px;">类型</span>
-            <select class="form-control" style="width:150px;">
-                <option>请选择</option>
-            </select>
-            <button class="btn btn-primary" style="width: 70px;margin: 0px 10px;">搜索</button>
+            @Html.DropDownList("PCateId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+            <button class="btn btn-primary" style="width: 70px;margin: 0px 10px;" id="btnSearch">搜索</button>
         </div>
         <table class="table tab-content table-hover table-bordered" style="width:1120px;margin-left:16px;table-layout:fixed;">
-            <tr>
-                <th style="width:30px"><input type="checkbox" /></th>
-                <th>产品条码</th>
-                <th>产品名称</th>
-                <th>上限</th>
-                <th>下限</th>
-                <th>价格</th>
-                <th>规格</th>
-                <th>类别</th>
-                <th>单位</th>
-                <th>备注</th>
-                <th>操作</th>
-            </tr>
-            <tr>
-                <td style="width:20px"><input type="checkbox" /></td>
-                <td>0001</td>
-                <td>超薄macbookpro13寸14寸15寸电脑包苹果笔记本商务手提包</td>
-                <td>20</td>
-                <td>68</td>
-                <td>0.78</td>
-                <td>13寸</td>
-                <td>电子产品</td>
-                <td>本</td>
-                <td>超薄macbookpro13寸14寸15寸电脑包苹果笔记本商务手提包</td>
-                <td>
-                    <a title="编辑" href="javascript:bianJiProduct();"><img src="~/Image/Write.png" /> </a>
-                    <a title="删除" href="javascript:void(0);"><img src="~/Image/cha.png" />   </a>
-                </td>
-            </tr>
+            <thead>
+                <tr>
+                    <th style="width:30px"><input type="checkbox" id="chkAll" /></th>
+                    <th>产品条码</th>
+                    <th>产品名称</th>
+                    <th>上限</th>
+                    <th>下限</th>
+                    <th>价格</th>
+                    <th>规格</th>
+                    <th>类别</th>
+                    <th>单位</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
         </table>
         <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
             <button class="first" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
@@ -154,7 +139,7 @@
             <button class="go">GO</button>
             <button class="next">下一页</button>
             <button class="last">尾页</button>
-            <label>当前页是第 1 页,共计 1 条/ 1 页</label>
+            <label id="lbMsg">当前页是第 1 页,共计 1 条/ 1 页</label>
         </div>
     </div>
 </div>
@@ -166,36 +151,30 @@
         <button class="btn" onclick="hideProduct();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">产品编号</span><input disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
-        <span style="margin-left:25px">产品名称</span><input class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">产品编号</span><input placeholder="自动生成" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">产品名称</span><input name="ProductName" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">预警上限</span><input class="form-control" style="width:150px;margin-left:11px" />
-        <span style="margin-left:25px">预警下限</span><input class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">预警上限</span><input name="MaxNum" class="form-control" style="width:150px;margin-left:11px" />
+        <span style="margin-left:25px">预警下限</span><input name="MinNum" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">价<span style="margin-left:30px">格</span></span><input class="form-control" style="width:150px;margin-left:10px" />
-        <span style="margin-left:25px">规<span style="margin-left:28px">格</span></span><input class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:10px">价<span style="margin-left:30px">格</span></span><input name="OutPrice" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">规<span style="margin-left:28px">格</span></span><input name="Size" class="form-control" style="width:149px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">颜<span style="margin-left:30px">色</span></span><input class="form-control" style="width:149px;margin-left:10px" />
-        <span style="margin-left:25px">产品类别</span>
-        <select class="form-control" style="width:150px;margin-left:5px">
-            <option>请选择类别</option>
-        </select>
+        <span style="margin-left:10px">颜<span style="margin-left:30px">色</span></span><input name="Color" class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:26px;margin-right: 7px;">产品类别</span>
+        @Html.DropDownList("PCateId", null, htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">产品单位</span>
-        <select class="form-control" style="width:150px;margin-left:7px">
-            <option>请选择单位</option>
-        </select>
-        <span style="margin-left:25px">默认仓库</span>
-        <select class="form-control" style="width:150px;margin-left:5px">
-            <option>请选择仓库</option>
-        </select>
+        <span style="margin-left:10px;margin-right: 7px;">产品单位</span>
+        @Html.DropDownList("MeasuresId", null, htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
+        <span style="margin-left:25px;margin-right: 7px;">默认仓库</span>
+        @Html.DropDownList("LocationId", null, htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
     </div>
     <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
-        <button style="margin:6px 10px 0px 420px;">确定</button>
+        <button style="margin:6px 10px 0px 420px;" onclick="AddProduct()">确定</button>
         <button onclick="hideProduct();">关闭</button>
     </div>
 </div>
@@ -205,33 +184,28 @@
         <button class="btn" onclick="hideProduct();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">产品编号</span><input value="000001" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
-        <span style="margin-left:25px">产品名称</span><input value="超薄macbookpro13寸14寸15寸电脑包苹果笔记本商务手提包" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">产品编号</span><input name="productNum" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+        <input name="productId" type="hidden" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">产品名称</span><input name="productName" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">预警上限</span><input value="20" class="form-control" style="width:150px;margin-left:11px" />
-        <span style="margin-left:25px">预警下限</span><input value="68" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">预警上限</span><input name="maxNum" class="form-control" style="width:150px;margin-left:11px" />
+        <span style="margin-left:25px">预警下限</span><input name="minNum" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">价<span style="margin-left:30px">格</span></span><input value="0.78" class="form-control" style="width:150px;margin-left:10px" />
-        <span style="margin-left:25px">规<span style="margin-left:28px">格</span></span><input value="13寸" class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:10px">价<span style="margin-left:30px">格</span></span><input name="outPrice" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">规<span style="margin-left:28px">格</span></span><input name="size" class="form-control" style="width:149px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">颜<span style="margin-left:30px">色</span></span><input class="form-control" style="width:149px;margin-left:10px" />
-        <span style="margin-left:25px">产品类别</span>
-        <select class="form-control" style="width:150px;margin-left:5px">
-            <option>电子产品</option>
-        </select>
+        <span style="margin-left:10px">颜<span style="margin-left:30px">色</span></span><input name="color" class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:25px;    margin-right: 7px;">产品类别</span>
+        @Html.DropDownList("PCateId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">产品单位</span>
-        <select class="form-control" style="width:150px;margin-left:7px">
-            <option>本</option>
-        </select>
-        <span style="margin-left:25px">默认仓库</span>
-        <select class="form-control" style="width:150px;margin-left:5px">
-            <option>产品仓库</option>
-        </select>
+        <span style="margin-left:10px;    margin-right: 7px;">产品单位</span>
+        @Html.DropDownList("MeasuresId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+        <span style="margin-left:25px;    margin-right: 7px;">默认仓库</span>
+        @Html.DropDownList("LocationId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
     </div>
     <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
         <button style="margin:6px 10px 0px 420px;">确定</button>
@@ -240,6 +214,113 @@
 </div>
 
 <script type="text/javascript">
+    $(function () {
+        $(".first").click(function () {
+            bindData(1);
+        });
+
+        $(".up").click(function () {
+            var pageIndex = parseInt($(".PageIndex").val()) - 1;
+            bindData(pageIndex);
+        });
+
+        $(".next").click(function () {
+            var pageIndex = parseInt($(".PageIndex").val()) + 1;
+            bindData(pageIndex);
+        });
+
+        $(".last").click(function () {
+            bindData(9999999);
+        });
+
+        $(".go").click(function () {
+            var pageIndex = parseInt($(".PageIndex").val());
+            bindData(pageIndex);
+        });
+
+        $("#btnSearch").click(function () {
+            bindData(1);
+        });
+        bindData(1);
+
+        
+        //全选加事件
+        $("#chkAll").click(function () {
+            var f = $(this).prop("checked");	 //获取自己的
+            $(".ck").prop("checked", f);
+        });
+
+        //删除
+        $("#del").click(function () {
+            var a = $("tbody input:checked").length;
+            if (a == 0) {
+                alert("请选择要删除的记录");
+            } else {
+                var b = confirm("您确定要删除选中的" + a + "条记录吗");
+                if (b == true) {
+                    var text = $("tbody input:checkbox:checked").map(function (index, elem) {
+                        return $(elem).val();
+                    }).get().join(',');
+                    //alert("选中的checkbox的值为：" + text);
+                    var arr = text.split(',');
+                    var str = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        var list = {};
+                        list.Id = arr[i];
+                        str.push(list);
+                    }
+                    alert(JSON.stringify(str));
+                    @*$.ajax({
+                        url: "@Url.Action("DeleteOther")",
+                        data: { list: str },
+                        dataType: "json",
+                        type: "post",
+                        success: function (result) {
+                            alert(result);
+                            bindData(1);
+                        }
+                    });*@
+                }
+            }
+        });
+    });
+
+    function bindData(pageIndexValue) {
+        var NameValue = $("[name=Name]").val(); 
+        var pcateid = $(".mainPart #PCateId").val();
+        //alert(NameValue);
+        //alert(pcateid);
+        $.ajax({
+            url: "@Url.Action("Query")",
+            data: { Name: NameValue, PcateId: pcateid, pageIndex: pageIndexValue },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                //alert(JSON.stringify(result))
+                $("#lbMsg").html("当前第" + result.PageIndex + "页" + "共计" + result.Count + "条/" + result.PageCount + "页");
+                $(".PageIndex").val(result.PageIndex);
+
+                $("table tr:gt(0)").remove();
+
+                $.each(result.RoleInfies, function (index, value) {
+                    var str = "<tr>";
+                    str += "<td><input type='checkbox' class='ck' value='" + value.Id + "'/></td>";
+                    str += "<td>" + value.ProductNum + "</td>";
+                    str += "<td>" + value.ProductName + "</td>";
+                    str += "<td>" + value.MaxNum + "</td>";
+                    str += "<td>" + value.MinNum + "</td>";
+                    str += "<td>" + value.OutPrice + "</td>";
+                    str += "<td>" + value.Size + "</td>";
+                    str += "<td>" + value.PCateId + "</td>";
+                    str += "<td>" + value.MeasureId + "</td>";
+                    str += "<td>" + value.Remark + "</td>";
+                    str += "<td><a href = 'javascript:bianJiMeasure(" + value.Id + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:Delete(" + value.Id + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";
+                    str += "</tr>";
+                    $("table tbody").append(str);
+                });
+            }
+        });
+    }
     //新增
     function insertProduct() {
         insert.style.display = "block";
@@ -254,5 +335,55 @@
     function bianJiProduct() {
         bianJi.style.display = "block";
         o.style.display = "block";
+         $.ajax({
+            url: "@Url.Action("QueryById")",
+            data: { measureNum: num },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                $("[name=measureNum]").val(result.MeasureNum);
+                $("[name=measureName]").val(result.MeasureName);
+                $("[name=measureId]").val(result.Id);
+            }
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    function AddProduct() {
+        var ProductName = $("[name=ProductName]").val();
+        var MaxNum = $("[name=MaxNum]").val();
+        var MinNum = $("[name=MinNum]").val();
+        var OutPrice = $("[name=OutPrice]").val();
+        var Size = $("[name=Size]").val();
+        var Color = $("[name=Color]").val();
+        var PCateId = $("#insert [name=PCateId]").val();
+        var MeasureId = $("#insert [name=MeasuresId]").val();
+        var LocationId = $("#insert [name=LocationId]").val();
+        alert(MeasureId);
+        $.ajax({
+            url: "@Url.Action("Insert")",
+            data: { ProductName: ProductName, MaxNum: MaxNum, MinNum: MinNum, OutPrice: OutPrice, Size: Size, Color: Color, PCateId: PCateId, MeasureId: MeasureId, LocationId: LocationId },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result);
+                hideProduct();
+                bindData(1);
+            }
+        });
+    }
+
+    function Delete(num) {
+        $.ajax({
+            url: "@Url.Action("Delete")",
+            data: { customerNum: num },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result)
+                bindData(1);
+            }
+        });
     }
 </script>
