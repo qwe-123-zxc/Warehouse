@@ -148,16 +148,11 @@ namespace WarehouseWeb.TheWarehouseOperation
             return View();
         }
 
-        public ActionResult QueryByProductId(int id)
+        public ActionResult QueryByProductId(int Id)
         {
-            var productInfo = productManager.GetByWhere(i => i.Id == id).SingleOrDefault();
-            var locationInfo = location.GetByWhere(i => i.Id == productInfo.LocationId).SingleOrDefault();
-            var result = new
-            {
-                info = productInfo,
-                lcinfo = locationInfo
-            };
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var productInfo = productManager.GetByWhere(i => i.Id == Id);
+            var newFormatList = productInfo.Select(item => new { Id = item.Id, ProductNum = item.ProductNum, ProductName = item.ProductName, Size = item.Size, OutPrice = item.OutPrice, LocationId = item.Location.LocationName, StockNum = item.StockNum });
+            return Json(newFormatList, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Insert(List<OutStorageDetail> detail, int OutSTypeId, int CustomerId, string Remark, string AuditUser)

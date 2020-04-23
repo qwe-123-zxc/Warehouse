@@ -591,6 +591,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Product_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Product_Measure">
           <End Role="Measure" Type="Self.Measure" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -716,6 +728,10 @@
           <AssociationSet Name="FK_OutStorage_OutStorageType" Association="Self.FK_OutStorage_OutStorageType">
             <End Role="OutStorageType" EntitySet="OutStorageType" />
             <End Role="OutStorage" EntitySet="OutStorage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Location" Association="Self.FK_Product_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Product" EntitySet="Product" />
           </AssociationSet>
           <AssociationSet Name="FK_Product_Measure" Association="Self.FK_Product_Measure">
             <End Role="Measure" EntitySet="Measure" />
@@ -951,6 +967,7 @@
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <NavigationProperty Name="LocationType" Relationship="Self.FK_Location_LocationType" FromRole="Location" ToRole="LocationType" />
           <NavigationProperty Name="Storage" Relationship="Self.FK_Location_Storage" FromRole="Location" ToRole="Storage" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Location" FromRole="Location" ToRole="Product" />
         </EntityType>
         <EntityType Name="LocationType">
           <Key>
@@ -1088,6 +1105,7 @@
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_Product_Location" FromRole="Product" ToRole="Location" />
           <NavigationProperty Name="Measure" Relationship="Self.FK_Product_Measure" FromRole="Product" ToRole="Measure" />
           <NavigationProperty Name="ProductCategory" Relationship="Self.FK_Product_ProductCategory" FromRole="Product" ToRole="ProductCategory" />
         </EntityType>
@@ -1331,6 +1349,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Product_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Product_Measure">
           <End Role="Measure" Type="Self.Measure" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -1472,6 +1502,10 @@
           <AssociationSet Name="FK_Location_Storage" Association="Self.FK_Location_Storage">
             <End Role="Storage" EntitySet="Storage" />
             <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Location" Association="Self.FK_Product_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Product" EntitySet="Product" />
           </AssociationSet>
           <AssociationSet Name="FK_Product_Measure" Association="Self.FK_Product_Measure">
             <End Role="Measure" EntitySet="Measure" />
