@@ -140,7 +140,26 @@ namespace WarehouseWeb.SystemSetup
         public ActionResult Delete(int roleId)
         {
             Role role = Rolemanager.GetByWhere(item => item.Id == roleId).SingleOrDefault();
-            bool val = Rolemanager.Delete(role);
+            role.IsDelete = 1;
+            bool val = Rolemanager.Update(role);
+            if (val)
+            {
+                return Json("删除成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("删除失败", JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult DeleteOther(List<Role> list)
+        {
+            bool val = true;
+            foreach (var item in list)
+            {
+                Role role = Rolemanager.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
+                role.IsDelete = 1;
+                val = Rolemanager.Update(role);
+            }
             if (val)
             {
                 return Json("删除成功", JsonRequestBehavior.AllowGet);

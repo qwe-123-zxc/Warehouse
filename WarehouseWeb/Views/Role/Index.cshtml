@@ -103,7 +103,7 @@
             <span style="margin-top:10px;float: left;font-weight: bold;">角色管理</span>
             <div style="width: 200px; margin-top:3px;float: right;">
                 <button onclick="insertRole();" class="btn" style="width:60px;background-color:rgb(0, 89, 204);color:white">新增</button>
-                <button class="btn" onclick="test();" style="width:60px;background-color:rgb(207, 69, 63);color:white">删除</button>
+                <button class="btn" onclick="test();" style="width:60px;background-color:rgb(207, 69, 63);color:white" id="del">删除</button>
                 <button class="btn" style="width:60px;background-color:rgb(56, 159, 189);color:white">导出</button>
             </div>
         </div>
@@ -114,7 +114,7 @@
         <table class="table tab-content table-hover table-bordered" style="width:1120px;margin-left:16px;">
             <thead>
                 <tr>
-                    <th style="width:30px"><input type="checkbox" id="SelectAll" /></th>
+                    <th style="width:30px"><input type="checkbox" id="chkAll" /></th>
                     <th>序号</th>
                     <th>角色编号</th>
                     <th>角色名</th>
@@ -123,7 +123,7 @@
                     <th>操作</th>
                 </tr>
             </thead>
-            <tbody id="tb"></tbody>
+            <tbody></tbody>
         </table>
         <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
             <button class="first" type="button" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
@@ -218,7 +218,7 @@
                 success: function (result) {
                     alert(result);
                     $("insert").val("");
-                    window.location.href = "@Url.Action("Index")";
+                    hideRole();
                     bindData(1);
                 }
             });
@@ -236,7 +236,8 @@
                 type: "get",
                 success: function (result) {
                     alert(result);
-                    window.location.href = "@Url.Action("Index")";
+                    hideRole();
+                    bindData(1);
                 }
             });
     }
@@ -249,7 +250,7 @@
             type: "post",
             success: function (result) {
                 alert(result);
-                window.location.href = "@Url.Action("Index")";
+                bindData(1);
             }
         });
     }
@@ -293,30 +294,46 @@
         });
         //加载，调用绑定数据方法
         bindData(1);
+        
+        //全选加事件
+        $("#chkAll").click(function () {
+            var f = $(this).prop("checked");	 //获取自己的
+            $(".ck").prop("checked", f);
+        });
 
-        //复选框事件
-        var all = document.getElementById("SelectAll");
-        var tbody = document.getElementById("tb");
-        var checkboxs = tbody.getElementsByTagName("input");
-        all.onclick = function () {
-            for (var i = 0; i < checkboxs.length; i++) {
-                var checkbox = checkboxs[i];
-                checkbox.checked = this.checked;
-            }
-        };
-        for (var i = 0; i < checkboxs.length; i++) {
-            checkboxs[i].onclick = function () {
-                var isCheckedAll = true;
-                for (var i = 0; i < checkboxs.length; i++) {
-                    if (!checkboxs[i].checked) {
-                        isCheckedAll = false;
-                        break;
+        //删除
+        $("#del").click(function () {
+            var a = $("tbody input:checked").length;
+            if (a == 0) {
+                alert("请选择要删除的记录");
+            } else {
+                var b = confirm("您确定要删除选中的" + a + "条记录吗");
+                if (b == true) {
+                    var text = $("tbody input:checkbox:checked").map(function (index, elem) {
+                        return $(elem).val();
+                    }).get().join(',');
+                    //alert("选中的checkbox的值为：" + text);
+                    var arr = text.split(',');
+                    var str = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        var list = {};
+                        list.Id = arr[i];
+                        str.push(list);
                     }
+                    //alert(JSON.stringify(str));
+                    $.ajax({
+                        url: "@Url.Action("DeleteOther")",
+                        data: { list: str },
+                        dataType: "json",
+                        type: "post",
+                        success: function (result) {
+                            alert(result);
+                            bindData(1);
+                        }
+                    });
                 }
-                alert($(this).val())
-                all.checked = isCheckedAll;
-            };
-        }
+            }
+        });
     });
 
     //绑定数据方法
@@ -339,32 +356,17 @@
                 //循环遍历所有数据并显示到控件
                 $.each(result.RoleInfies, function (index, value) {
                     var str = "<tr>";
-                    str += "<td><input type='checkbox' name='text' value=" + value.Id + "/></td>";
+                    str += "<td><input type='checkbox' class='ck' value='" + value.Id + "'/></td>";
                     str += "<td>" + value.Id + "</td>";
                     str += "<td>" + value.RoleNum + "</td>";
                     str += "<td>" + value.RoleName + "</td>";
                     str += "<td>" + value.CreateTime + "</td>";
                     str += "<td>" + value.Remark + "</td>";
-                    str += "<td><a href = 'javascript:bianJiRole(" + value.Id + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:DeleteRole(" + value.Id + ");' title='删除'><img src='../Image/cha.png' /> </a><a href='~/PermissionGranted/Index' title='权限分配'><img src='../Image/daochu_icon.png' /></a></td>";
+                    str += "<td><a href = 'javascript:bianJiRole(" + value.Id + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:DeleteRole(" + value.Id + ");' title='删除'><img src='../Image/cha.png' /> </a><a href='../PermissionGranted/Index/?roleId=" + value.Id + "' title='权限分配'><img src='../Image/daochu_icon.png' /></a></td>";
                     str += "</tr>";
                     $("tbody").append(str);
                 });
             }
         });
     }
-</script>
-
-<script>
-    function test() {
-        //obj = document.getElementsByName("text");
-        //check_val = [];
-        //for (k in obj) {
-        //    if (obj[k].checked) {
-        //        check_val.push(obj[k].value);
-        //    }
-        //}
-        //alert(check_val)
-
-    }
-
 </script>

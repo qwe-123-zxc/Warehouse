@@ -199,16 +199,16 @@
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">颜<span style="margin-left:30px">色</span></span><input name="color" class="form-control" style="width:149px;margin-left:10px" />
         <span style="margin-left:25px;    margin-right: 7px;">产品类别</span>
-        @Html.DropDownList("PCateId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+        @Html.DropDownList("PCateId", null, htmlAttributes: new { @class = "form-control", @style = "width:155px;" })
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px;    margin-right: 7px;">产品单位</span>
-        @Html.DropDownList("MeasuresId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+        @Html.DropDownList("MeasuresId", null, htmlAttributes: new { @class = "form-control", @style = "width:155px;" })
         <span style="margin-left:25px;    margin-right: 7px;">默认仓库</span>
-        @Html.DropDownList("LocationId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+        @Html.DropDownList("LocationId", null, htmlAttributes: new { @class = "form-control", @style = "width:155px;" })
     </div>
     <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
-        <button style="margin:6px 10px 0px 420px;">确定</button>
+        <button style="margin:6px 10px 0px 420px;" onclick="Update()">确定</button>
         <button onclick="hideProduct();">关闭</button>
     </div>
 </div>
@@ -269,8 +269,8 @@
                         list.Id = arr[i];
                         str.push(list);
                     }
-                    alert(JSON.stringify(str));
-                    @*$.ajax({
+                    //alert(JSON.stringify(str));
+                    $.ajax({
                         url: "@Url.Action("DeleteOther")",
                         data: { list: str },
                         dataType: "json",
@@ -279,7 +279,7 @@
                             alert(result);
                             bindData(1);
                         }
-                    });*@
+                    });
                 }
             }
         });
@@ -314,7 +314,7 @@
                     str += "<td>" + value.PCateId + "</td>";
                     str += "<td>" + value.MeasureId + "</td>";
                     str += "<td>" + value.Remark + "</td>";
-                    str += "<td><a href = 'javascript:bianJiMeasure(" + value.Id + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:Delete(" + value.Id + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";
+                    str += "<td><a href = 'javascript:bianJiProduct(" + value.Id + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:Delete(" + value.Id + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";
                     str += "</tr>";
                     $("table tbody").append(str);
                 });
@@ -332,18 +332,28 @@
         o.style.display = "none";
     }
     //编辑
-    function bianJiProduct() {
+    function bianJiProduct(num) {
         bianJi.style.display = "block";
         o.style.display = "block";
          $.ajax({
             url: "@Url.Action("QueryById")",
-            data: { measureNum: num },
+             data: { productNum: num },
             dataType: "json",
             type: "post",
-            success: function (result) {
-                $("[name=measureNum]").val(result.MeasureNum);
-                $("[name=measureName]").val(result.MeasureName);
-                $("[name=measureId]").val(result.Id);
+             success: function (result) {
+                 //alert(JSON.stringify(result))
+                 $("[name=productNum]").val(result.ProductNum);
+                 $("[name=productId]").val(result.Id);
+                 $("[name=productName]").val(result.ProductName);
+                 $("[name=maxNum]").val(result.MaxNum);
+                 $("[name=minNum]").val(result.MinNum);
+                 $("[name=productName]").val(result.ProductName);
+                 $("[name=outPrice]").val(result.OutPrice);
+                 $("[name=size]").val(result.Size);
+                 $("[name=color]").val(result.Color);
+                $("#bianJi [name=PCateId]").val(result.PCateId);
+                $("#bianJi [name=MeasuresId]").val(result.MeasuresId);
+                $("#bianJi [name=LocationId]").val(result.LocationId);
             }
         });
     }
@@ -382,6 +392,30 @@
             type: "post",
             success: function (result) {
                 alert(result)
+                bindData(1);
+            }
+        });
+    }
+
+    function Update() {
+        var ProductNum = $("[name=productId]").val();
+        var ProductName = $("[name=productName]").val();
+        var MaxNum = $("[name=maxNum]").val();
+        var MinNum = $("[name=minNum]").val();
+        var OutPrice = $("[name=outPrice]").val();
+        var Size = $("[name=size]").val();
+        var Color = $("[name=color]").val();
+        var PCateId = $("#bianJi [name=PCateId]").val();
+        var MeasureId = $("#bianJi [name=MeasuresId]").val();
+        var LocationId = $("#bianJi [name=LocationId]").val();
+        $.ajax({
+            url: "@Url.Action("Update")",
+            data: { ProductName: ProductName, MaxNum: MaxNum, MinNum: MinNum, OutPrice: OutPrice, Size: Size, Color: Color, PCateId: PCateId, MeasureId: MeasureId, LocationId: LocationId, productNum: ProductNum },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result);
+                hideProduct();
                 bindData(1);
             }
         });

@@ -144,7 +144,26 @@ namespace WarehouseWeb.SystemSetup
         public ActionResult Delete(int departId)
         {
             Depart depart = Departmanager.GetByWhere(item => item.Id == departId).SingleOrDefault();
-            bool val = Departmanager.Delete(depart);
+            depart.IsDelete = 1;
+            bool val = Departmanager.Update(depart);
+            if (val)
+            {
+                return Json("删除成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("删除失败", JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult DeleteOther(List<Depart> list)
+        {
+            bool val = true;
+            foreach (var item in list)
+            {
+                Depart depart = Departmanager.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
+                depart.IsDelete = 1;
+                val = Departmanager.Update(depart);
+            }
             if (val)
             {
                 return Json("删除成功", JsonRequestBehavior.AllowGet);

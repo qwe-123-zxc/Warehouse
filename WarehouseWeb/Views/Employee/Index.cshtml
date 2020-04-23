@@ -103,7 +103,7 @@
             <span style="margin-top:10px;float: left;font-weight: bold;">员工管理</span>
             <div style="width: 200px; margin-top:3px;float: right;">
                 <button class="btn" onclick="insertEmployee();" style="width:60px;background-color:rgb(0, 89, 204);color:white">新增</button>
-                <button class="btn" onclick="test();"style="width:60px;background-color:rgb(207, 69, 63);color:white">删除</button>
+                <button class="btn" onclick="test();"style="width:60px;background-color:rgb(207, 69, 63);color:white" id="del">删除</button>
                 <button class="btn" style="width:60px;background-color:rgb(56, 159, 189);color:white">导出</button>
             </div>
         </div>
@@ -134,46 +134,18 @@
         <table class="table tab-content table-hover table-bordered" style="width:1120px;margin-left:16px;">
             <thead>
                 <tr>
-                    <th style="width:30px"><input type="checkbox" id="SelectAll" /></th>
+                    <th style="width:30px"><input type="checkbox" id="chkAll" /></th>
                     <th>用户名</th>
                     <th>编号</th>
                     <th>真名</th>
                     <th>邮箱</th>
                     <th>联系方式</th>
-                    <th>登陆次数</th>
                     <th>部门</th>
                     <th>角色</th>
                     <th>操作</th>
                 </tr>
             </thead>
-            <tbody id="tb"></tbody>
-            @*<tr>
-            <td></td>
-            <td>administrator</td>
-            <td>DA_0000</td>
-            <td>系统管理员</td>
-            <td>admin@gitwms.com</td>
-            <td></td>
-            <td>225</td>
-            <td></td>
-            <td>系统管理员</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td style="width:20px"><input type="checkbox" /></td>
-            <td>admin</td>
-            <td>000001</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>6</td>
-            <td>仓库部门</td>
-            <td>仓管员</td>
-            <td>
-                <a title="编辑" href="javascript:bianJiEmployee();"><img src="~/Image/Write.png" /></a>
-                <a title="删除" href="#"><img src="~/Image/cha.png" /></a>
-            </td>
-        </tr>*@
+            <tbody></tbody>
         </table>
         <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
             <button class="first" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
@@ -299,8 +271,7 @@
                 success: function (result) {
                     alert(result);
                     $("insert").val("");
-                    window.location.href = "@Url.Action("Index")";
-
+                    hideEmployee();
                     bindData(1);
                 }
             });
@@ -324,7 +295,8 @@
                 type: "get",
                 success: function (result) {
                     alert(result);
-                    window.location.href = "@Url.Action("Index")";
+                    hideEmployee();
+                    bindData(1);
                 }
             });
     }
@@ -337,7 +309,7 @@
             type: "post",
             success: function (result) {
                 alert(result);
-                window.location.href = "@Url.Action("Index")";
+                bindData(1);
             }
         });
     }
@@ -381,30 +353,46 @@
         });
         //加载，调用绑定数据方法
         bindData(1);
+    
+        //全选加事件
+        $("#chkAll").click(function () {
+            var f = $(this).prop("checked");	 //获取自己的
+            $(".ck").prop("checked", f);
+        });
 
-        //复选框事件
-        var all = document.getElementById("SelectAll");
-        var tbody = document.getElementById("tb");
-        var checkboxs = tbody.getElementsByTagName("input");
-        all.onclick = function () {
-            for (var i = 0; i < checkboxs.length; i++) {
-                var checkbox = checkboxs[i];
-                checkbox.checked = this.checked;
-            }
-        };
-        for (var i = 0; i < checkboxs.length; i++) {
-            checkboxs[i].onclick = function () {
-                var isCheckedAll = true;
-                for (var i = 0; i < checkboxs.length; i++) {
-                    if (!checkboxs[i].checked) {
-                        isCheckedAll = false;
-                        break;
+        //删除
+        $("#del").click(function () {
+            var a = $("tbody input:checked").length;
+            if (a == 0) {
+                alert("请选择要删除的记录");
+            } else {
+                var b = confirm("您确定要删除选中的" + a + "条记录吗");
+                if (b == true) {
+                    var text = $("tbody input:checkbox:checked").map(function (index, elem) {
+                        return $(elem).val();
+                    }).get().join(',');
+                    //alert("选中的checkbox的值为：" + text);
+                    var arr = text.split(',');
+                    var str = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        var list = {};
+                        list.Id = arr[i];
+                        str.push(list);
                     }
+                    //alert(JSON.stringify(str));
+                    $.ajax({
+                        url: "@Url.Action("DeleteOther")",
+                        data: { list: str },
+                        dataType: "json",
+                        type: "post",
+                        success: function (result) {
+                            alert(result);
+                            bindData(1);
+                        }
+                    });
                 }
-                alert($(this).val())
-                all.checked = isCheckedAll;
-            };
-        }
+            }
+        });
     });
      
     //绑定数据方法
@@ -431,13 +419,12 @@
                 //循环遍历所有数据并显示到控件
                 $.each(result.RoleInfies, function (index, value) {
                     var str = "<tr>";
-                    str += "<td><input type='checkbox' name='text' value=" + value.Id + "/></td>";
+                    str += "<td><input type='checkbox' class='ck' value='" + value.Id + "'/></td>";
                     str += "<td>" + value.UserName + "</td>";
                     str += "<td>" + value.UserCode + "</td>";
                     str += "<td>" + value.RealName + "</td>";
                     str += "<td>" + value.Email + "</td>";
                     str += "<td>" + value.Phone + "</td>";
-                    str += "<td>" + value.LoginCount + "</td>";
                     str += "<td>" + value.DepartId + "</td>";
                     str += "<td>" + value.RoleId + "</td>";
                     str += "<td><a href = 'javascript:bianJiEmployee(" + value.Id + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:DeleteAdmin(" + value.Id + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";

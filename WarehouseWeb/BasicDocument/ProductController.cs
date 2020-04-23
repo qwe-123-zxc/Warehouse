@@ -97,56 +97,64 @@ namespace WarehouseWeb.BasicDocument
                 return Json("新增失败", JsonRequestBehavior.AllowGet);
             }
         }
-        ////public ActionResult Delete(int measureNum)
-        ////{
-        ////    Measure measure = service.GetByWhere(item => item.Id == measureNum).SingleOrDefault();
-        ////    measure.IsDelete = 1;
-        ////    bool val = service.Update(measure);
-        ////    if (val)
-        ////    {
-        ////        return Json("删除成功", JsonRequestBehavior.AllowGet);
-        ////    }
-        ////    else
-        ////    {
-        ////        return Json("删除失败", JsonRequestBehavior.AllowGet);
-        ////    }
-        //}
-        //public ActionResult DeleteOther(List<Measure> list)
-        //{
-        //    bool val = true;
-        //    foreach (var item in list)
-        //    {
-        //        Measure measure = service.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
-        //        measure.IsDelete = 1;
-        //        val = service.Update(measure);
-        //    }
-        //    if (val)
-        //    {
-        //        return Json("删除成功", JsonRequestBehavior.AllowGet);
-        //    }
-        //    else
-        //    {
-        //        return Json("删除失败", JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-        //public ActionResult QueryById(int measureNum)
-        //{
-        //    Measure measure = service.GetByWhere(item => item.Id == measureNum).SingleOrDefault();
-        //    return Json(measure, JsonRequestBehavior.AllowGet);
-        //}
-        //public ActionResult Update(string measureName, int measureNum)
-        //{
-        //    Measure measure = service.GetByWhere(item => item.Id == measureNum).SingleOrDefault();
-        //    measure.MeasureName = measureName;
-        //    bool val = service.Update(measure);
-        //    if (val)
-        //    {
-        //        return Json("修改成功", JsonRequestBehavior.AllowGet);
-        //    }
-        //    else
-        //    {
-        //        return Json("修改失败", JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        public ActionResult Delete(int measureNum)
+        {
+            Product product = productManager.GetByWhere(item => item.Id == measureNum).SingleOrDefault();
+            product.IsDelete = 1;
+            bool val = productManager.Update(product);
+            if (val)
+            {
+                return Json("删除成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("删除失败", JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult DeleteOther(List<Measure> list)
+        {
+            bool val = true;
+            foreach (var item in list)
+            {
+                Product product = productManager.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
+                product.IsDelete = 1;
+                val = productManager.Update(product);
+            }
+            if (val)
+            {
+                return Json("删除成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("删除失败", JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult QueryById(int productNum)
+        {
+            Product product = productManager.GetByWhere(item => item.Id == productNum).SingleOrDefault();
+            return Json(product, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Update(string ProductName, int MaxNum, int MinNum, double OutPrice, string Size, string Color, int PCateId, int MeasureId, int LocationId, int productNum)
+        {
+            Product product = productManager.GetByWhere(item => item.Id == productNum).SingleOrDefault();
+            product.ProductName = ProductName;
+            product.MaxNum = MaxNum;
+            product.MinNum = MinNum;
+            product.OutPrice = OutPrice;
+            product.Size = Size;
+            product.Color = Color;
+            product.PCateId = PCateId;
+            product.MeasureId = MeasureId;
+            product.LocationId = LocationId;
+            bool val = productManager.Update(product);
+            if (val)
+            {
+                return Json("修改成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("修改失败", JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

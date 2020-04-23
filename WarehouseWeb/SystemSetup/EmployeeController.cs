@@ -81,7 +81,7 @@ namespace WarehouseWeb.SystemSetup
             //Actionresult  常用响应类型  ViewResult ContentResult JsonResult
             // Json数据格式 { 名称:值 } 数组 [{},{}]
             // 格式转换
-            var newFormatList = list.Select(item => new { Id = item.Id, UserCode = item.UserCode, UserName = item.UserName, Password = item.Password, RealName = item.RealName, Email = item.Email, Phone = item.Phone, LoginCount = item.LoginCount, DepartId = item.DepartId, RoleId = item.RoleId, CreateTime = item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") });
+            var newFormatList = list.Select(item => new { Id = item.Id, UserCode = item.UserCode, UserName = item.UserName, Password = item.Password, RealName = item.RealName, Email = item.Email, Phone = item.Phone, LoginCount = item.LoginCount, DepartId = item.Depart.DepartName, RoleId = item.Role.RoleName, CreateTime = item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") });
 
             //将数据构建打包给前台
             var result = new
@@ -187,7 +187,26 @@ namespace WarehouseWeb.SystemSetup
         public ActionResult Delete(int adminId)
         {
             Admin admin = Adminmanager.GetByWhere(item => item.Id == adminId).SingleOrDefault();
-            bool val = Adminmanager.Delete(admin);
+            admin.IsDelete = 1;
+            bool val = Adminmanager.Update(admin);
+            if (val)
+            {
+                return Json("删除成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("删除失败", JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult DeleteOther(List<Admin> list)
+        {
+            bool val = true;
+            foreach (var item in list)
+            {
+                Admin admin = Adminmanager.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
+                admin.IsDelete = 1;
+                val = Adminmanager.Update(admin);
+            }
             if (val)
             {
                 return Json("删除成功", JsonRequestBehavior.AllowGet);
