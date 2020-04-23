@@ -14,6 +14,12 @@ namespace Models
     
     public partial class ProductCategory
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ProductCategory()
+        {
+            this.Product = new HashSet<Product>();
+        }
+    
         public int Id { get; set; }
         public string PCateNum { get; set; }
         public string PCateName { get; set; }
@@ -21,5 +27,8 @@ namespace Models
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
         public string Remark { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product> Product { get; set; }
     }
 }

@@ -51,6 +51,14 @@ namespace WarehouseWeb.BasicDocument
             //获取最大编号
             string PCateNum = service.GetByWhere(item => true).OrderByDescending(item => item.PCateNum).Take(1).Select(item => item.PCateNum).FirstOrDefault();
             productCategory.PCateNum = "00000" + (int.Parse(PCateNum) + 1);
+            int num = int.Parse(PCateNum);
+            if (num >= 9)
+            {
+                productCategory.PCateNum = "0000" + (int.Parse(PCateNum) + 1);
+            }
+            else if (num>=99) {
+                productCategory.PCateNum = "000" + (int.Parse(PCateNum) + 1);
+            }
             productCategory.PCateName = pcateName;
             productCategory.IsDelete = 0;
             productCategory.CreateTime = DateTime.Now;

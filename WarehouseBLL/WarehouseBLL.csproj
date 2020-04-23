@@ -70,6 +70,7 @@
     <Compile Include="RoleManeger.cs" />
     <Compile Include="RolePowerManager.cs" />
     <Compile Include="SupplierManager.cs" />
+    <Compile Include="SupplierTypeManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj">

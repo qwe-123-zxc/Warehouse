@@ -23,5 +23,7 @@ namespace Models
         public System.DateTime AuditTime { get; set; }
         public int IsDelete { get; set; }
         public string Remark { get; set; }
+    
+        public virtual CheckStockType CheckStockType { get; set; }
     }
 }
