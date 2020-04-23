@@ -208,7 +208,6 @@
         //选中产品获取产品信息
         $("#Product").change(function () {
             var productId = $("#Product").val();
-            //alert(productId)
             $.ajax({
                 url: "@Url.Action("QueryByProductId")",
                 data: { Id: productId },
@@ -216,7 +215,6 @@
                 dataType: "json",
                 success: function (result) {
                     $.each(result, function (index, value) {
-                        alert(value.ProductNum)
                         $("[name=ProductNum]").val(value.ProductNum);
                         $("[name=Size]").val(value.Size);
                         $("[name=LocationId]").val(value.LocationId);
@@ -230,14 +228,15 @@
         //添加产品到表格
         $("#ProductAdd").click(function () {
             var stockNum = parseInt($("[name=StockNum]").val());  //现有库存
-            var numvalue = parseInt($("[name=Num]").val());   //出货数
-            if (numvalue <= stockNum && numvalue != 0) {
+            var numvalue_1 = parseInt($("[name=Num]").val());   //出货数
+            if (numvalue_1 <= stockNum && numvalue_1 != 0) {
                 var ProductNum = $("[name=ProductNum]").val();
                 var ProductName = $("[name=Product] option:selected").text();
                 var Size = $("[name=Size]").val();
                 var OutPrice = $("[name=OutPrice]").val();
                 var location = $("[name=LocationId]").val();
-                var str = "<tr><td>" + ProductNum + "</td><td>" + ProductName + "</td><td>" + Size + "</td><td>" + OutPrice + "</td><td>" + numvalue + "</td><td>" + OutPrice * numvalue + "</td><td>" + location + "</td><td onclick='Delete(this);'><a>删除</a></td></tr >";
+                var numvalue = $("[name=Num]").val();
+                var str = "<tr><td>" + ProductNum + "</td><td>" + ProductName + "</td><td>" + Size + "</td><td>" + OutPrice + "</td><td>" + numvalue + "</td><td>" + OutPrice * numvalue + "</td><td>" + location + "</td><td onclick='Delete(this);'><a href='javascript:void(0);'>删除</a></td></tr >";
                 $("tbody").append(str);
                 //关闭弹窗
                 ChaKanGuanBi();
@@ -281,7 +280,7 @@
             {
                  $.ajax({
                     url: "@Url.Action("Insert")",
-                    data: { detail: sum, OutSTypeId: OutSTypeIdvalue, CustomerId: CustomerIdvalue, Remark: Remarkvalue, AuditUser: AuditUservalue },
+                     data: { detail: sum, OutSTypeId: OutSTypeIdvalue, CustomerId: CustomerIdvalue, Remark: Remarkvalue, AuditUser: AuditUservalue },
                     type: "post",
                     dataType: "json",
                     success: function (result) {

@@ -34,7 +34,7 @@ namespace WarehouseWeb.SystemSetup
         {
             RoleManeger service = new RoleManeger();
             //组合条件
-            Expression<Func<Role, bool>> where = item => true;
+            Expression<Func<Role, bool>> where = item => item.IsDelete==0;
 
             if (!string.IsNullOrEmpty(RoleNum))
             {
@@ -60,6 +60,95 @@ namespace WarehouseWeb.SystemSetup
                 RoleInfies = newFormatList
             };
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        Rolemanager Rolemanager = new Rolemanager();
+        /// <summary>
+        /// 添加操作
+        /// </summary>
+        /// <param name="Information"></param>
+        /// <returns></returns>
+        public ActionResult AddAjax(string RoleName, string Remark)
+        {
+            Role role = new Role();
+            //获取最大编号
+            string roleNum = Rolemanager.GetByWhere(item => item.Id != 1).OrderByDescending(item => item.RoleNum).Take(1).Select(item => item.RoleNum).FirstOrDefault();
+            role.RoleNum = "00000" + (int.Parse(roleNum) + 1);
+
+            int num = int.Parse(roleNum);
+            if (num >= 9)
+            {
+                role.RoleNum = "0000" + (int.Parse(roleNum) + 1);
+            }
+            else if (num >= 99)
+            {
+                role.RoleNum = "000" + (int.Parse(roleNum) + 1);
+            }
+
+            role.RoleName = RoleName;
+            role.Remark = Remark;
+            role.IsDelete = 0;
+            role.CreateTime = DateTime.Now;
+            bool val = Rolemanager.Add(role);
+            if (val)
+            {
+                return Json("新增成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("新增失败", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        /// <summary>
+        /// 根据Id查询
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public ActionResult QueryByRoleId(int roleId)
+        {
+            Role role = Rolemanager.GetByWhere(item => item.Id == roleId).SingleOrDefault();
+            return Json(role, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public ActionResult Update(string roleNum, string RoleName, string Remark)
+        {
+            Role role = Rolemanager.GetByWhere(item => item.RoleNum == roleNum).SingleOrDefault();
+            role.RoleName = RoleName;
+            role.Remark = Remark;
+            bool val = Rolemanager.Update(role);
+            if (val)
+            {
+                return Json("修改成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("修改失败", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public ActionResult Delete(int roleId)
+        {
+            Role role = Rolemanager.GetByWhere(item => item.Id == roleId).SingleOrDefault();
+            bool val = Rolemanager.Delete(role);
+            if (val)
+            {
+                return Json("删除成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("删除失败", JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

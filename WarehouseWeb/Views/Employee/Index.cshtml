@@ -103,13 +103,13 @@
             <span style="margin-top:10px;float: left;font-weight: bold;">员工管理</span>
             <div style="width: 200px; margin-top:3px;float: right;">
                 <button class="btn" onclick="insertEmployee();" style="width:60px;background-color:rgb(0, 89, 204);color:white">新增</button>
-                <button class="btn" style="width:60px;background-color:rgb(207, 69, 63);color:white">删除</button>
+                <button class="btn" onclick="test();"style="width:60px;background-color:rgb(207, 69, 63);color:white">删除</button>
                 <button class="btn" style="width:60px;background-color:rgb(56, 159, 189);color:white">导出</button>
             </div>
         </div>
         <div class="row">
-            <input placeholder="请输入用户名或工号" class="form-control" style="width:300px;margin: 10px 0px 10px 33px;" />
-            <button class="btn btn-primary" style="float:left;width: 70px;margin-left: 345px;margin-top:-45px;">搜索</button>
+            <input id="UserCode" placeholder="请输入用户名或工号" class="form-control" style="width:300px;margin: 10px 0px 10px 33px;" />
+            <button class="btn btn-primary btnSearch" style="float:left;width: 70px;margin-left: 345px;margin-top:-45px;">搜索</button>
             <button class="btn" onclick="advancedSearch();" style="float:left;width: 90px;margin-left: 425px;margin-top:-45px;background-color:blue;color:white">
                 高级搜索
                 <img src="~/Image/xiala.png" width="15" height="15" style="margin-top: -3px;" />
@@ -118,59 +118,62 @@
         @* 高级搜索 *@
         <div class="form-inline" id="conceal" style="width:1120px;height:80px;margin:5px 0px 15px 18px;border:1px solid #ddd;border-radius:3px;background-color:#f9f9f9;display:none">
             <div style="margin:20px">
-                <span style="margin:0px 10px">员工编号</span><input class="form-control" style="width:150px;" />
-                <span style="margin:0px 10px">员工名称</span><input class="form-control" style="width:150px;" />
+                <span style="margin:0px 10px">员工编号</span><input name="UserCode1" class="form-control" style="width:150px;" />
+                <span style="margin:0px 10px">员工名称</span><input name="UserName" class="form-control" style="width:150px;" />
                 <span style="margin:0px 10px">部门</span>
-                <select class="form-control" style="width:150px;">
-                    <option>请选择部门类型</option>
-                </select>
+
+                @Html.DropDownList("DepartId", null, htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
+
                 <span style="margin:0px 10px">角色</span>
-                <select class="form-control" style="width:150px;">
-                    <option>请选择角色类型</option>
-                </select>
-                <button class="btn btn-primary" style="margin-left:20px;width:60px">搜索</button>
+
+                @Html.DropDownList("RoleId", null, htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
+
+                <button class="btn btn-primary btnSearch" style="margin-left:20px;width:60px">搜索</button>
             </div>
         </div>
         <table class="table tab-content table-hover table-bordered" style="width:1120px;margin-left:16px;">
-            <tr>
-                <th style="width:30px"><input type="checkbox" /></th>
-                <th>用户名</th>
-                <th>编号</th>
-                <th>真名</th>
-                <th>邮箱</th>
-                <th>联系方式</th>
-                <th>登陆次数</th>
-                <th>部门</th>
-                <th>角色</th>
-                <th>操作</th>
-            </tr>
-            <tr>
-                <td></td>
-                <td>administrator</td>
-                <td>DA_0000</td>
-                <td>系统管理员</td>
-                <td>admin@gitwms.com</td>
-                <td></td>
-                <td>225</td>
-                <td></td>
-                <td>系统管理员</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td style="width:20px"><input type="checkbox" /></td>
-                <td>admin</td>
-                <td>000001</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>6</td>
-                <td>仓库部门</td>
-                <td>仓管员</td>
-                <td>
-                    <a title="编辑" href="javascript:bianJiEmployee();"><img src="~/Image/Write.png" /></a>
-                    <a title="删除" href="#"><img src="~/Image/cha.png" /></a>
-                </td>
-            </tr>
+            <thead>
+                <tr>
+                    <th style="width:30px"><input type="checkbox" id="SelectAll" /></th>
+                    <th>用户名</th>
+                    <th>编号</th>
+                    <th>真名</th>
+                    <th>邮箱</th>
+                    <th>联系方式</th>
+                    <th>登陆次数</th>
+                    <th>部门</th>
+                    <th>角色</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="tb"></tbody>
+            @*<tr>
+            <td></td>
+            <td>administrator</td>
+            <td>DA_0000</td>
+            <td>系统管理员</td>
+            <td>admin@gitwms.com</td>
+            <td></td>
+            <td>225</td>
+            <td></td>
+            <td>系统管理员</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="width:20px"><input type="checkbox" /></td>
+            <td>admin</td>
+            <td>000001</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>6</td>
+            <td>仓库部门</td>
+            <td>仓管员</td>
+            <td>
+                <a title="编辑" href="javascript:bianJiEmployee();"><img src="~/Image/Write.png" /></a>
+                <a title="删除" href="#"><img src="~/Image/cha.png" /></a>
+            </td>
+        </tr>*@
         </table>
         <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
             <button class="first" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
@@ -179,7 +182,7 @@
             <button class="go">GO</button>
             <button class="next">下一页</button>
             <button class="last">尾页</button>
-            <label>当前页是第 1 页,共计 1 条/ 1 页</label>
+            <label id="lbMsg" class="control-label"></label>
         </div>
     </div>
 </div>
@@ -192,28 +195,24 @@
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">用户编号</span><input disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
-        <span style="margin-left:25px">用户名</span><input disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">用户名</span><input  class="form-control" id="UserName"  style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">密<span style="margin-left:28px">码</span></span><input class="form-control" style="width:150px;margin-left:10px" />
-        <span style="margin-left:25px">真<span style="margin-left:15px">名</span></span><input class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">密<span style="margin-left:28px">码</span></span><input class="form-control" name="Password"   style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">真<span style="margin-left:15px">名</span></span><input class="form-control" name="RealName" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">E&nbsp;m&nbsp;a&nbsp;i&nbsp;l&nbsp;</span><input class="form-control" style="width:150px;margin-left:12px" />
-        <span style="margin-left:25px">电<span style="margin-left:15px">话</span></span><input class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:10px">E&nbsp;m&nbsp;a&nbsp;i&nbsp;l&nbsp;</span><input class="form-control" name="Email" style="width:150px;margin-left:12px" />
+        <span style="margin-left:25px">电<span style="margin-left:15px">话</span></span><input class="form-control" name="Phone" style="width:149px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">部<span style="margin-left:25px">门</span></span>
-        <select class="form-control" style="width:150px;margin-left:10px">
-            <option>请选择部门</option>
-        </select>
+        @Html.DropDownList("DepartId", null, htmlAttributes: new { @class = "form-control DepartId", @style = "width:150px;" })
         <span style="margin-left:25px">角<span style="margin-left:15px">色</span></span>
-        <select class="form-control" style="width:145px;margin-left:10px">
-            <option>请选择角色</option>
-        </select>
+        @Html.DropDownList("RoleId", null, htmlAttributes: new { @class = "form-control RoleId", @style = "width:150px;" })
     </div>
     <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
-        <button style="margin:6px 10px 0px 380px;">确定</button>
+        <button  onclick="btnAdd();" style="margin:6px 10px 0px 380px;">确定</button>
         <button onclick="hideEmployee();">关闭</button>
     </div>
 </div>
@@ -223,25 +222,22 @@
         <button class="btn" onclick="hideEmployee();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">用户名</span><input value="admin" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
-        <span style="margin-left:10px">真<span style="margin-left:28px">名</span></span><input class="form-control" style="width:150px;margin-left:10px" />
+        <input name="userCode" type="hidden" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">用户名</span><input name="userName" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">真<span style="margin-left:28px">名</span></span><input class="form-control" name="realName" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">Email&nbsp;&nbsp;</span><input class="form-control" style="width:150px;margin-left:10px" />
-        <span style="margin-left:10px">电<span style="margin-left:28px">话</span></span><input class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">Email&nbsp;&nbsp;</span><input class="form-control" name="email" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">电<span style="margin-left:28px">话</span></span><input class="form-control" name="phone" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">部<span style="margin-left:12px">门</span></span>
-        <select class="form-control" style="width:150px;margin-left:10px">
-            <option>仓库部门</option>
-        </select>
+        @Html.DropDownList("departId", null, htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
         <span style="margin-left:10px">角<span style="margin-left:27px">色</span></span>
-        <select class="form-control" style="width:150px;margin-left:6px">
-            <option>仓管员</option>
-        </select>
+        @Html.DropDownList("roleId", null, htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
     </div>
     <div style="height:40px;background-color:#eeeeee;margin-top:36px;border-top:1px solid #ddd">
-        <button style="margin:6px 10px 0px 380px;">确定</button>
+        <button onclick="updateAdmin();" style="margin:6px 10px 0px 380px;">确定</button>
         <button onclick="hideEmployee();">关闭</button>
     </div>
 </div>
@@ -262,8 +258,193 @@
         o.style.display = "none";
     }
     //编辑
-    function bianJiEmployee() {
-        bianJi.style.display = "block";
+    function bianJiEmployee(num) {
+       bianJi.style.display = "block";
         o.style.display = "block";
+        //获取当前编号信息
+        $.ajax({
+            url: "@Url.Action("QueryByAdminId")",
+            data: { UserId:num },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(JSON.stringify(result))
+                $("[name=userCode]").val(result.UserCode);
+                $("[name=userName]").val(result.UserName);
+                $("[name=password]").val(result.Password);
+                $("[name=realName]").val(result.RealName);
+                $("[name=email]").val(result.Email);
+                $("[name=phone]").val(result.Phone);
+                $("[name=departId]").val(result.DepartId);
+                $("[name=roleId]").val(result.RoleId);
+            }
+        });
+    }
+
+     //新增
+    function btnAdd() {
+        //取值
+        var AdminNameValue = $("#UserName").val();
+        var AdminPasswordValue = $("[name=Password]").val();
+        var AdminRealNameValue = $("[name=RealName]").val();
+        var AdminEmailValue = $("[name=Email]").val();
+        var AdminPhoneValue = $("[name=Phone]").val();
+        var AdminDepartIdValue = $(".DepartId").val();
+        var AdminRoleIdValue = $(".RoleId").val();
+            $.ajax({
+                url: "@Url.Action("AddAjax")",
+                data: { UserName: AdminNameValue, Password: AdminPasswordValue, RealName: AdminRealNameValue, Email: AdminEmailValue, Phone: AdminPhoneValue, DepartId: AdminDepartIdValue, RoleId: AdminRoleIdValue},
+                dataType: "json",
+                type: "get",
+                success: function (result) {
+                    alert(result);
+                    $("insert").val("");
+                    window.location.href = "@Url.Action("Index")";
+
+                    bindData(1);
+                }
+            });
+    }
+
+//修改
+    function updateAdmin() {
+        //取值
+        var AdminUserCodeValue = $("[name=userCode]").val();
+        var AdminNameValue = $("[name=userName]").val();
+        var AdminRealNameValue = $("[name=realName]").val();
+        var AdminEmailValue = $("[name=email]").val();
+        var AdminPhoneValue = $("[name=phone]").val();
+        var AdminDepartIdValue = $("#departId").val();
+        var AdminRoleIdValue = $("#roleId").val();
+        alert(AdminUserCodeValue);
+            $.ajax({
+                url: "@Url.Action("Update")",
+                data: { UserCode: AdminUserCodeValue, userName: AdminNameValue, realName: AdminRealNameValue, email: AdminEmailValue, phone: AdminPhoneValue, departId: AdminDepartIdValue, roleId: AdminRoleIdValue},
+                dataType: "json",
+                type: "get",
+                success: function (result) {
+                    alert(result);
+                    window.location.href = "@Url.Action("Index")";
+                }
+            });
+    }
+    //删除
+    function DeleteAdmin(num) {
+        $.ajax({
+            url: "@Url.Action("Delete")",
+            data: { adminId:num },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result);
+                window.location.href = "@Url.Action("Index")";
+            }
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    //使用ajax方法请求数据
+    //页面加载时调用
+    var pageIndex = 1;
+    $(function () {
+        $(".first").click(function () {
+            //将pageIndex = 1
+            bindData(1);
+        });
+
+        $(".up").click(function () {
+            //当前页 = 当前页 -1
+            pageIndex = parseInt($(".PageIndex").val()) - 1;
+            bindData(pageIndex);
+        });
+
+        $(".next").click(function () {
+            //当前页 = 当前页 + 1
+            pageIndex = parseInt($(".PageIndex").val()) + 1;
+            bindData(pageIndex);
+        });
+
+        $(".last").click(function () {
+            bindData(9999999);
+        });
+
+        $(".go").click(function () {
+            //获取当前文本框中的页
+            var pageIndex = parseInt($(".PageIndex").val());
+            bindData(pageIndex);
+        });
+
+        //绑定查询按钮事件
+        $(".btnSearch").click(function () {
+            bindData(pageIndex);
+        });
+        //加载，调用绑定数据方法
+        bindData(1);
+
+        //复选框事件
+        var all = document.getElementById("SelectAll");
+        var tbody = document.getElementById("tb");
+        var checkboxs = tbody.getElementsByTagName("input");
+        all.onclick = function () {
+            for (var i = 0; i < checkboxs.length; i++) {
+                var checkbox = checkboxs[i];
+                checkbox.checked = this.checked;
+            }
+        };
+        for (var i = 0; i < checkboxs.length; i++) {
+            checkboxs[i].onclick = function () {
+                var isCheckedAll = true;
+                for (var i = 0; i < checkboxs.length; i++) {
+                    if (!checkboxs[i].checked) {
+                        isCheckedAll = false;
+                        break;
+                    }
+                }
+                alert($(this).val())
+                all.checked = isCheckedAll;
+            };
+        }
+    });
+     
+    //绑定数据方法
+    function bindData(pageIndexValue) {
+        var UserCodeValue = $("#UserCode").val();
+        var RoleIdValue = $("#RoleId").val();
+        var DepartIdValue = $("#DepartId").val();
+        var UserNameValue = $("[name=UserName]").val();
+        var UserCode1Value = $("[name=UserCode1]").val();
+        //获取数据
+        $.ajax({
+            url: "@Url.Action("GetAdmin")",
+            data: { UserCode: UserCodeValue, RoleId: RoleIdValue, DepartId: DepartIdValue, UserName: UserNameValue, UserCode1: UserCode1Value,pageIndex: pageIndexValue },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                //设置文本框中显示的当前页
+                $("#lbMsg").html("当前第" + result.PageIndex + "页" + "    共计" + result.PageCount + "页    共有" + result.Count + "条");
+                $(".PageIndex").val(result.PageIndex);
+
+
+                //清空所有表格（数据行）行
+                $("table tr:gt(0)").remove();
+                //循环遍历所有数据并显示到控件
+                $.each(result.RoleInfies, function (index, value) {
+                    var str = "<tr>";
+                    str += "<td><input type='checkbox' name='text' value=" + value.Id + "/></td>";
+                    str += "<td>" + value.UserName + "</td>";
+                    str += "<td>" + value.UserCode + "</td>";
+                    str += "<td>" + value.RealName + "</td>";
+                    str += "<td>" + value.Email + "</td>";
+                    str += "<td>" + value.Phone + "</td>";
+                    str += "<td>" + value.LoginCount + "</td>";
+                    str += "<td>" + value.DepartId + "</td>";
+                    str += "<td>" + value.RoleId + "</td>";
+                    str += "<td><a href = 'javascript:bianJiEmployee(" + value.Id + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:DeleteAdmin(" + value.Id + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";
+                    str += "</tr>";
+                    $("tbody").append(str);
+                });
+            }
+        });
     }
 </script>

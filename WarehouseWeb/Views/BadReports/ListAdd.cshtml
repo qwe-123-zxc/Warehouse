@@ -96,35 +96,37 @@
             <div class="row">
                 <div class="col-md-3 form-group">
                     报损单编号
-                    <input class="form-control" type="text" />
+                    <input class="form-control" disabled="disabled" placeholder="自动生成" type="text" />
                 </div>
                 <div class="col-md-3 form-group">
                     报损类型
-                    <input class="form-control" type="text" />
+                    @Html.DropDownList("BadTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
                 </div>
                 <div class="col-md-3 form-group">
                     制单人
-                    <input class="form-control" type="text" />
+                    <input value="@(Session["userName"])" disabled="disabled" class="form-control" type="text" />
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3 form-group">
                     制单时间
-                    <input class="form-control" type="text" />
+                    <input class="form-control" type="datetime" />
                 </div>
                 <div class="col-md-5 form-group">
                     备注
-                    <input class="form-control" type="text" />
+                    <input name="Remark" class="form-control" type="text" />
                 </div>
             </div>
         </div>
-        <table class="table table-bordered table-hover table-responsive">
+        <table class="table table-bordered table-hover table-responsive" style="margin-left: 5px;width: 1120px;table-layout:fixed">
             <thead>
                 <tr>
                     <th>产品编号</th>
                     <th>产品名称</th>
-                    <th>产品条码</th>
+                    <th>规格</th>
+                    <th>单价</th>
                     <th>数量</th>
+                    <th>总价</th>
                     <th>库位</th>
                     <th>操作</th>
                 </tr>
@@ -136,7 +138,7 @@
                 <a href="javascript:ChaKan()">
                     <span class="btn btn-primary">新增产品</span>
                 </a>
-                <button class="btn btn-primary">保存</button>
+                <button class="btn btn-primary" id="OK">保存</button>
                 <button class="btn btn-default">取消</button>
             </div>
         </div>
@@ -158,45 +160,49 @@
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">产品编码</label>&nbsp;&nbsp;
-                    <input disabled="disabled" class="form-control" style="width:200px;" />
+                    <input disabled="disabled" name="ProductNum" class="form-control" style="width:200px;" />
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">产品名称</label>&nbsp;&nbsp;
-                    <select class="form-control" style="width:200px;">
-                        <option>请选择产品</option>
-                    </select>
+                    @Html.DropDownList("Product", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">产品规格</label>&nbsp;&nbsp;
-                    <input disabled="disabled" class="form-control" style="width:200px;" />
+                    <input disabled="disabled" name="Size" class="form-control" style="width:200px;" />
+                </div>
+            </div>
+            <div class="row form-inline form-group">
+                <div class="col-md-12">
+                    <label class="control-label">单<span style="margin-left:28px;">价</span></label>&nbsp;&nbsp;
+                    <input disabled="disabled" name="OutPrice" class="form-control" style="width:200px;" />
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">库<span style="margin-left:28px;">位</span></label>&nbsp;&nbsp;
-                    <input disabled="disabled" class="form-control" style="width:200px;" />
+                    <input disabled="disabled" name="LocationId" class="form-control" style="width:200px;" />
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">现有库存</label>&nbsp;&nbsp;
-                    <input disabled="disabled" class="form-control" style="width:200px;" />
+                    <input disabled="disabled" name="StockNum" class="form-control" style="width:200px;" />
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">报损数量</label>&nbsp;&nbsp;
-                    <input type="text" class="form-control" style="width:200px;" />
+                    <input type="text" name="Num" class="form-control" style="width:200px;" />
                 </div>
             </div>
         </div>
         <div class="row XinZenChanPingDiBu">
             <div class="col-md-12 text-right">
-                <button style="margin-top: 3px;">确认</button>
+                <button style="margin-top: 3px;" id="ProductAdd">确认</button>
                 <button style="margin-top: 3px;" onclick="ChaKanGuanBi();">关闭</button>
             </div>
         </div>
@@ -205,6 +211,96 @@
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script>
+    $(function () {
+        //选中产品获取产品信息
+        $("#Product").change(function () {
+            var productId = $("#Product").val();
+            $.ajax({
+                url: "@Url.Action("QueryByProductId")",
+                data: { Id: productId },
+                type: "post",
+                dataType: "json",
+                success: function (result) {
+                    $.each(result, function (index, value) {
+                        $("[name=ProductNum]").val(value.ProductNum);
+                        $("[name=Size]").val(value.Size);
+                        $("[name=LocationId]").val(value.LocationId);
+                        $("[name=StockNum]").val(value.StockNum);
+                        $("[name=OutPrice]").val(value.OutPrice)
+                    });
+                }
+            });
+        });
+
+        //添加产品到表格
+        $("#ProductAdd").click(function () {
+            var stockNum = parseInt($("[name=StockNum]").val());  //现有库存
+            var numvalue_1 = parseInt($("[name=Num]").val());   //报损数
+            if (numvalue_1 <= stockNum && numvalue_1 != 0) {
+                var ProductNum = $("[name=ProductNum]").val();
+                var ProductName = $("[name=Product] option:selected").text();
+                var Size = $("[name=Size]").val();
+                var OutPrice = $("[name=OutPrice]").val();
+                var location = $("[name=LocationId]").val();
+                var numvalue = $("[name=Num]").val();
+                var str = "<tr><td>" + ProductNum + "</td><td>" + ProductName + "</td><td>" + Size + "</td><td>" + OutPrice + "</td><td>" + numvalue + "</td><td>" + OutPrice * numvalue + "</td><td>" + location + "</td><td onclick='Delete(this);'><a href='javascript:void(0);'>删除</a></td></tr >";
+                $("tbody").append(str);
+                //关闭弹窗
+                ChaKanGuanBi();
+            }
+            else
+            {
+                alert("报损数不得大于现有库存！不能为零！");
+            }
+        });
+
+        //保存
+        $("#OK").click(function () {
+            var AuditUservalue = "@(Session["userName"])";
+            var BadTypeIdvalue = $("#BadTypeId").val();
+            var Remarkvalue = $("[name=Remark]").val();
+
+            //入库明细表
+            var trs = document.getElementsByTagName("tr");  //获取表格所有行
+            var sum = [];   //新建一个数组
+            for (var i = 1; i < trs.length; i++) {
+                var tds = trs[i].cells;
+                var stu = {};
+                stu.DetailNum = "";
+                stu.BadId = "";
+                stu.ProductNum = tds[0].innerHTML;
+                stu.ProductName = tds[1].innerHTML;
+                stu.Size = tds[2].innerHTML;
+                stu.UnitPrice = tds[3].innerHTML;
+                stu.Quantity = tds[4].innerHTML;
+                stu.SumMoney = tds[5].innerHTML;
+                stu.Location = tds[6].innerHTML;
+                stu.CreateTime = "";
+                stu.IsDelete = 0;
+                sum.push(stu);
+            }
+            if (sum.length <= 0) {
+                alert("请添加产品");
+            }
+            else
+            {
+                 $.ajax({
+                    url: "@Url.Action("Insert")",
+                     data: { detail: sum, BadTypeId: BadTypeIdvalue, Remark: Remarkvalue, AuditUser: AuditUservalue },
+                    type: "post",
+                    dataType: "json",
+                    success: function (result) {
+                        alert(result);
+                    }
+                });
+            }
+        });
+    });
+
+    function Delete(obj) {
+        $(obj).parent().remove();
+    }
+
     function ChaKan() {
         $("#p").show();
         $("#o").show();

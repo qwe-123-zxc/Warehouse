@@ -588,16 +588,19 @@
 
     //删除入库单
     function Delete(num) {
-        alert(num);
-        $.ajax({
-            url: "@Url.Action("DeleteInfo")",
-            data: { id: num },
-            dataType: "json",
-            type: "post",
-            success: function (result) {
-                alert(result);
-                bindData(1);
-            }
-        });
+        if (confirm("是否删除？")) {
+            $.ajax({
+                url: "@Url.Action("DeleteInfo")",
+                data: { id: num },
+                dataType: "json",
+                type: "post",
+                success: function (result) {
+                    alert(result);
+                    bindData(1);
+                }
+            });
+        } else {
+            window.event.returnValue = false;
+        }
     }
 </script>
