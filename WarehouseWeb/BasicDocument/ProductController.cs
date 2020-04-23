@@ -96,22 +96,21 @@ namespace WarehouseWeb.BasicDocument
             {
                 return Json("新增失败", JsonRequestBehavior.AllowGet);
             }
-            return View();
         }
-        public ActionResult Delete(int measureNum)
-        {
-            Measure measure = service.GetByWhere(item => item.Id == measureNum).SingleOrDefault();
-            measure.IsDelete = 1;
-            bool val = service.Update(measure);
-            if (val)
-            {
-                return Json("删除成功", JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json("删除失败", JsonRequestBehavior.AllowGet);
-            }
-        }
+        ////public ActionResult Delete(int measureNum)
+        ////{
+        ////    Measure measure = service.GetByWhere(item => item.Id == measureNum).SingleOrDefault();
+        ////    measure.IsDelete = 1;
+        ////    bool val = service.Update(measure);
+        ////    if (val)
+        ////    {
+        ////        return Json("删除成功", JsonRequestBehavior.AllowGet);
+        ////    }
+        ////    else
+        ////    {
+        ////        return Json("删除失败", JsonRequestBehavior.AllowGet);
+        ////    }
+        //}
         //public ActionResult DeleteOther(List<Measure> list)
         //{
         //    bool val = true;
