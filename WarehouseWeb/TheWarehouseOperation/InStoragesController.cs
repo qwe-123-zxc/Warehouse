@@ -262,20 +262,37 @@ namespace WarehouseWeb.TheWarehouseOperation
         }
 
         //修改入库单
-        public ActionResult UpdtInfo(List<InStorageDetail> detail, int inSTypeId, int supplierId, string Remark,string id,int ids)
+        public ActionResult UpdtInfo(List<InStorageDetail> detail, int inSTypeId, int supplierId, string Remark,string id)
         {
             //先删除明细
             bool val_1 = true;
             var inStorageDetails = new InStorageDetailManager();
-            var mx = inStorageDetails.GetByWhere(i => i.InStorageId.IndexOf(id) != -1);
+            var mx = inStorageDetails.GetByWhere(i => i.InStorageId == id);
             foreach (var item in mx)
             {
                 val_1 = inStorageDetails.Delete(item);
             }
 
+            string detailNum = "";
             //获取明细表最大编号
             string detailNumBig = inStorageDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
-            string detailNum = "00000" + (int.Parse(detailNumBig) + 1);
+            if (detailNumBig == null)
+            {
+                detailNum = "000001";
+            }
+            else
+            {
+                detailNum = "00000" + (int.Parse(detailNumBig) + 1);
+                int num_2 = int.Parse(detailNumBig);
+                if (num_2 >= 9)
+                {
+                    detailNum = "0000" + (int.Parse(detailNumBig) + 1);
+                }
+                if (num_2 >= 99)
+                {
+                    detailNum = "000" + (int.Parse(detailNumBig) + 1);
+                }
+            }
 
             string msg = "";
             bool val = true;
@@ -291,7 +308,7 @@ namespace WarehouseWeb.TheWarehouseOperation
                 var num = inStorageDetail.GetByWhere(item => item.InStorageId == id).Sum(item => item.Quantity);
                 var sumMoney = inStorageDetail.GetByWhere(item => item.InStorageId == id).Sum(item => item.SumMoney);
                 var inStorage_1 = new InStorageManager();
-                var s = inStorage_1.GetByWhere(i => i.Id == ids).SingleOrDefault();
+                var s = inStorage_1.GetByWhere(i => i.InSNum == id).SingleOrDefault();
                 s.DetailNum = detailNum;
                 s.InSTypeId = inSTypeId;
                 s.SupplierId = supplierId;

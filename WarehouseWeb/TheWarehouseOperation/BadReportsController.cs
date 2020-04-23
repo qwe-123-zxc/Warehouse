@@ -14,6 +14,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         BadReportManager badReport = new BadReportManager();
         BadReportDetailManager badReportDetail = new BadReportDetailManager();
         BadReportTypeManager badReportType = new BadReportTypeManager();
+        ProductManager product = new ProductManager();
         /// <summary>
         /// 报损管理
         /// </summary>
@@ -28,7 +29,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         {
             var stateDate = Convert.ToDateTime(state);
             var endDate = Convert.ToDateTime(end);
-            Expression<Func<BadReport, bool>> where = i => i.AuditTime >= stateDate && i.AuditTime <= endDate;
+            Expression<Func<BadReport, bool>> where = i => i.AuditTime >= stateDate && i.AuditTime <= endDate && i.IsDelete == 0;
             if (!string.IsNullOrEmpty(zt))
             {
                 where = where.And(i => i.Status == zt);
@@ -106,7 +107,108 @@ namespace WarehouseWeb.TheWarehouseOperation
 
         public ActionResult ListAdd()
         {
+            //报损类型
+            var type = badReportType.GetAll();
+            type.Insert(0, new BadReportType() { Id = 9999, BadTypeName = "请选择报损类型" });
+            ViewBag.BadTypeId = new SelectList(type, "Id", "BadTypeName");
+            //产品
+            var product_1 = product.GetAll();
+            product_1.Insert(0, new Product() { Id = 9999, ProductName = "请选择产品" });
+            ViewBag.Product = new SelectList(product_1, "Id", "ProductName");
             return View();
+        }
+
+        public ActionResult QueryByProductId(int Id)
+        {
+            var productInfo = product.GetByWhere(i => i.Id == Id);
+            var newFormatList = productInfo.Select(item => new { Id = item.Id, ProductNum = item.ProductNum, ProductName = item.ProductName, Size = item.Size, OutPrice = item.OutPrice, LocationId = item.Location.LocationName, StockNum = item.StockNum });
+            return Json(newFormatList, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Insert(List<BadReportDetail> detail, int BadTypeId, string Remark, string AuditUser)
+        {
+            string detailNum = "";
+            //获取明细表最大编号
+            string detailNumBig = badReportDetail.GetByWhere(i => true).OrderByDescending(i => i.DetailNum).Take(1).Select(i => i.DetailNum).FirstOrDefault();
+            if (detailNumBig == null)
+            {
+                detailNum = "000001";
+            }
+            else
+            {
+                detailNum = "00000" + (int.Parse(detailNumBig) + 1);
+                int num_1 = int.Parse(detailNumBig);
+                if (num_1 >= 9)
+                {
+                    detailNum = "0000" + (int.Parse(detailNumBig) + 1);
+                }
+                if (num_1 >= 99)
+                {
+                    detailNum = "000" + (int.Parse(detailNumBig) + 1);
+                }
+            }
+
+            string badNum = "";
+            //获取出库表最大编号
+            string badNumBig = badReport.GetByWhere(i => true).OrderByDescending(i => i.BadNum).Take(1).Select(i => i.BadNum).FirstOrDefault();
+            if (badNumBig == null)
+            {
+                badNum = "000001";
+            }
+            else
+            {
+                badNum = "00000" + (int.Parse(badNumBig) + 1);
+                int num_2 = int.Parse(badNumBig);
+                if (num_2 >= 9)
+                {
+                    badNum = "0000" + (int.Parse(badNumBig) + 1);
+                }
+                if (num_2 >= 99)
+                {
+                    badNum = "000" + (int.Parse(badNumBig) + 1);
+                }
+            }
+
+            bool val = true;
+            string msg = "";
+            foreach (var item in detail)
+            {
+                item.CreateTime = DateTime.Now;
+                item.DetailNum = detailNum;
+                item.BadId = badNum;
+                val = badReportDetail.Add(item);
+            }
+            if (val)
+            {
+                var num = badReportDetail.GetByWhere(i => i.BadId == badNum).Sum(i => i.Quantity); //获取总出货数
+                var sumMoney = badReportDetail.GetByWhere(i => i.BadId == badNum).Sum(i => i.SumMoney); //获取总价格
+                BadReport ost = new BadReport();
+                ost.BadNum = badNum;
+                ost.BadTypeId = BadTypeId;
+                ost.DetailNum = detailNum;
+                ost.Num = Convert.ToInt32(num); ;
+                ost.SumMoney = Convert.ToInt32(sumMoney);
+                ost.Status = "待审核";
+                ost.AuditTime = DateTime.Now;
+                ost.AuditUser = AuditUser;
+                ost.Remark = Remark;
+                ost.IsDelete = 0;
+                bool val1 = badReport.Add(ost);
+                if (val1)
+                {
+                    msg = "新增成功";
+                }
+                else
+                {
+                    msg = "新增失败";
+                }
+                msg = "新增成功";
+            }
+            else
+            {
+                msg = "新增失败";
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
         }
     }
 }

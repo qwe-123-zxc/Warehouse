@@ -85,7 +85,6 @@
                 <div class="col-md-3 form-group">
                     入库单编号
                     <input disabled="disabled" name="InSNum" placeholder="@Model.InSNum" value="@Model.InSNum" class="form-control" type="text" />
-                    <input type="hidden" name="Id" value="@Model.Id"/>
                 </div>
                 <div class="col-md-3 form-group">
                     入库单类型
@@ -241,7 +240,6 @@
             var SupplierIdvalue = $("#SupplierId").val();
             var Remarkvalue = $("[name=Remark]").val();
             var InSNumvalue = $("[name=InSNum]").val();
-            var idvalue = $("[name=Id]").val();
 
             //入库明细表
             var trs = document.getElementsByTagName("tr"); //获取表格中的所有行
@@ -265,7 +263,7 @@
             }
             $.ajax({
                 url: "@Url.Action("UpdtInfo")",
-                data: { detail: sum, inSTypeId: InSTypeIdvalue, supplierId: SupplierIdvalue, Remark: Remarkvalue, id: InSNumvalue, ids: idvalue},
+                data: { detail: sum, inSTypeId: InSTypeIdvalue, supplierId: SupplierIdvalue, Remark: Remarkvalue, id: InSNumvalue },
                 type: "post",
                 dataType: "json",
                 success: function (result) {
