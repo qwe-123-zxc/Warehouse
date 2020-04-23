@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Models;
-
+using System.Linq.Expressions;
 namespace WarehouseBLL
 {
-    public class LocationManager:BaseManager<Location>
+   public class ProductCategoryManager:BaseManager<ProductCategory>
     {
     }
 }

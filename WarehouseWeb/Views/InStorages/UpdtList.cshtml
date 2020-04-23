@@ -1,8 +1,9 @@
 ﻿
 @{
-    ViewBag.Title = "ListAdd";
+    ViewBag.Title = "UpdtList";
     Layout = "~/Views/MasterPage/Main.cshtml";
 }
+
 
 <head>
     <style>
@@ -67,9 +68,9 @@
         <img src="~/Image/xiangyou.png" width="10" height="10" />
         <a href="#" style="margin-top:20px;">仓库作业</a>
         <img src="~/Image/xiangyou.png" width="10" height="10" />
-        <a href="/OutStorages/ListOutStorage" style="margin-top:20px;">出库管理</a>
+        <a href="~/InStorages/List" style="margin-top:20px;">入库管理</a>
         <img src="~/Image/xiangyou.png" width="10" height="10" />
-        <a href="#" style="margin-top:20px;">新增出库</a>
+        <a href="javascript:void(0);" style="margin-top:20px;">新增入库</a>
     </div>
 </div>
 
@@ -77,43 +78,43 @@
     <div id="Info" class="container">
         <div style="height:40px;background-color:#eeeeee;border-bottom:1px solid #ddd;width: 1158px;margin-left: -15px;">
             <img src="~/Image/diqiu.png" style="float: left;margin:12px 0px 10px 20px" />
-            <span style="margin-top:10px;float: left;font-weight: bold;">新增出库单</span>
+            <span style="margin-top:10px;float: left;font-weight: bold;">修改入库单</span>
         </div>
         <div class="ZhuTiXinZen">
             <div class="row">
                 <div class="col-md-3 form-group">
-                    出库单编号
-                    <input class="form-control" disabled="disabled" placeholder="自动生成" type="text" />
+                    入库单编号
+                    <input disabled="disabled" name="InSNum" placeholder="@Model.InSNum" value="@Model.InSNum" class="form-control" type="text" />
                 </div>
                 <div class="col-md-3 form-group">
-                    出库单类型
-                    @Html.DropDownList("OutSTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+                    入库单类型
+                    @Html.DropDownList("InSTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
                 </div>
                 <div class="col-md-3 form-group">
                     制单人
-                    <input value="@(Session["userName"])" disabled="disabled" class="form-control" type="text" />
+                    <input value="@Model.AuditUser" name="AuditUser" disabled="disabled" class="form-control" type="text" />
                 </div>
                 <div class="col-md-3 form-group">
-                    客户编号
-                    @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+                    供应商
+                    @Html.DropDownList("SupplierId", null, htmlAttributes: new { @class = "form-control", @style = "width:200px;" })
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3 form-group">
                     制单时间
-                    <input class="form-control" type="datetime" />
+                    <input class="form-control" name="AuditTime" value="@Model.AuditTime" type="datetime" />
                 </div>
                 <div class="col-md-5 form-group">
                     备注
-                    <input name="Remark" class="form-control" type="text" />
+                    <input name="Remark" value="@Model.Remark" class="form-control" type="text" />
                 </div>
             </div>
         </div>
-        <table class="table table-bordered table-hover table-responsive" style="margin-left: 5px;width: 1120px;table-layout:fixed">
+        <table class="table table-bordered table-hover table-responsive" style="margin-left: 5px;width: 1120px;table-layout:fixed" id="tableID">
             <thead>
                 <tr>
-                    <td>产品编号</td>
                     <td>产品名称</td>
+                    <td>产品条码</td>
                     <td>规格</td>
                     <td>单价</td>
                     <td>数量</td>
@@ -136,14 +137,13 @@
     </div>
 </div>
 
-
 @*新增产品*@
 <div id="o"></div>
 <div id="p">
     <div class="container">
         <div class="row ChaKanBiaoTi">
             <div class="col-md-6">
-                <span style="color:white">出库产品</span>
+                <span style="color:white">新增产品</span>
             </div>
             <div class="col-md-6 text-right">
                 <a href="javascript:ChaKanGuanBi()" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
@@ -153,43 +153,38 @@
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">产品编码</label>&nbsp;&nbsp;
-                    <input disabled="disabled" name="ProductNum" class="form-control" style="width:200px;" />
+                    <input name="ProductNum" disabled="disabled" class="form-control" style="width:200px;" />
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">产品名称</label>&nbsp;&nbsp;
-                    @Html.DropDownList("Product", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+                    @Html.DropDownList("Product", null, htmlAttributes: new { @class = "form-control", @style = "width:200px;" })
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">产品规格</label>&nbsp;&nbsp;
-                    <input disabled="disabled" name="Size" class="form-control" style="width:200px;" />
+                    <input name="Size" disabled="disabled" class="form-control" style="width:200px;" />
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
-                    <label class="control-label">单<span style="margin-left:28px;">价</span></label>&nbsp;&nbsp;
-                    <input disabled="disabled" name="OutPrice" class="form-control" style="width:200px;" />
+                    <label class="control-label">产品单价</label>&nbsp;&nbsp;
+                    <input name="OutPrice" disabled="disabled" type="text" class="form-control" style="width:200px;" />
+                    <label class="control-label">元</label>
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
-                    <label class="control-label">库<span style="margin-left:28px;">位</span></label>&nbsp;&nbsp;
-                    <input disabled="disabled" name="LocationId" class="form-control" style="width:200px;" />
+                    <label class="control-label">入库库位</label>&nbsp;&nbsp;
+                    @Html.DropDownList("location", null, htmlAttributes: new { @class = "form-control", @style = "width:200px;" })
                 </div>
             </div>
             <div class="row form-inline form-group">
                 <div class="col-md-12">
-                    <label class="control-label">现有库存</label>&nbsp;&nbsp;
-                    <input disabled="disabled" name="StockNum" class="form-control" style="width:200px;" />
-                </div>
-            </div>
-            <div class="row form-inline form-group">
-                <div class="col-md-12">
-                    <label class="control-label">出库数量</label>&nbsp;&nbsp;
-                    <input type="text" name="Num" class="form-control" style="width:200px;" />
+                    <label class="control-label">入库数量</label>&nbsp;&nbsp;
+                    <input name="Quantity" type="text" class="form-control" style="width:200px;" />
                 </div>
             </div>
         </div>
@@ -201,66 +196,60 @@
         </div>
     </div>
 </div>
-
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script>
     $(function () {
-        //选中产品获取产品信息
         $("#Product").change(function () {
-            var productId = $("#Product").val();
+            //获取被选中的option标签
+            var ProductId = $("#Product  option:selected").val();
             $.ajax({
                 url: "@Url.Action("QueryByProductId")",
-                data: { id: productId },
+                data: { id: ProductId },
                 type: "post",
                 dataType: "json",
                 success: function (result) {
-                    $("[name=ProductNum]").val(result.info.CustomerNum);
-                    $("[name=Size]").val(result.info.Size);
-                    $("[name=LocationId]").val(result.lcinfo.LocationName);
-                    $("[name=StockNum]").val(result.info.StockNum);
-                    $("[name=OutPrice]").val(result.info.OutPrice)
+                    $("[name=ProductNum]").val(result.ProductNum);
+                    $("[name=ProductName]").val(result.ProductName);
+                    $("[name=Size]").val(result.Size);
+                    $("[name=OutPrice]").val(result.OutPrice);
                 }
             });
         });
-
-        //添加产品到表格
+        var list="";
         $("#ProductAdd").click(function () {
-            var stockNum = parseInt($("[name=StockNum]").val());  //现有库存
-            var numvalue = parseInt($("[name=Num]").val());   //出货数
-            if (numvalue <= stockNum && numvalue != 0) {
-                var ProductNum = $("[name=ProductNum]").val();
-                var ProductName = $("[name=Product] option:selected").text();
-                var Size = $("[name=Size]").val();
-                var OutPrice = $("[name=OutPrice]").val();
-                var location = $("[name=LocationId]").val();
-                var str = "<tr><td>" + ProductNum + "</td><td>" + ProductName + "</td><td>" + Size + "</td><td>" + OutPrice + "</td><td>" + numvalue + "</td><td>" + OutPrice * numvalue + "</td><td>" + location + "</td><td onclick='Delete(this);'><a>删除</a></td></tr >";
-                $("tbody").append(str);
-                //关闭弹窗
-                ChaKanGuanBi();
-            }
-            else
-            {
-                alert("出库数不得大于现有库存！不能为零！");
-            }
+            var ProductNum = $("[name=ProductNum]").val();
+            var ProductName = $("[name=Product] option:selected").text();
+            var Size = $("[name=Size]").val();
+            var OutPrice = $("[name=OutPrice]").val();
+            var location = $("[name=location]  option:selected").text();
+            var Quantity = $("[name=Quantity").val();
+            var str = "<tr><td>" + ProductName + "</td><td>" + ProductNum + "</td><td>" + Size + "</td><td>" + OutPrice + "</td><td>" + Quantity + "</td><td>" + OutPrice * Quantity + "</td><td>" + location + "</td><td onclick='Delete(this);'><a href='javascript:void(0);'>删除</a></td></tr >";
+            $("tbody").append(str);
+            //关闭弹窗
+            ChaKanGuanBi();
         });
+
+        //查询详细信息
+        QueryXiangXi(@Model.Id);
 
         //保存
         $("#OK").click(function () {
-            var OutSTypeIdvalue = $("#OutSTypeId").val();
-            var AuditUservalue = "@(Session["userName"])";
-            var CustomerIdvalue = $("#CustomerId").val();
+            var InSTypeIdvalue = $("#InSTypeId  option:selected").val();
+            var SupplierIdvalue = $("#SupplierId  option:selected").val();
             var Remarkvalue = $("[name=Remark]").val();
+            var InSNumvalue = $("[name=InSNum]").val();
 
             //入库明细表
-            var trs = document.getElementsByTagName("tr");  //获取表格所有行
-            var sum = [];   //新建一个数组
+            var trs = document.getElementsByTagName("tr"); //获取表格中的所有行
+            var sum = [];//新建一个数组
             for (var i = 1; i < trs.length; i++) {
-                var tds = trs[i].cells;
-                var stu = {};
+                var tds = trs[i].cells;//获取第i行的所有列
+                var stu = {};//新建一个对象
+                //把属性和属性的值添加到对象中
                 stu.DetailNum = "";
-                stu.OutStorageId = "";
-                stu.ProductNum = tds[0].innerHTML;
-                stu.ProductName = tds[1].innerHTML;
+                stu.InStorageId = "";
+                stu.ProductName = tds[0].innerHTML;
+                stu.ProductNum = tds[1].innerHTML;
                 stu.Size = tds[2].innerHTML;
                 stu.UnitPrice = tds[3].innerHTML;
                 stu.Quantity = tds[4].innerHTML;
@@ -268,25 +257,35 @@
                 stu.Location = tds[6].innerHTML;
                 stu.CreateTime = "";
                 stu.IsDelete = 0;
-                sum.push(stu);
+                sum.push(stu);//使用push方法把对象添加到数组中
             }
-            if (sum.length <= 0) {
-                alert("请添加产品");
-            }
-            else
-            {
-                 $.ajax({
-                    url: "@Url.Action("Insert")",
-                    data: { detail: sum, OutSTypeId: OutSTypeIdvalue, CustomerId: CustomerIdvalue, Remark: Remarkvalue, AuditUser: AuditUservalue },
-                    type: "post",
-                    dataType: "json",
-                    success: function (result) {
-                        alert(result);
-                    }
+            $.ajax({
+                url: "@Url.Action("UpdtInfo")",
+                data: { detail: sum, inSTypeId: InSTypeIdvalue, supplierId: SupplierIdvalue, Remark: Remarkvalue, id: InSNumvalue},
+                type: "post",
+                dataType: "json",
+                success: function (result) {
+                    alert(result);
+                }
+            });
+        });
+    });
+
+    //查询详细信息
+    function QueryXiangXi(InSNumvalue) {
+        $.ajax({
+            url: "@Url.Action("QueryByIdMinXiInfo")",
+            data: { id: InSNumvalue },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                $.each(result, function (index, value) {
+                    var str = "<tr><td>" + value.ProductName + "</td><td>" + value.ProductNum + "</td><td>" + value.Size + "</td><td>" + value.UnitPrice + "</td><td>" + value.Quantity + "</td><td>" + value.SumMoney + "</td><td>" + value.Location + "</td><td onclick='Delete(this);'><a href='javascript:void(0);'>删除</a></td></tr >";
+                    $("tbody").append(str);
                 });
             }
         });
-    });
+    }
 
     function Delete(obj) {
         $(obj).parent().remove();
@@ -302,5 +301,4 @@
         $("#o").hide();
     }
 </script>
-
 

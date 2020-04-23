@@ -124,7 +124,7 @@
         #p, #personal_1 {
             display: none;
             width: 680px;
-            height: 390px;
+            /*height: 390px;*/
             position: absolute;
             top: 50px;
             left: 250px;
@@ -153,30 +153,30 @@
         <div class="row">
             <div class="col-md-4 margin-bottom-10" style="margin:8px;">
                 <div class="btn-group">
-                    <button class="btn">所有</button>
-                    <button class="btn">待审核</button>
-                    <button class="btn">审核通过</button>
-                    <button class="btn">审核失败</button>
+                    <button class="btn  btnQuery" type="button" name="suoyou" value="所有">所有</button>
+                    <button class="btn  btnQuery" type="button" name="dsh" value="待审核">待审核</button>
+                    <button class="btn  btnQuery" type="button" name="shtg" value="审核通过">审核通过</button>
+                    <button class="btn  btnQuery" type="button" name="shsb" value="审核失败">审核失败</button>
                 </div>
             </div>
             <div class="col-md-3 navbar-right" style="margin:8px;padding:0px;">
-                <button class="btn btn-primary qd" onclick="insertInStorage();">新增</button>
-                <button class="btn btn-danger qd">删除</button>
-                <button class="btn btn-info qd">导出</button>
+                <button class="btn btn-primary qd" onclick="insertInStorage();" type="button">新增</button>
+                <button class="btn btn-danger qd" type="button">删除</button>
+                <button class="btn btn-info qd" type="button">导出</button>
             </div>
         </div>
         @*条件查询*@
         <div class="row" style="padding:5px;">
             <div class="col-md-2 form-group form-inline">
-                <input class="form-control" type="text" placeholder="请输入出库单号" />
+                <input class="form-control" name="OutSNum" type="text" placeholder="请输入出库单号" />
             </div>
             <div class="col-md-5 form-group form-inline">
                 <label class="control-label">时间</label>
-                <input type="date" class="form-control" style="width:150px;" /> 到 <input type="date" class="form-control" style="width:150px;" />
+                <input type="date" name="State" value="2020-02-03" class="form-control" style="width:150px;" /> 到 <input type="date" name="End" value="2020-04-16" class="form-control" style="width:150px;" />
             </div>
             <div class="col-md-3 form-group form-inline" style="margin-left:-90px;">
-                <button class="btn btn-primary" style="width: 70px;">搜索</button>
-                <button class="btn" id="GJSS" style="width: 90px;background-color:blue;color:white">
+                <button class="btn btn-primary btnQuery" type="button" style="width: 70px;">搜索</button>
+                <button class="btn" id="GJSS" type="button" style="width: 90px;background-color:blue;color:white">
                     高级搜索
                     <img src="~/Image/xiala.png" width="15" height="15" style="margin-top: -3px;" />
                 </button>
@@ -185,16 +185,17 @@
         @*高级搜索*@
         <div class="form-inline GaoJiChaXun" style="width:1120px;height:80px;margin:5px 0px 15px 5px;border:1px solid #ddd;border-radius:3px;background-color:#f9f9f9;display:none">
             <div style="margin:10px">
-                <span style="margin:0px 10px">客户</span><input class="form-control" style="width:150px;" />
-                <span style="margin:0px 10px">单据类型</span>
-                <select class="form-control" style="width:170px;">
-                    <option>请选择出库单类型</option>
-                </select>
-                <button class="btn btn-primary" style="margin-left:20px;width:60px">搜索</button>
+                <div class="col-md-8">
+                    <span style="margin:0px 10px">客户</span>
+                    @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+                    <span style="margin:0px 10px">单据类型</span>
+                    @Html.DropDownList("OutSTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+                    <button class="btn btn-primary btnQuery" type="button" style="margin-left:20px;width:60px">搜索</button>
+                </div>
             </div>
         </div>
         @*表内容查询*@
-        <table class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
+        <table  id="zhubiao" class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
             <thead>
                 <tr>
                     <th style="width:30px;"><input type="checkbox" /></th>
@@ -210,34 +211,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><input type="checkbox" /></td>
-                    <td>123123</td>
-                    <td>销售提货出库</td>
-                    <td>小米游戏代练工作室</td>
-                    <td>20</td>
-                    <td>297480元</td>
-                    <td>等待审核</td>
-                    <td>阿三大苏打</td>
-                    <td>2020-02-22</td>
-                    <td>
-                        <a title="编辑" href="@Url.Action("ListAdd")"><img src="~/Image/Write.png" /></a>
-                        <a title="删除" href="javascript:void(0)"><img src="~/Image/cha.png" /></a>
-                        <a title="查看" href="javascript:ChaKan()"><img src="~/Image/chakan.png" style="margin-top:2px;width:22px" /></a>
-                        <a title="审核" href="javascript:Shenhe()"><img src="~/Image/dui.png" style="width:21px" /></a>
-                    </td>
-                </tr>
             </tbody>
         </table>
         @*分页*@
         <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
-            <button class="first" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
-            <button class="up">上一页</button>
-            <input class="PageIndex" type="text" value="1" />
-            <button class="go">GO</button>
-            <button class="next">下一页</button>
-            <button class="last">尾页</button>
-            <label>当前页是第 1 页,共计 1 条/ 1 页</label>
+            <button class="first" type="button" name="first" style="background-color: #f9f9f9;border: 1px solid #ddd;width: 60px;height: 30px;padding: 2px 10px;">首页</button>
+            <button class="up" type="button" name="up">上一页</button>
+            <input class="PageIndex" name="PageIndex" type="text" value="1" />
+            <button class="go" type="button" name="go">GO</button>
+            <button class="next" type="button" name="next">下一页</button>
+            <button class="last" type="button" name="last">尾页</button>
+            <label id="fenyeshu">当前页是第页,共计条/页</label>
         </div>
     </div>
 
@@ -250,86 +234,32 @@
     <div class="container">
         <div class="row ChaKanBiaoTi">
             <div class="col-md-6">
-                <span style="color:white" id="mc">入库单明细</span>
+                <span style="color:white" id="mc">出库单明细</span>
             </div>
             <div class="col-md-6 text-right">
                 <a href="javascript:ChaKanGuanBi()" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
             </div>
         </div>
         <div class="row ChaKanZhuTi">
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered table-responsive chakan">
                 <tbody>
-                    <tr>
-                        <th class="bt">入库单号</th>
-                        <td>123123</td>
-                        <th class="bt">类型</th>
-                        <td>销售提货出库</td>
-                        <th class="bt">状态</th>
-                        <td>等待审核</td>
-                    </tr>
-                    <tr>
-                        <th class="bt">供应商编号</th>
-                        <td>000011</td>
-                        <th class="bt">供应商名称</th>
-                        <td>小米游戏带练工作室</td>
-                        <th class="bt">联系人</th>
-                        <td>左冷禅</td>
-                    </tr>
-                    <tr>
-                        <th>创建人</th>
-                        <td>阿三大苏打</td>
-                        <th>创建时间</th>
-                        <td>2020-02-22</td>
-                        <th>电话</th>
-                        <td>12345678910</td>
-                    </tr>
-                    <tr>
-                        <th>备注</th>
-                        <td colspan="5">asdasd</td>
-                    </tr>
+                    
                 </tbody>
             </table>
             <br />
-            <table class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
+            <table class="table table-bordered table-hover table-responsive XiangXi" style="table-layout:fixed;">
                 <thead class="BTGDT">
                     <tr>
                         <th>产品名称</th>
                         <th>产品条码</th>
                         <th>规格</th>
                         <th>单价</th>
-                        <th>入库数</th>
+                        <th>出库数</th>
                         <th>总价</th>
                         <th>库位</th>
                     </tr>
                 </thead>
                 <tbody class="InfoGDT">
-                    <tr>
-                        <td>三星 WB200F正品无线w...</td>
-                        <td>545657667</td>
-                        <td>6767</td>
-                        <td>67.00 <span>元</span></td>
-                        <td>20</td>
-                        <td>297480.00 <span>元</span></td>
-                        <td>成品库位</td>
-                    </tr>
-                    <tr>
-                        <td>三星 WB200F正品无线w...</td>
-                        <td>545657667</td>
-                        <td>6767</td>
-                        <td>67.00 <span>元</span></td>
-                        <td>20</td>
-                        <td>297480.00 <span>元</span></td>
-                        <td>成品库位</td>
-                    </tr>
-                    <tr>
-                        <td>三星 WB200F正品无线w...</td>
-                        <td>545657667</td>
-                        <td>6767</td>
-                        <td>67.00 <span>元</span></td>
-                        <td>20</td>
-                        <td>297480.00 <span>元</span></td>
-                        <td>成品库位</td>
-                    </tr>
                 </tbody>
             </table>
             <div class="XinZenChanPingDiBu">
@@ -346,47 +276,19 @@
     <div class="container">
         <div class="row ChaKanBiaoTi">
             <div class="col-md-6">
-                <span style="color:white" id="mc">入库单审核</span>
+                <span style="color:white" id="mc">出库单审核</span>
             </div>
             <div class="col-md-6 text-right">
                 <a href="javascript:ChaKanGuanBi();" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
             </div>
         </div>
         <div class="row ChaKanZhuTi">
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered table-responsive " id="chakan">
                 <tbody>
-                    <tr>
-                        <th class="bt">入库单号</th>
-                        <td>123123</td>
-                        <th class="bt">类型</th>
-                        <td>销售提货出库</td>
-                        <th class="bt">状态</th>
-                        <td>等待审核</td>
-                    </tr>
-                    <tr>
-                        <th class="bt">供应商编号</th>
-                        <td>000011</td>
-                        <th class="bt">供应商名称</th>
-                        <td>小米游戏带练工作室</td>
-                        <th class="bt">联系人</th>
-                        <td>左冷禅</td>
-                    </tr>
-                    <tr>
-                        <th>创建人</th>
-                        <td>阿三大苏打</td>
-                        <th>创建时间</th>
-                        <td>2020-02-22</td>
-                        <th>电话</th>
-                        <td>12345678910</td>
-                    </tr>
-                    <tr>
-                        <th>备注</th>
-                        <td colspan="5">asdasd</td>
-                    </tr>
                 </tbody>
             </table>
             <br />
-            <table class="table table-bordered table-hover table-responsive">
+            <table class="table table-bordered table-hover table-responsive " id="XiangXi">
                 <thead class="BTGDT">
                     <tr>
                         <th>产品名称</th>
@@ -399,40 +301,14 @@
                     </tr>
                 </thead>
                 <tbody class="InfoGDT">
-                    <tr>
-                        <td>三星 WB200F正品无线w...</td>
-                        <td>545657667</td>
-                        <td>6767</td>
-                        <td>67.00 <span>元</span></td>
-                        <td>20</td>
-                        <td>297480.00 <span>元</span></td>
-                        <td>成品库位</td>
-                    </tr>
-                    <tr>
-                        <td>三星 WB200F正品无线w...</td>
-                        <td>545657667</td>
-                        <td>6767</td>
-                        <td>67.00 <span>元</span></td>
-                        <td>20</td>
-                        <td>297480.00 <span>元</span></td>
-                        <td>成品库位</td>
-                    </tr>
-                    <tr>
-                        <td>三星 WB200F正品无线w...</td>
-                        <td>545657667</td>
-                        <td>6767</td>
-                        <td>67.00 <span>元</span></td>
-                        <td>20</td>
-                        <td>297480.00 <span>元</span></td>
-                        <td>成品库位</td>
-                    </tr>
+                    <tr class="remove"></tr>
                 </tbody>
             </table>
         </div>
         <div class="row XinZenChanPingDiBu">
             <div class="col-md-12 text-right" style="margin-top: 3px;">
-                <button>审核通过</button>&nbsp;
-                <button>审核不通过</button>&nbsp;
+                <button class="btnUpdateStatus" name="shtg" type="button">审核通过</button>&nbsp;
+                <button class="btnUpdateStatus" name="shsb" type="button">审核不通过</button>&nbsp;
                 <button onclick="ChaKanGuanBi();">关闭</button>
             </div>
         </div>
@@ -441,6 +317,8 @@
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script>
+    var pageIndexvalue = 1;//提取当前页为全局变量
+    var ztvalue = "";
     $(function () {
         $("#GJSS").click(function () {
             $(".GaoJiChaXun").slideToggle();
@@ -448,11 +326,164 @@
         $(".btnClose").click(function () {
             $("#personal_1").hide();
         });
+
+        //状态按钮
+        $("[name=suoyou]").click(function () {
+            ztvalue = "";
+        });
+        $("[name=dsh]").click(function () {
+            ztvalue = "待审核";
+        });
+        $("[name=shtg]").click(function () {
+            ztvalue = "审核通过";
+        });
+        $("[name=shsb]").click(function () {
+            ztvalue = "审核失败";
+        });
+        //分页按钮
+        $("[name=first]").click(function () {
+            bindData(1);
+        });
+        $("[name=up]").click(function () {
+            pageIndexvalue = parseInt($("[name=PageIndex]").val()) - 1;
+            bindData(pageIndexvalue);
+        });
+        $("[name=go]").click(function () {
+            pageIndexvalue = parseInt($("[name=PageIndex]").val());
+            bindData(pageIndexvalue);
+        });
+        $("[name=next]").click(function () {
+            pageIndexvalue = parseInt($("[name=PageIndex]").val()) + 1;
+            bindData(pageIndexvalue);
+        });
+        $("[name=last]").click(function () {
+            pageIndexvalue = 99999999;
+            bindData(pageIndexvalue);
+        });
+
+        $(".btnQuery").click(function () {
+            bindData(pageIndexvalue);
+        });
+        $(".btnUpdateStatus").click(function () {
+            UpdateStatus();
+        });
+        bindData(1);
     });
+
+    //修改审核状态
+    function UpdateStatus() {
+        var ids = $("[name=xgztid]").val();
+        $.ajax({
+            url: "@Url.Action("UpdtStatus")",
+            data: { status: ztvalue, Id: ids },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                bindData(1);
+                ChaKanGuanBi();
+            }
+        });
+    };
+
+    //出库管理主页查询
+    function bindData(pageIndexvalue) {
+        var OutSNumvalue = $("[name=OutSNum]").val();
+        var Statevalue = $("[name=State]").val();
+        var Endvalue = $("[name=End]").val();
+        var CustomerIdvalue = $("#CustomerId").val();
+        var OutSTypeIdvalue = $("#OutSTypeId").val();
+        $.ajax({
+            url: "@Url.Action("ListAjax")",
+            data: { zt: ztvalue, OutSNum: OutSNumvalue, state: Statevalue, end: Endvalue, CustomerId: CustomerIdvalue, OutSTypeId: OutSTypeIdvalue, pageIndex: pageIndexvalue },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                $("#zhubiao tr:gt(0)").remove();
+                $("[name=PageIndex]").val(result.PageIndex);
+                $.each(result.OutstorageInfo, function (index, value) {
+                    var str = "<tr>";
+                    str += "<td><input type='checkbox' /></td>";
+                    str += "<td>" + value.OutSNum + "</td>";
+                    str += "<td>" + value.OutSTypeId + "</td>";
+                    str += "<td>" + value.CustomerId + "</td>";
+                    str += "<td>" + value.Num + "</td>";
+                    str += "<td>" + value.SumMoney + "</td>";
+                    str += "<td>" + value.Status + "</td>";
+                    str += "<td>" + value.AuditUser + "</td>";
+                    str += "<td>" + value.AuditTime + "</td>";
+                    str += "<td>";
+                    if (value.Status!="审核通过") {
+                        str += "<a title='编辑' href='@Url.Action("ListAdd")'><img src='../Image/Write.png' /></a>"
+                    }
+                    str += "<a title='删除' href='javascript:void(0)'><img src='../Image/cha.png' /></a>"
+                    str += "<a title='查看' href='javascript:ChaKan(" + value.OutSNum + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
+                    if (value.Status != "审核通过") {
+                        str += "<a title='审核' href='javascript:Shenhe(" + value.OutSNum + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
+                    }
+                    str += "</td>";
+                    str += "</tr>";
+                    $("#zhubiao tbody").append(str);
+                });
+                $("#fenyeshu").text("当前页是第" + result.PageIndex + "页,共计" + result.Count + "条" + result.PageCount + "页");
+            }
+        });
+    }
+
     //查看明细
-    function ChaKan() {
+    function ChaKan(idvalue) {
         p.style.display = "block";
         o.style.display = "block";
+        
+        $.ajax({
+            url: "@Url.Action("QueryMinXi")",
+            data: { id: idvalue },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                $(".chakan tr").remove();
+                var str = "<tr>";
+                str += "<th class='bt'>出库单号</th>";
+                str += "<td>" + result.outStorageInfo.OutSNum + "</td>";
+                str += "<th class='bt'>类型</th>";
+                str += "<td>" + result.outStorageInfo.OutSTypeId + "</td>";
+                str += "<th class='bt'>状态</th>";
+                str += "<td>" + result.outStorageInfo.Status + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th class='bt'>客户编号</th>";
+                str += "<td>" + result.outStorageInfo.CustomerNum + "</td>";
+                str += "<th class='bt'>客户名称</th>";
+                str += "<td>" + result.outStorageInfo.CustomerName + "</td>";
+                str += "<th class='bt'>出货总数</th>";
+                str += "<td>" + result.outStorageInfo.Num + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th>创建人</th>";
+                str += "<td>" + result.outStorageInfo.AuditUser + "</td>";
+                str += "<th>创建时间</th>";
+                str += "<td>" + result.outStorageInfo.AuditTime + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th>备注</th>";
+                str += "<td colspan='5'>" + result.outStorageInfo.Remark + "</td>";
+                str += "</tr>";
+                $(".chakan tbody").append(str);
+
+                $(".XiangXi tr:gt(0)").remove();
+                $.each(result.XiangXiInfo, function (index, value) {
+                    var str = "<tr>";
+                    str += "<td>" + value.ProductName + "</td>";
+                    str += "<td>" + value.ProductNum + "</td>";
+                    str += "<td>" + value.Size + "</td>";
+                    str += "<td>" + value.UnitPrice + "<span>元</span></td>";
+                    str += "<td>" + value.Quantity + "</td>";
+                    str += "<td>" + value.SumMoney + "<span>元</span></td>";
+                    str += "<td>" + value.Location +"</td>";
+                    str += "</tr>";
+                    $(".XiangXi tbody").append(str);
+                });
+            }
+        });
     }
     function ChaKanGuanBi() {
         personal_1.style.display = "none";
@@ -460,9 +491,61 @@
         o.style.display = "none";
     }
     //审核入库单
-    function Shenhe() {
+    function Shenhe(idvalue) {
         personal_1.style.display = "block";
         o.style.display = "block";
+        
+        $.ajax({
+            url: "@Url.Action("QueryMinXi")",
+            data: { id: idvalue },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                $("#chakan tr").remove();
+                var str = "<tr>";
+                str += "<th class='bt'>出库单号</th>";
+                str += "<td>" + result.outStorageInfo.OutSNum + "</td>";
+                str += "<th class='bt'>类型</th>";
+                str += "<td>" + result.outStorageInfo.OutSTypeId + "</td>";
+                str += "<th class='bt'>状态</th>";
+                str += "<td>" + result.outStorageInfo.Status + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th class='bt'>客户编号</th>";
+                str += "<td>" + result.outStorageInfo.CustomerNum + "</td>";
+                str += "<th class='bt'>客户名称</th>";
+                str += "<td>" + result.outStorageInfo.CustomerName + "</td>";
+                str += "<th class='bt'>出货总数</th>";
+                str += "<td>" + result.outStorageInfo.Num + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th>创建人</th>";
+                str += "<td>" + result.outStorageInfo.AuditUser + "</td>";
+                str += "<th>创建时间</th>";
+                str += "<td>" + result.outStorageInfo.AuditTime + "</td>";
+                str += "</tr>";
+                str += "<tr>";
+                str += "<th>备注</th>";
+                str += "<td colspan='5'>" + result.outStorageInfo.Remark + "</td>";
+                str += "<input type='hidden' name='xgztid' value='" + result.outStorageInfo.id + "' />";
+                str += "</tr>";
+                $("#chakan tbody").append(str);
+
+                $("#XiangXi tbody .remove").remove();
+                $.each(result.XiangXiInfo, function (index, value) {
+                    var str = "<tr class='remove'>";
+                    str += "<td>" + value.ProductName + "</td>";
+                    str += "<td>" + value.ProductNum + "</td>";
+                    str += "<td>" + value.Size + "</td>";
+                    str += "<td>" + value.UnitPrice + "<span>元</span></td>";
+                    str += "<td>" + value.Quantity + "</td>";
+                    str += "<td>" + value.SumMoney + "<span>元</span></td>";
+                    str += "<td>" + value.Location + "</td>";
+                    str += "</tr>";
+                    $("#XiangXi tbody").append(str);
+                });
+            }
+        });
     }
     //新增入库单
     function insertInStorage() {

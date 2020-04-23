@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Models;
-
 namespace WarehouseBLL
 {
-    public class LocationManager:BaseManager<Location>
+   public class MeasureManage:BaseManager<Measure>
     {
     }
 }

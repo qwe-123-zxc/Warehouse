@@ -7,7 +7,7 @@ using Models;
 
 namespace WarehouseBLL
 {
-    public class LocationManager:BaseManager<Location>
+    public class ReturnOrderTypeManager : BaseManager<ReturnOrderType>
     {
     }
 }

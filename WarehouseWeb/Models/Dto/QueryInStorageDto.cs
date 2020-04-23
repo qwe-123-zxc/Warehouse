@@ -29,7 +29,7 @@ namespace WarehouseWeb.Models.Dto
                 state = value;
             }
         }
-        DateTime? end = DateTime.Now;
+        DateTime? end = DateTime.Now.AddDays(+30);
         public DateTime? End
         {
             get
