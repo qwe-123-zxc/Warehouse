@@ -4,40 +4,40 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="941a0130058847238b8dd422815e6df8" Name="Diagram1">
-        <EntityTypeShape EntityType="WarehouseModel.Admin" Width="1.5" PointX="15" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.BadReport" Width="1.5" PointX="17" PointY="16" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.BadReportDetail" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.BadReportType" Width="1.5" PointX="14.75" PointY="16.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.CheckStock" Width="1.5" PointX="18" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.CheckStockDetail" Width="1.5" PointX="2.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.CheckStockType" Width="1.5" PointX="15.75" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.Customer" Width="1.5" PointX="7.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.Depart" Width="1.5" PointX="12.75" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.Function" Width="1.5" PointX="9.75" PointY="13.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.InStorage" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.InStorageDetail" Width="1.5" PointX="17.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.InStorageType" Width="1.5" PointX="3" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.Location" Width="1.5" PointX="13" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.LocationType" Width="1.5" PointX="10.75" PointY="6.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.Measure" Width="1.5" PointX="5.75" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.MoveReport" Width="1.5" PointX="17" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.MoveReportDetail" Width="1.5" PointX="9.75" PointY="17.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.MoveReportType" Width="1.5" PointX="14.75" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.OutStorage" Width="1.5" PointX="10" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.OutStorageDetail" Width="1.5" PointX="11.75" PointY="17.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.OutStorageType" Width="1.5" PointX="7.75" PointY="15" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.Product" Width="1.5" PointX="8" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.ProductCategory" Width="1.5" PointX="5.75" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.ReturnOrderDetail" Width="1.5" PointX="5.75" PointY="18.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.ReturnOrderStock" Width="1.5" PointX="3" PointY="15" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.ReturnOrderType" Width="1.5" PointX="0.75" PointY="15.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.Role" Width="1.5" PointX="12.75" PointY="13.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.RolePower" Width="1.5" PointX="19.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.Stock" Width="1.5" PointX="0.75" PointY="19.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.Storage" Width="1.5" PointX="10.75" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.Supplier" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseModel.SupplierType" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+      <Diagram DiagramId="623b0eb41efb4af897fa4e6169f9d01a" Name="Diagram1">
+        <EntityTypeShape EntityType="WarehouseModel.Admin" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.BadReport" Width="1.5" PointX="8" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.BadReportDetail" Width="1.5" PointX="5.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.BadReportType" Width="1.5" PointX="5.75" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.CheckStock" Width="1.5" PointX="18" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.CheckStockDetail" Width="1.5" PointX="7.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.CheckStockType" Width="1.5" PointX="15.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.Customer" Width="1.5" PointX="10.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.Depart" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.Function" Width="1.5" PointX="10.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.InStorage" Width="1.5" PointX="10.25" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.InStorageDetail" Width="1.5" PointX="12.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.InStorageType" Width="1.5" PointX="8" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.Location" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.LocationType" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.Measure" Width="1.5" PointX="3" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.MoveReport" Width="1.5" PointX="15" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.MoveReportDetail" Width="1.5" PointX="14.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.MoveReportType" Width="1.5" PointX="12.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.OutStorage" Width="1.5" PointX="13" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.OutStorageDetail" Width="1.5" PointX="16.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.OutStorageType" Width="1.5" PointX="10.75" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.Product" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.ProductCategory" Width="1.5" PointX="3" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.ReturnOrderDetail" Width="1.5" PointX="2.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.ReturnOrderStock" Width="1.5" PointX="15" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.ReturnOrderType" Width="1.5" PointX="12.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.Role" Width="1.5" PointX="0.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.RolePower" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.Stock" Width="1.5" PointX="17.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.Storage" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.Supplier" Width="1.5" PointX="8" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarehouseModel.SupplierType" Width="1.5" PointX="5.75" PointY="7.875" IsExpanded="true" />
         <AssociationConnector Association="WarehouseModel.FK_Admin_Depart" ManuallyRouted="false" />
         <AssociationConnector Association="WarehouseModel.FK_Admin_Role" ManuallyRouted="false" />
         <AssociationConnector Association="WarehouseModel.FK_BadReport_BadReportType" ManuallyRouted="false" />
@@ -47,6 +47,7 @@
         <AssociationConnector Association="WarehouseModel.FK_InStorage_Supplier" ManuallyRouted="false" />
         <AssociationConnector Association="WarehouseModel.FK_Location_LocationType" ManuallyRouted="false" />
         <AssociationConnector Association="WarehouseModel.FK_Location_Storage" ManuallyRouted="false" />
+        <AssociationConnector Association="WarehouseModel.FK_Product_Location" ManuallyRouted="false" />
         <AssociationConnector Association="WarehouseModel.FK_Product_Measure" ManuallyRouted="false" />
         <AssociationConnector Association="WarehouseModel.FK_MoveReport_MoveReportType" ManuallyRouted="false" />
         <AssociationConnector Association="WarehouseModel.FK_OutStorage_OutStorageType" ManuallyRouted="false" />

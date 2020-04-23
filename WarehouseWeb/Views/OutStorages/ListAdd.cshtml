@@ -208,17 +208,21 @@
         //选中产品获取产品信息
         $("#Product").change(function () {
             var productId = $("#Product").val();
+            //alert(productId)
             $.ajax({
                 url: "@Url.Action("QueryByProductId")",
-                data: { id: productId },
+                data: { Id: productId },
                 type: "post",
                 dataType: "json",
                 success: function (result) {
-                    $("[name=ProductNum]").val(result.info.CustomerNum);
-                    $("[name=Size]").val(result.info.Size);
-                    $("[name=LocationId]").val(result.lcinfo.LocationName);
-                    $("[name=StockNum]").val(result.info.StockNum);
-                    $("[name=OutPrice]").val(result.info.OutPrice)
+                    $.each(result, function (index, value) {
+                        alert(value.ProductNum)
+                        $("[name=ProductNum]").val(value.ProductNum);
+                        $("[name=Size]").val(value.Size);
+                        $("[name=LocationId]").val(value.LocationId);
+                        $("[name=StockNum]").val(value.StockNum);
+                        $("[name=OutPrice]").val(value.OutPrice)
+                    });
                 }
             });
         });
