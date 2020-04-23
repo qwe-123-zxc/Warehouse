@@ -360,7 +360,7 @@
         var PCateId = $("#insert [name=PCateId]").val();
         var MeasureId = $("#insert [name=MeasuresId]").val();
         var LocationId = $("#insert [name=LocationId]").val();
-        alert(MeasureId);
+        //alert(MeasureId);
         $.ajax({
             url: "@Url.Action("Insert")",
             data: { ProductName: ProductName, MaxNum: MaxNum, MinNum: MinNum, OutPrice: OutPrice, Size: Size, Color: Color, PCateId: PCateId, MeasureId: MeasureId, LocationId: LocationId },
