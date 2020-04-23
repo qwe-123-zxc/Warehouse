@@ -205,14 +205,16 @@
             var ProductId = $("#Product  option:selected").val();
             $.ajax({
                 url: "@Url.Action("QueryByProductId")",
-                data: { id: ProductId },
+                data: { Id: ProductId },
                 type: "post",
                 dataType: "json",
                 success: function (result) {
-                    $("[name=ProductNum]").val(result.ProductNum);
-                    $("[name=ProductName]").val(result.ProductName);
-                    $("[name=Size]").val(result.Size);
-                    $("[name=OutPrice]").val(result.OutPrice);
+                    $.each(result, function (index, value) {
+                        $("[name=ProductNum]").val(value.ProductNum);
+                        $("[name=ProductName]").val(value.ProductName);
+                        $("[name=Size]").val(value.Size);
+                        $("[name=OutPrice]").val(value.OutPrice);
+                    });
                 }
             });
         });

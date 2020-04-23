@@ -201,7 +201,7 @@
     $(function () {
         $("#Product").change(function () {
             //获取被选中的option标签
-            var ProductId = $("#Product  option:selected").val();
+            var ProductId = $("#Product option:selected").val();
             $.ajax({
                 url: "@Url.Action("QueryByProductId")",
                 data: { Id: ProductId },

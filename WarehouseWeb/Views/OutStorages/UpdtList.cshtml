@@ -92,7 +92,7 @@
                 </div>
                 <div class="col-md-3 form-group">
                     制单人
-                    <input value="@Model.AuditUser" disabled="disabled" class="form-control" type="text" />
+                    <input value="@Model.AuditUser" name="AuditUser" disabled="disabled" class="form-control" type="text" />
                 </div>
                 <div class="col-md-3 form-group">
                     客户编号
@@ -266,8 +266,8 @@
                 //把属性和属性的值添加到对象中
                 stu.DetailNum = "";
                 stu.OutStorageId = "";
-                stu.ProductName = tds[0].innerHTML;
-                stu.ProductNum = tds[1].innerHTML;
+                stu.ProductNum = tds[0].innerHTML;
+                stu.ProductName = tds[1].innerHTML;
                 stu.Size = tds[2].innerHTML;
                 stu.UnitPrice = tds[3].innerHTML;
                 stu.Quantity = tds[4].innerHTML;
