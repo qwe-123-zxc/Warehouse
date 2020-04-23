@@ -31,5 +31,8 @@ namespace Models
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
         public string Remark { get; set; }
+    
+        public virtual Measure Measure { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
     }
 }

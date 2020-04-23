@@ -107,8 +107,8 @@
             </div>
         </div>
         <div class="row">
-            <input placeholder="请输入供应商编号或名称" class="form-control" style="width:300px;margin: 10px 0px 10px 30px;" />
-            <button class="btn btn-primary" style="float:left;width: 70px;margin-left: 340px;margin-top:-45px;">搜索</button>
+            <input id="Supplier" placeholder="请输入供应商编号或名称" class="form-control" style="width:300px;margin: 10px 0px 10px 30px;" />
+            <button id="btnSearch" class="btn btn-primary" style="float:left;width: 70px;margin-left: 340px;margin-top:-45px;">搜索</button>
         </div>
         <table class="table tab-content table-hover table-bordered" style="width:1120px;margin-left:16px;table-layout:fixed;">
             <tr>
@@ -123,22 +123,6 @@
                 <th>地址</th>
                 <th>描述</th>
                 <th>操作</th>
-            </tr>
-            <tr>
-                <td style="width:20px"><input type="checkbox" /></td>
-                <td>000001</td>
-                <td>合作供应商</td>
-                <td>小米游戏带练工作室</td>
-                <td>15800467895</td>
-                <td></td>
-                <td>zuolengchan@git.com</td>
-                <td>左冷禅</td>
-                <td>湖北省宜昌市得胜街</td>
-                <td>游戏代练</td>
-                <td>
-                    <a title="编辑" href="javascript:bianJiSupplier();"><img src="~/Image/Write.png" /> </a>
-                    <a title="删除" href="javascript:void(0);"><img src="~/Image/cha.png" />   </a>
-                </td>
             </tr>
         </table>
         <div class="form-inline" style="margin: 10px 0px 0px 640px;padding-bottom: 10px;">
@@ -161,28 +145,26 @@
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">供应商编号</span><input disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
-        <span style="margin-left:25px">供应商名称</span><input class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">供应商名称</span><input name="SupplierName" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">传<span style="margin-left:40px">真</span></span><input class="form-control" style="width:150px;margin-left:11px" />
-        <span style="margin-left:25px">联<span style="margin-left:15px">系</span><span style="margin-left:15px">人</span></span><input class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">传<span style="margin-left:40px">真</span></span><input name="Fax" class="form-control" style="width:150px;margin-left:11px" />
+        <span style="margin-left:25px">联<span style="margin-left:15px">系</span><span style="margin-left:15px">人</span></span><input name="Contacts" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">E&nbsp;&nbsp;m&nbsp;&nbsp;a&nbsp;&nbsp;i&nbsp;&nbsp;l&nbsp;&nbsp;</span><input class="form-control" style="width:150px;margin-left:5px" />
-        <span style="margin-left:25px">电<span style="margin-left:43px">话</span></span><input class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:10px">E&nbsp;&nbsp;m&nbsp;&nbsp;a&nbsp;&nbsp;i&nbsp;&nbsp;l&nbsp;&nbsp;</span><input name="Email" class="form-control" style="width:150px;margin-left:5px" />
+        <span style="margin-left:25px">电<span style="margin-left:43px">话</span></span><input name="Phone" class="form-control" style="width:149px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">地<span style="margin-left:40px">址</span></span><input class="form-control" style="width:149px;margin-left:10px" />
-        <span style="margin-left:25px">描<span style="margin-left:43px">述</span></span><input class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:10px">地<span style="margin-left:40px">址</span></span><input name="Address" class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:25px">描<span style="margin-left:43px">述</span></span><input name="Describe" class="form-control" style="width:149px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">供应商类型</span>
-        <select class="form-control" style="width:150px;margin-left:5px">
-            <option>请选择供应商</option>
-        </select>
+        @Html.DropDownList("SupTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
     </div>
     <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
-        <button style="margin:6px 10px 0px 420px;">确定</button>
+        <button style="margin:6px 10px 0px 420px;" onclick="Addproduct()">确定</button>
         <button onclick="hideSupplier();">关闭</button>
     </div>
 </div>
@@ -192,34 +174,94 @@
         <button class="btn" onclick="hideSupplier();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">供应商编号</span><input value="000001" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
-        <span style="margin-left:25px">供应商名称</span><input value="小米游戏带练工作室" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">供应商编号</span><input name="supplierNum" value="000001" disabled="disabled" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">供应商名称</span><input name="supplierName" value="小米游戏带练工作室" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">传<span style="margin-left:40px">真</span></span><input class="form-control" style="width:150px;margin-left:11px" />
-        <span style="margin-left:25px">联<span style="margin-left:15px">系</span><span style="margin-left:15px">人</span></span><input value="左冷禅" class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:10px">传<span style="margin-left:40px">真</span></span><input name="fax" class="form-control" style="width:150px;margin-left:11px" />
+        <span style="margin-left:25px">联<span style="margin-left:15px">系</span><span style="margin-left:15px">人</span></span><input name="contacts" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">E&nbsp;&nbsp;m&nbsp;&nbsp;a&nbsp;&nbsp;i&nbsp;&nbsp;l&nbsp;&nbsp;</span><input value="zuolengchan@git.com" class="form-control" style="width:150px;margin-left:5px" />
-        <span style="margin-left:25px">电<span style="margin-left:43px">话</span></span><input value="15800467895" class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:10px">E&nbsp;&nbsp;m&nbsp;&nbsp;a&nbsp;&nbsp;i&nbsp;&nbsp;l&nbsp;&nbsp;</span><input name="email" class="form-control" style="width:150px;margin-left:5px" />
+        <span style="margin-left:25px">电<span style="margin-left:43px">话</span></span><input name="phone" class="form-control" style="width:149px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
-        <span style="margin-left:10px">地<span style="margin-left:40px">址</span></span><input value="湖北省宜昌市得胜街" class="form-control" style="width:149px;margin-left:10px" />
-        <span style="margin-left:25px">描<span style="margin-left:43px">述</span></span><input value="游戏代练" class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:10px">地<span style="margin-left:40px">址</span></span><input name="address" class="form-control" style="width:149px;margin-left:10px" />
+        <span style="margin-left:25px">描<span style="margin-left:43px">述</span></span><input name="describe" class="form-control" style="width:149px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">供应商类型</span>
-        <select class="form-control" style="width:150px;margin-left:5px">
-            <option>合作供应商</option>
-        </select>
+        @Html.DropDownList("SupTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
     </div>
     <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
-        <button style="margin:6px 10px 0px 420px;">确定</button>
+        <button style="margin:6px 10px 0px 420px;" onclick="Update();">确定</button>
         <button onclick="hideSupplier();">关闭</button>
     </div>
 </div>
 
 <script type="text/javascript">
+    $(function () {
+        $(".first").click(function () {
+            bindData(1);
+        });
+
+        $(".up").click(function () {
+            var pageIndex = parseInt($(".PageIndex").val()) - 1;
+            bindData(pageIndex);
+        });
+
+        $(".next").click(function () {
+            var pageIndex = parseInt($(".PageIndex").val()) + 1;
+            bindData(pageIndex);
+        });
+
+        $(".last").click(function () {
+            bindData(9999999);
+        });
+
+        $(".go").click(function () {
+            var pageIndex = parseInt($(".PageIndex").val());
+            bindData(pageIndex);
+        });
+
+        $("#btnSearch").click(function () {
+            bindData(1);
+        });
+        bindData(1);
+    });
+            function bindData(pageIndexValue) {
+            var Supplier = $("#Supplier").val();
+        $.ajax({
+            url: "@Url.Action("Query")",
+            data: { SupplierNum: Supplier, pageIndex: pageIndexValue },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+
+                $("#lbMsg").html("当前第" + result.PageIndex + "页" + "    共计" + result.Count + "条/" + result.PageCount + "页");
+                $(".PageIndex").val(result.PageIndex);
+
+                $("table tr:gt(0)").remove();
+
+                $.each(result.RoleInfies, function (index, value) {
+                    var str = "<tr>";
+                    str += "<td><input type='checkbox' /></td>";
+                    str += "<td>" + value.SupplierNum + "</td>";
+                    str += "<td>" + value.SupTypeId + "</td>";
+                    str += "<td>" + value.SupplierName + "</td>";
+                    str += "<td>" + value.Phone + "</td>";
+                    str += "<td>" + value.Fax + "</td>";
+                    str += "<td>" + value.Email + "</td>";
+                    str += "<td>" + value.Contacts + "</td>";
+                    str += "<td>" + value.Address + "</td>";
+                    str += "<td>" + value.Describe + "</td>";
+                    str += "<td><a href = 'javascript:bianJiProductCategory(" + value.SupplierNum + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:Delete(" + value.SupplierNum + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";
+                    str += "</tr>";
+                    $("table tbody").append(str);
+                });
+            }
+        });
+    }
     //新增
     function insertSupplier() {
         insert.style.display = "block";
@@ -234,5 +276,80 @@
     function bianJiSupplier() {
         bianJi.style.display = "block";
         o.style.display = "block";
+                $.ajax({
+                    url: "@Url.Action("QueryById")",
+                    data: { supplierNum: num },
+            dataType: "json",
+            type: "post",
+                    success: function (result) {
+                        $("[name=supplierNum]").val(result.SupplierNum);
+                        $("[name=supplierName]").val(result.SupplierName);
+                        $("[name=supTypeId]").val(result.SupTypeId);
+                        $("[name=phone]").val(result.Phone);
+                        $("[name=contacts]").val(result.Contacts);
+                        $("[name=email]").val(result.Email);
+                        $("[name=fax]").val(result.Fax);
+                        $("[name=address]").val(result.Address);
+                        $("[name=describe]").val(result.Describe);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+        function Addproduct() {
+            var SupplierName = $("[name=SupplierName]").val();
+            var SupplierNum = $("[name=SupplierNum]").val();
+            var SupTypeId = $("[name=SupTypeId]").val();
+            var Phone = $("[name=Phone]").val();
+            var Contacts = $("[name=Contacts]").val();
+            var Email = $("[name=Email]").val();
+            var Fax = $("[name=Fax]").val();
+            var Address = $("[name=Address]").val();
+            var Describe = $("[name=Describe]").val();
+        $.ajax({
+            url: "@Url.Action("Insert")",
+            data: { supplierName: SupplierName, supTypeId: SupTypeId, phone: Phone, contacts: Contacts, email: Email, fax: Fax, address: Address, describe: Describe },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result)
+                $("#insert input").val("");
+                hideCustomer();
+                bindData(1);
+            }
+        });
+    }        function Update() {
+        var SupplierName = $("[name=supplierName]").val();
+        var SupplierNum = $("[name=supplierNum]").val();
+        var SupTypeId = $("[name=SupTypeId]").val();
+        var Phone = $("[name=Phone]").val();
+        var Contacts = $("[name=Contacts]").val();
+        var Email = $("[name=Email]").val();
+        var Fax = $("[name=Fax]").val();
+        var Address = $("[name=Address]").val();
+        var Describe = $("[name=Describe]").val();
+
+        $.ajax({
+            url: "@Url.Action("Update")",
+            data: { supplierName: SupplierName, supplierNum: SupplierNum,supTypeId: SupTypeId, phone: Phone, contacts: Contacts, email: Email, fax: Fax, address: Address, describe: Describe },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result)
+                window.location.href = "@Url.Action("Index")";
+            }
+        });
+    }
+            function Delete(num) {
+        $.ajax({
+            url: "@Url.Action("Delete")",
+            data: { supplierNum: num },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result)
+                window.location.href = "@Url.Action("Index")";
+            }
+        });
     }
 </script>

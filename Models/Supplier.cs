@@ -14,6 +14,12 @@ namespace Models
     
     public partial class Supplier
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Supplier()
+        {
+            this.InStorage = new HashSet<InStorage>();
+        }
+    
         public int Id { get; set; }
         public string SupplierNum { get; set; }
         public string SupplierName { get; set; }
@@ -27,5 +33,9 @@ namespace Models
         public string CreateUser { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InStorage> InStorage { get; set; }
+        public virtual SupplierType SupplierType { get; set; }
     }
 }

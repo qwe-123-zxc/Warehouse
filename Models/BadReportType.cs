@@ -14,10 +14,19 @@ namespace Models
     
     public partial class BadReportType
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public BadReportType()
+        {
+            this.BadReport = new HashSet<BadReport>();
+        }
+    
         public int Id { get; set; }
         public string BadTypeName { get; set; }
         public string CreateUser { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BadReport> BadReport { get; set; }
     }
 }

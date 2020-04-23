@@ -14,6 +14,12 @@ namespace Models
     
     public partial class Storage
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Storage()
+        {
+            this.Location = new HashSet<Location>();
+        }
+    
         public int Id { get; set; }
         public string StorageNum { get; set; }
         public string StorageName { get; set; }
@@ -21,5 +27,8 @@ namespace Models
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
         public string Remark { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Location> Location { get; set; }
     }
 }
