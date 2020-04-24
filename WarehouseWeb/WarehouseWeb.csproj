@@ -424,6 +424,7 @@
     <Content Include="Views\Warehouse\LoginPage.cshtml" />
     <Content Include="Views\InStorages\UpdtList.cshtml" />
     <Content Include="Views\OutStorages\UpdtList.cshtml" />
+    <Content Include="Views\BadReports\UpdtList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

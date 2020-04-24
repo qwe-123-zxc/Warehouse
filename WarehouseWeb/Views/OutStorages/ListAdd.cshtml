@@ -207,10 +207,10 @@
     $(function () {
         //选中产品获取产品信息
         $("#Product").change(function () {
-            var productId = $("#Product").val();
+            var ProductId = $("#Product").val();
             $.ajax({
                 url: "@Url.Action("QueryByProductId")",
-                data: { Id: productId },
+                data: { Id: ProductId },
                 type: "post",
                 dataType: "json",
                 success: function (result) {

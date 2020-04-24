@@ -259,6 +259,7 @@
         $("#OK").click(function () {
             var BadTypeIdvalue = $("#BadTypeId").val();
             var Remarkvalue = $("[name=Remark]").val();
+            var BadNumvalue = $("[name=BadNum]").val();
 
             //入库明细表
             var trs = document.getElementsByTagName("tr");  //获取表格所有行
@@ -285,8 +286,8 @@
             else
             {
                  $.ajax({
-                    url: "@Url.Action("Insert")",
-                     data: { detail: sum, BadTypeId: BadTypeIdvalue, Remark: Remarkvalue, AuditUser: AuditUservalue },
+                    url: "@Url.Action("UpdtInfo")",
+                    data: { detail: sum, BadTypeId: BadTypeIdvalue, Remark: Remarkvalue, badSNum: BadNumvalue },
                     type: "post",
                     dataType: "json",
                     success: function (result) {

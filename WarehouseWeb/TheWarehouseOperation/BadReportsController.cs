@@ -42,7 +42,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             var count = 0;
             var s = badReport.GetByWhereDesc(where, item => item.AuditTime, ref pageIndex, ref count, ref pageCount, 2);
             //格式转换
-            var newFormatList = s.Select(i => new { id = i.Id, BadNum = i.BadNum, BadTypeId = i.BadTypeId, Num = i.Num, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd") });
+            var newFormatList = s.Select(i => new { id = i.Id, BadNum = i.BadNum, BadTypeId = i.BadReportType.BadTypeName, Num = i.Num, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd") });
             var result = new
             {
                 PageCount = pageCount,
@@ -121,7 +121,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         public ActionResult QueryByProductId(int Id)
         {
             var productInfo = product.GetByWhere(i => i.Id == Id);
-            var newFormatList = productInfo.Select(item => new { Id = item.Id, ProductNum = item.ProductNum, ProductName = item.ProductName, Size = item.Size, OutPrice = item.OutPrice, LocationId = item.Location.LocationName, StockNum = item.StockNum });
+            var newFormatList = productInfo.Select(item => new { Id = item.Id, ProductNum = item.ProductNum, ProductName = item.ProductName, Size = item.Size, OutPrice = item.OutPrice, LocationId = item.LocationId, StockNum = item.StockNum });
             return Json(newFormatList, JsonRequestBehavior.AllowGet);
         }
 
@@ -218,7 +218,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             //报损类型
             var type = badReportType.GetAll();
             type.Insert(0, new BadReportType() { Id = 9999, BadTypeName = "请选择报损类型" });
-            ViewBag.BadTypeId = new SelectList(type, "Id", "BadTypeName");
+            ViewBag.BadTypeId = new SelectList(type, "Id", "BadTypeName",s.BadTypeId);
             //产品
             var product_1 = product.GetAll();
             product_1.Insert(0, new Product() { Id = 9999, ProductName = "请选择产品" });
@@ -233,67 +233,94 @@ namespace WarehouseWeb.TheWarehouseOperation
             return Json(mx, JsonRequestBehavior.AllowGet);
         }
 
-        ////修改出库单
-        //public ActionResult UpdtInfo(List<BadReportDetail> detail, int BadTypeId, int customerId, string Remark, string OutSNum)
-        //{
-        //    //先删除明细
-        //    bool val_1 = true;
-        //    var outStorageDetails = new OutStorageDetailManager();
-        //    var mx = outStorageDetails.GetByWhere(i => i.OutStorageId == OutSNum);
-        //    foreach (var item in mx)
-        //    {
-        //        val_1 = outStorageDetails.Delete(item);
-        //    }
+        //修改出库单
+        public ActionResult UpdtInfo(List<BadReportDetail> detail, int BadTypeId, string Remark, string badSNum)
+        {
+            //先删除明细
+            bool val_1 = true;
+            var badReportDetails = new BadReportDetailManager();
+            var mx = badReportDetails.GetByWhere(i => i.BadId == badSNum);
+            foreach (var item in mx)
+            {
+                val_1 = badReportDetails.Delete(item);
+            }
 
-        //    //获取明细表最大编号
-        //    string detailNumBig = outStorageDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
-        //    string detailNum = "00000" + (int.Parse(detailNumBig) + 1);
-        //    int num1 = int.Parse(detailNumBig);
-        //    if (num1 >= 9)
-        //    {
-        //        detailNumBig = "0000" + (int.Parse(detailNumBig) + 1);
-        //    }
-        //    else if (num1 >= 99)
-        //    {
-        //        detailNumBig = "000" + (int.Parse(detailNumBig) + 1);
-        //    }
-        //    string msg = "";
-        //    bool val = true;
-        //    foreach (var item in detail)
-        //    {
-        //        item.DetailNum = detailNum;
-        //        item.OutStorageId = OutSNum;
-        //        item.CreateTime = DateTime.Now;
-        //        val = outStorageDetail.Add(item);
-        //    }
-        //    if (val)
-        //    {
-        //        var num = outStorageDetail.GetByWhere(item => item.OutStorageId == OutSNum).Sum(item => item.Quantity);
-        //        var sumMoney = outStorageDetail.GetByWhere(item => item.OutStorageId == OutSNum).Sum(item => item.SumMoney);
-        //        var outStorage_1 = new OutStorageManager();
-        //        var s = outStorage_1.GetByWhere(i => i.OutSNum == OutSNum).SingleOrDefault();
-        //        s.DetailNum = detailNum;
-        //        s.OutSTypeId = outSTypeId;
-        //        s.CustomerId = customerId;
-        //        s.Remark = Remark;
-        //        s.Num = Convert.ToInt32(num);
-        //        s.SumMoney = Convert.ToInt32(sumMoney);
-        //        bool vall = outStorage.Update(s);
-        //        if (vall)
-        //        {
-        //            msg = "修改成功";
-        //        }
-        //        else
-        //        {
-        //            msg = "修改失败";
-        //        }
-        //        msg = "修改成功";
-        //    }
-        //    else
-        //    {
-        //        msg = "修改失败";
-        //    }
-        //    return Json(msg, JsonRequestBehavior.AllowGet);
-        //}
+            //获取明细表最大编号
+            string detailNumBig = badReportDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
+            string detailNum = "00000" + (int.Parse(detailNumBig) + 1);
+            int num1 = int.Parse(detailNumBig);
+            if (num1 >= 9)
+            {
+                detailNumBig = "0000" + (int.Parse(detailNumBig) + 1);
+            }
+            else if (num1 >= 99)
+            {
+                detailNumBig = "000" + (int.Parse(detailNumBig) + 1);
+            }
+            string msg = "";
+            bool val = true;
+            foreach (var item in detail)
+            {
+                item.DetailNum = detailNum;
+                item.CreateTime = DateTime.Now;
+                item.BadId = badSNum;
+                val = badReportDetail.Add(item);
+            }
+            if (val)
+            {
+                var num = badReportDetail.GetByWhere(item => item.BadId == badSNum).Sum(item => item.Quantity);
+                var sumMoney = badReportDetail.GetByWhere(item => item.BadId == badSNum).Sum(item => item.SumMoney);
+                var badreport_1 = new BadReportManager();
+                var s = badreport_1.GetByWhere(i => i.BadNum == badSNum).SingleOrDefault();
+                s.DetailNum = detailNum;
+                s.BadTypeId = BadTypeId;
+                s.Remark = Remark;
+                s.Num = Convert.ToInt32(num);
+                s.SumMoney = Convert.ToInt32(sumMoney);
+                bool vall = badReport.Update(s);
+                if (vall)
+                {
+                    msg = "修改成功";
+                }
+                else
+                {
+                    msg = "修改失败";
+                }
+                msg = "修改成功";
+            }
+            else
+            {
+                msg = "修改失败";
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+        
+        //删除报损单
+        public ActionResult DeleteInfo(int id)
+        {
+            BadReport ins = badReport.GetByWhere(item => item.Id == id).SingleOrDefault();
+            List<BadReportDetail> listDetail = badReportDetail.GetByWhere(item => item.BadId == ins.BadNum);
+            bool val = true;
+            string msg = "";
+            foreach (var list in listDetail)
+            {
+                list.IsDelete = 1;
+                val = badReportDetail.Update(list);
+            }
+            if (val)
+            {
+                ins.IsDelete = 1;
+                bool vall = badReport.Update(ins);
+                if (vall)
+                {
+                    msg = "删除成功";
+                }
+                else
+                {
+                    msg = "删除失败";
+                }
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
     }
 }

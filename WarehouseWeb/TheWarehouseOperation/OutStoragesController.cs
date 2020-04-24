@@ -152,7 +152,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         {
             var productInfo = productManager.GetByWhere(i => i.Id == Id);
             var newFormatList = productInfo.Select(item => new { Id = item.Id, ProductNum = item.ProductNum, ProductName = item.ProductName, Size = item.Size, OutPrice = item.OutPrice, LocationId = item.Location.LocationName, StockNum = item.StockNum });
-            return Json(newFormatList, JsonRequestBehavior.AllowGet);
+            return Json(productInfo, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Insert(List<OutStorageDetail> detail, int OutSTypeId, int CustomerId, string Remark, string AuditUser)
