@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "ListAdd";
+    ViewBag.Title = "UpdtList";
     Layout = "~/Views/MasterPage/Main.cshtml";
 }
 
@@ -84,7 +84,7 @@
             <div class="row">
                 <div class="col-md-3 form-group">
                     移库单编号
-                    <input class="form-control" disabled="disabled" placeholder="自动生成" type="text" />
+                    <input class="form-control" name="MoveNum" value="@Model.MoveNum" disabled="disabled" placeholder="自动生成" type="text" />
                 </div>
                 <div class="col-md-3 form-group">
                     移库类型
@@ -92,17 +92,17 @@
                 </div>
                 <div class="col-md-3 form-group">
                     制单人
-                    <input value="@(Session["userName"])" disabled="disabled" class="form-control" type="text" />
+                    <input value="@Model.AuditUser" name="AuditUser" disabled="disabled" class="form-control" type="text" />
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3 form-group">
                     制单时间
-                    <input class="form-control" type="datetime" />
+                    <input class="form-control" value="@Model.AuditTime" name="AuditTime" type="datetime" />
                 </div>
                 <div class="col-md-5 form-group">
                     备注
-                    <input name="Remark" class="form-control" type="text" />
+                    <input name="Remark" value="@Model.Remark" class="form-control" type="text" />
                 </div>
             </div>
         </div>
@@ -218,6 +218,7 @@
                 }
             });
         });
+        QueryXiangXi(@Model.Id);
 
         //添加产品到表格
         $("#ProductAdd").click(function () {
@@ -243,9 +244,9 @@
 
         //保存
         $("#OK").click(function () {
-            var AuditUservalue = "@(Session["userName"])";
             var MoveTypeIdvalue = $("#MoveTypeId").val();
             var Remarkvalue = $("[name=Remark]").val();
+            var MoveNumvalue = $("[name=MoveNum]").val();
 
             //入库明细表
             var trs = document.getElementsByTagName("tr");  //获取表格所有行
@@ -271,8 +272,8 @@
             else
             {
                  $.ajax({
-                    url: "@Url.Action("Insert")",
-                     data: { detail: sum, MoveTypeId: MoveTypeIdvalue, Remark: Remarkvalue, AuditUser: AuditUservalue },
+                    url: "@Url.Action("UpdtInfo")",
+                     data: { detail: sum, MoveTypeId: MoveTypeIdvalue, Remark: Remarkvalue, movSNum: MoveNumvalue},
                     type: "post",
                     dataType: "json",
                     success: function (result) {
@@ -282,6 +283,21 @@
             }
         });
     });
+    //查询详细信息
+    function QueryXiangXi(InSNumvalue) {
+        $.ajax({
+            url: "@Url.Action("QueryByIdMinXiInfo")",
+            data: { id: InSNumvalue },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                $.each(result, function (index, value) {
+                    var str = "<tr><td>" + value.ProductNum + "</td><td>" + value.ProductName + "</td><td>" + value.Size + "</td><td>" + value.Quantity + "</td><td>" + value.TheCurrentLocation + "</td><td>" + value.MovingLocation + "</td><td onclick='Delete(this);'><a href='javascript:void(0);'>删除</a></td></tr >";
+                    $("tbody").append(str);
+                });
+            }
+        });
+    }
 
     function Delete(obj) {
         $(obj).parent().remove();
@@ -296,3 +312,4 @@
         $("#o").hide();
     }
 </script>
+
