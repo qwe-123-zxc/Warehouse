@@ -14,6 +14,8 @@ namespace WarehouseWeb.TheWarehouseOperation
         MoveReportManager moveReport = new MoveReportManager();
         MoveReportDetailManager moveReportDetail = new MoveReportDetailManager();
         MoveReportTypeManager moveReportType = new MoveReportTypeManager();
+        ProductManager product = new ProductManager();
+        LocationManager location = new LocationManager();
         /// <summary>
         /// 移库管理
         /// </summary>
@@ -53,11 +55,11 @@ namespace WarehouseWeb.TheWarehouseOperation
         }
 
         //查询明细
-        public ActionResult QueryMinXi(string id)
+        public ActionResult QueryMinXi(int id)
         {
-            Expression<Func<MoveReport, bool>> where = i => i.MoveNum.IndexOf(id) != -1;
+            Expression<Func<MoveReport, bool>> where = i => i.Id == id; 
             var s = moveReport.GetByWhere(where).SingleOrDefault();
-            var d = moveReportDetail.GetByWhere(i => i.MoveId.IndexOf(id) != -1);
+            var d = moveReportDetail.GetByWhere(i => i.MoveId == s.MoveNum);
             var t = moveReportType.GetByWhere(i => i.Id == s.MoveTypeId).SingleOrDefault();
             //主表显示
             var info = new
