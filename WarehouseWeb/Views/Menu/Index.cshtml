@@ -178,7 +178,7 @@
         <span style="margin-left:10px">链接地址</span><input name="nodeURL" class="form-control" style="width:150px;margin-left:10px" />
     </div>
     <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
-        <button style="margin:6px 10px 0px 180px;">确定</button>
+        <button style="margin:6px 10px 0px 180px;" onclick="Update()">确定</button>
         <button onclick="hideMenu();">关闭</button>
     </div>
 </div>
@@ -215,10 +215,10 @@
     })
 
     function bindData(pageIndexValue) {
-        var CustomerValue = $("#Customer").val();
+        var CustomerValue = $("#Name").val();
         $.ajax({
             url: "@Url.Action("Query")",
-            data: { CustomerNum: CustomerValue, pageIndex: pageIndexValue },
+            data: { Name: CustomerValue, pageIndex: pageIndexValue },
             dataType: "json",
             type: "post",
             success: function (result) {
@@ -235,7 +235,7 @@
                     str += "<td>" + value.ParentNodeId + "</td>";
                     str += "<td>" + value.NodeURL + "</td>";
                     str += "<td>" + value.CreateTime + "</td>";
-                    str += "<td><a href = 'javascript:bianJiCustomer(" + value.CustomerNum + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:Delete(" + value.CustomerNum + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";
+                    str += "<td><a href = 'javascript:bianJiMenu(" + value.Id + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:Delete(" + value.Id + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";
                     str += "</tr>";
                     $("table tbody").append(str);
                 });
@@ -261,6 +261,38 @@
         });
     }
 
+    function Update() {
+        var NodeId = $("[name=nodeId]").val();
+        var DisplayName = $("[name=displayName]").val();
+        var ParentNodeId = $("#bianJi [name=list]").val();
+        var NodeURL = $("[name=nodeURL]").val();
+        $.ajax({
+            url: "@Url.Action("Update")",
+            data: { DisplayName: DisplayName, ParentNodeId: ParentNodeId, NodeURL: NodeURL, NodeId: NodeId },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result)
+                $("#insert input").val("");
+                hideMenu();
+                bindData(1);
+            }
+        });
+    }
+
+    function Delete(num) {
+        $.ajax({
+            url: "@Url.Action("Delete")",
+            data: { Id: num },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                alert(result)
+                bindData(1);
+            }
+        });
+    }
+
     //新增
     function insertMenu() {
         insert.style.display = "block";
@@ -272,8 +304,20 @@
         o.style.display = "none";
     }
     //编辑
-    function bianJiMenu() {
+    function bianJiMenu(num) {
         bianJi.style.display = "block";
         o.style.display = "block";
+        $.ajax({
+            url: "@Url.Action("QueryById")",
+            data: { Id: num },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                $("[name=nodeId]").val(result.NodeId);
+                $("[name=displayName]").val(result.DisplayName);
+                $("#bianJi [name=list]").val(result.ParentNodeId);
+                $("[name=nodeURL]").val(result.NodeURL);
+            }
+        });
     }
 </script>

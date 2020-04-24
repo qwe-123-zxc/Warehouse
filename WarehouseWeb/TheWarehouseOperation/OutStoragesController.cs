@@ -74,11 +74,11 @@ namespace WarehouseWeb.TheWarehouseOperation
         }
 
         //查询明细
-        public ActionResult QueryMinXi(int id)
+        public ActionResult QueryMinXi(string id)
         {
-            Expression<Func<OutStorage, bool>> where = i => i.Id == id;
+            Expression<Func<OutStorage, bool>> where = i => i.OutSNum.IndexOf(id) != -1;
             var s = outStorage.GetByWhere(where).SingleOrDefault();
-            var d = outStorageDetail.GetByWhere(i => i.OutStorageId == s.OutSNum && i.IsDelete == 0);
+            var d = outStorageDetail.GetByWhere(i => i.OutStorageId.IndexOf(id) != -1);
             var t = outStorageType.GetByWhere(i => i.Id == s.OutSTypeId).SingleOrDefault();
             var k = customer.GetByWhere(i => i.Id == s.CustomerId).SingleOrDefault();
             //主表显示
@@ -218,7 +218,7 @@ namespace WarehouseWeb.TheWarehouseOperation
                 ost.CustomerId = CustomerId;
                 ost.DetailNum = detailNum;
                 ost.Num = Convert.ToInt32(num); ;
-                ost.SumMoney = Convert.ToInt32(sumMoney);
+                ost.SumMoney = Convert.ToDouble(sumMoney);
                 ost.Status = "待审核";
                 ost.AuditTime = DateTime.Now;
                 ost.AuditUser = AuditUser;
@@ -279,12 +279,13 @@ namespace WarehouseWeb.TheWarehouseOperation
             {
                 val_1 = outStorageDetails.Delete(item);
             }
-            string detailNum = "";
+
             //获取明细表最大编号
             string detailNumBig = outStorageDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
+            string detailNum = "";
             if (detailNumBig == null)
             {
-                detailNum = "000001";
+                detailNumBig = "000001";
             }
             else
             {
@@ -319,7 +320,7 @@ namespace WarehouseWeb.TheWarehouseOperation
                 s.CustomerId = customerId;
                 s.Remark = Remark;
                 s.Num = Convert.ToInt32(num);
-                s.SumMoney = Convert.ToInt32(sumMoney);
+                s.SumMoney = Convert.ToDouble(sumMoney);
                 bool vall = outStorage.Update(s);
                 if (vall)
                 {

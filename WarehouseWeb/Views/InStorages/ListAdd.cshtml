@@ -208,11 +208,13 @@
                 type: "post",
                 dataType: "json",
                 success: function (result) {
-                    //alert(result.ProductName)
-                    $("[name=ProductNum]").val(result.ProductNum);
-                    $("[name=ProductName]").val(result.ProductName);
-                    $("[name=Size]").val(result.Size);
-                    $("[name=OutPrice]").val(result.OutPrice);
+                    //alert(JSON.stringify(result))
+                    $.each(result, function (index, value) {
+                        $("[name=ProductNum]").val(value.ProductNum);
+                        $("[name=ProductName]").val(value.ProductName);
+                        $("[name=Size]").val(value.Size);
+                        $("[name=OutPrice]").val(value.OutPrice);
+                    })
                 }
             });
         });

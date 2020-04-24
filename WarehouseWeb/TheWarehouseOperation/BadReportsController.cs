@@ -54,11 +54,11 @@ namespace WarehouseWeb.TheWarehouseOperation
         }
 
         //查询明细
-        public ActionResult QueryMinXi(int id)
+        public ActionResult QueryMinXi(string id)
         {
-            Expression<Func<BadReport, bool>> where = i => i.Id == id;
+            Expression<Func<BadReport, bool>> where = i => i.BadNum.IndexOf(id) != -1;
             var b = badReport.GetByWhere(where).SingleOrDefault();
-            var d = badReportDetail.GetByWhere(i => i.BadId == b.BadNum && i.IsDelete == 0);
+            var d = badReportDetail.GetByWhere(i => i.BadId.IndexOf(id) != -1);
             var t = badReportType.GetByWhere(i => i.Id == b.BadTypeId).SingleOrDefault();
             //主表显示
             var info = new
@@ -187,7 +187,7 @@ namespace WarehouseWeb.TheWarehouseOperation
                 ost.BadTypeId = BadTypeId;
                 ost.DetailNum = detailNum;
                 ost.Num = Convert.ToInt32(num); ;
-                ost.SumMoney = Convert.ToInt32(sumMoney);
+                ost.SumMoney = Convert.ToDouble(sumMoney);
                 ost.Status = "待审核";
                 ost.AuditTime = DateTime.Now;
                 ost.AuditUser = AuditUser;
@@ -245,12 +245,12 @@ namespace WarehouseWeb.TheWarehouseOperation
                 val_1 = badReportDetails.Delete(item);
             }
 
-            string detailNum = "";
             //获取明细表最大编号
             string detailNumBig = badReportDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
+            string detailNum = "";
             if (detailNumBig == null)
             {
-                detailNum = "000001";
+                detailNumBig = "000001";
             }
             else
             {
@@ -284,7 +284,7 @@ namespace WarehouseWeb.TheWarehouseOperation
                 s.BadTypeId = BadTypeId;
                 s.Remark = Remark;
                 s.Num = Convert.ToInt32(num);
-                s.SumMoney = Convert.ToInt32(sumMoney);
+                s.SumMoney = Convert.ToDouble(sumMoney);
                 bool vall = badReport.Update(s);
                 if (vall)
                 {
