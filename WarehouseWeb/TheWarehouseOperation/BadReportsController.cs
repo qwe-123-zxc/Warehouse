@@ -245,17 +245,25 @@ namespace WarehouseWeb.TheWarehouseOperation
                 val_1 = badReportDetails.Delete(item);
             }
 
+            string detailNum = "";
             //获取明细表最大编号
             string detailNumBig = badReportDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
-            string detailNum = "00000" + (int.Parse(detailNumBig) + 1);
-            int num1 = int.Parse(detailNumBig);
-            if (num1 >= 9)
+            if (detailNumBig == null)
             {
-                detailNumBig = "0000" + (int.Parse(detailNumBig) + 1);
+                detailNum = "000001";
             }
-            else if (num1 >= 99)
+            else
             {
-                detailNumBig = "000" + (int.Parse(detailNumBig) + 1);
+                detailNum = "00000" + (int.Parse(detailNumBig) + 1);
+                int num1 = int.Parse(detailNumBig);
+                if (num1 >= 9)
+                {
+                    detailNumBig = "0000" + (int.Parse(detailNumBig) + 1);
+                }
+                else if (num1 >= 99)
+                {
+                    detailNumBig = "000" + (int.Parse(detailNumBig) + 1);
+                }
             }
             string msg = "";
             bool val = true;
