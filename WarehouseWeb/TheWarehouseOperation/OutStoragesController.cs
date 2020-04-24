@@ -74,11 +74,11 @@ namespace WarehouseWeb.TheWarehouseOperation
         }
 
         //查询明细
-        public ActionResult QueryMinXi(string id)
+        public ActionResult QueryMinXi(int id)
         {
-            Expression<Func<OutStorage, bool>> where = i => i.OutSNum.IndexOf(id) != -1;
+            Expression<Func<OutStorage, bool>> where = i => i.Id == id;
             var s = outStorage.GetByWhere(where).SingleOrDefault();
-            var d = outStorageDetail.GetByWhere(i => i.OutStorageId.IndexOf(id) != -1);
+            var d = outStorageDetail.GetByWhere(i => i.OutStorageId == s.OutSNum);
             var t = outStorageType.GetByWhere(i => i.Id == s.OutSTypeId).SingleOrDefault();
             var k = customer.GetByWhere(i => i.Id == s.CustomerId).SingleOrDefault();
             //主表显示

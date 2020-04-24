@@ -20,8 +20,6 @@ namespace Models
         public string ProductNum { get; set; }
         public string ProductName { get; set; }
         public string Size { get; set; }
-        public int Quantity { get; set; }
-        public double SumMoney { get; set; }
         public int Sum { get; set; }
         public string Location { get; set; }
         public System.DateTime CreateTime { get; set; }

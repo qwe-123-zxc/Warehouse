@@ -74,11 +74,11 @@ namespace WarehouseWeb.TheWarehouseOperation
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult QueryMinXi(string id)
+        public ActionResult QueryMinXi(int id)
         {
-            Expression<Func<InStorage, bool>> where = i => i.InSNum.IndexOf(id) != -1;
+            Expression<Func<InStorage, bool>> where = i => i.Id == id;
             var s = inStorage.GetByWhere(where).SingleOrDefault();
-            var d = inStorageDetail.GetByWhere(i => i.InStorageId.IndexOf(id) != -1);
+            var d = inStorageDetail.GetByWhere(i => i.InStorageId == s.InSNum);
             var t = inStorageType.GetByWhere(i => i.Id == s.InSTypeId).SingleOrDefault();
             var g = GonYinShang.GetByWhere(i => i.Id == s.SupplierId).SingleOrDefault();
             //主表显示

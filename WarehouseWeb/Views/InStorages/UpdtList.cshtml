@@ -262,15 +262,22 @@
                 stu.IsDelete = 0;
                 sum.push(stu);//使用push方法把对象添加到数组中
             }
-            $.ajax({
-                url: "@Url.Action("UpdtInfo")",
-                data: { detail: sum, inSTypeId: InSTypeIdvalue, supplierId: SupplierIdvalue, Remark: Remarkvalue, InSNum: InSNumvalue},
-                type: "post",
-                dataType: "json",
-                success: function (result) {
-                    alert(result);
-                }
-            });
+            if (sum.length <= 0) {
+                alert("请添加产品");
+            }
+            else
+            {
+                $.ajax({
+                    url: "@Url.Action("UpdtInfo")",
+                    data: { detail: sum, inSTypeId: InSTypeIdvalue, supplierId: SupplierIdvalue, Remark: Remarkvalue, InSNum:   InSNumvalue},
+                    type: "post",
+                    dataType: "json",
+                    success: function (result) {
+                        alert(result);
+                    }
+                });
+            }
+            
         });
     });
 

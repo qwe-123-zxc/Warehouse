@@ -403,7 +403,7 @@
     function ChaKan(idvalue) {
         p.style.display = "block";
         o.style.display = "block";
-
+        alert(idvalue);
         $.ajax({
             url: "@Url.Action("QueryMinXi")",
             data: { id: idvalue },
