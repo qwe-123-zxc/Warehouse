@@ -29,6 +29,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             var gys = GonYinShang.GetAll();
             gys.Insert(0, new Supplier() { Id = 99999999, SupplierName = "请选择供应商" });
             ViewBag.SupplierId = new SelectList(gys, "Id", "SupplierName");
+
             //单据类型
             var lty = inStorageType.GetAll();
             lty.Insert(0, new InStorageType() { Id = 9999, InSTypeName = "请选择入库单类型" });
@@ -164,27 +165,43 @@ namespace WarehouseWeb.TheWarehouseOperation
         {
             //获取明细表最大编号
             string detailNumBig = inStorageDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
-            string detailNum = "00000" + (int.Parse(detailNumBig) + 1);
-            int numD = int.Parse(detailNumBig);
-            if (numD >= 9)
+            string detailNum = "";
+            if (detailNumBig==null)
             {
-                detailNum = "0000" + (int.Parse(detailNumBig) + 1);
+                detailNum = "000001";
             }
-            else if (numD >= 99)
-            {
-                detailNum = "000" + (int.Parse(detailNumBig) + 1);
+            else
+            { 
+                detailNum = "00000" + (int.Parse(detailNumBig) + 1);
+                int numD = int.Parse(detailNumBig);
+                if (numD >= 9)
+                {
+                    detailNum = "0000" + (int.Parse(detailNumBig) + 1);
+                }
+                else if (numD >= 99)
+                {
+                    detailNum = "000" + (int.Parse(detailNumBig) + 1);
+                }
             }
             //获取入库表最大编号
             string inSNumBig = inStorage.GetByWhere(item => true).OrderByDescending(item => item.InSNum).Take(1).Select(item => item.InSNum).FirstOrDefault();
-            string inSNum = "00000" + (int.Parse(inSNumBig) + 1);
-            int numS = int.Parse(inSNumBig);
-            if (numS >= 9)
+            string inSNum = "";
+            if (inSNumBig == null)
             {
-                inSNum = "0000" + (int.Parse(inSNumBig) + 1);
+                inSNum = "000001";
             }
-            else if (numS >= 99)
+            else
             {
-                inSNum = "000" + (int.Parse(inSNumBig) + 1);
+                inSNum = "00000" + (int.Parse(inSNumBig) + 1);
+                int numS = int.Parse(inSNumBig);
+                if (numS >= 9)
+                {
+                    inSNum = "0000" + (int.Parse(inSNumBig) + 1);
+                }
+                else if (numS >= 99)
+                {
+                    inSNum = "000" + (int.Parse(inSNumBig) + 1);
+                }
             }
             bool val = true ;
             string msg = "";
@@ -209,7 +226,7 @@ namespace WarehouseWeb.TheWarehouseOperation
                 inStorages.Num = Convert.ToInt32(num); 
                 inStorages.Remark = Remark;
                 inStorages.Status = "待审核";
-                inStorages.SumMoney = Convert.ToInt32(sumMoney); 
+                inStorages.SumMoney = Convert.ToDouble(sumMoney); 
                 inStorages.SupplierId = SupplierId;
                 bool vall = inStorage.Add(inStorages);
                 if (vall)
@@ -275,15 +292,23 @@ namespace WarehouseWeb.TheWarehouseOperation
 
             //获取明细表最大编号
             string detailNumBig = inStorageDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
-            string detailNum = "00000" + (int.Parse(detailNumBig) + 1);
-            int num1 = int.Parse(detailNumBig);
-            if (num1 >= 9)
+            string detailNum = "";
+            if (detailNumBig == null)
             {
-                detailNumBig = "0000" + (int.Parse(detailNumBig) + 1);
+                detailNumBig = "000001";
             }
-            else if (num1 >= 99)
+            else
             {
-                detailNumBig = "000" + (int.Parse(detailNumBig) + 1);
+                detailNum = "00000" + (int.Parse(detailNumBig) + 1);
+                int num1 = int.Parse(detailNumBig);
+                if (num1 >= 9)
+                {
+                    detailNumBig = "0000" + (int.Parse(detailNumBig) + 1);
+                }
+                else if (num1 >= 99)
+                {
+                    detailNumBig = "000" + (int.Parse(detailNumBig) + 1);
+                }
             }
             string msg = "";
             bool val = true;
@@ -297,7 +322,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             if (val)
             {
                 var num = inStorageDetail.GetByWhere(item => item.InStorageId == InSNum).Sum(item => item.Quantity);
-                var sumMoney = inStorageDetail.GetByWhere(item => item.InStorageId == InSNum).Sum(item => item.SumMoney);
+                var sumMoney = Convert.ToDouble(inStorageDetail.GetByWhere(item => item.InStorageId == InSNum).Sum(item => item.SumMoney));
                 var inStorage_1 = new InStorageManager();
                 var s = inStorage_1.GetByWhere(i => i.InSNum== InSNum).SingleOrDefault();
                 s.DetailNum = detailNum;
@@ -305,7 +330,7 @@ namespace WarehouseWeb.TheWarehouseOperation
                 s.SupplierId = supplierId;
                 s.Remark = Remark;
                 s.Num = Convert.ToInt32(num);
-                s.SumMoney = Convert.ToInt32(sumMoney);
+                s.SumMoney = Convert.ToDouble(sumMoney);
                 bool vall = inStorage.Update(s);
                 if (vall)
                 {

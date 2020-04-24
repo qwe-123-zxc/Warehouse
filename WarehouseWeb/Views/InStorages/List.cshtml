@@ -186,7 +186,8 @@
         <div class="form-inline GaoJiChaXun" style="width:1120px;height:80px;margin:5px 0px 15px 5px;border:1px solid #ddd;border-radius:3px;background-color:#f9f9f9;display:none">
             <div style="margin:10px">
                 <div class="col-md-8">
-                    <span style="margin:0px 10px">供应商</span>@Html.DropDownList("SupplierId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+                    <span style="margin:0px 10px">供应商</span>
+                    @Html.DropDownList("SupplierId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
                     <span style="margin:0px 10px">单据类型</span>
                     @Html.DropDownList("InSTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
                     <button class="btn btn-primary btnQuery" type="button" style="margin-left:20px;width:60px">搜索</button>

@@ -187,7 +187,7 @@ namespace WarehouseWeb.TheWarehouseOperation
                 ost.BadTypeId = BadTypeId;
                 ost.DetailNum = detailNum;
                 ost.Num = Convert.ToInt32(num); ;
-                ost.SumMoney = Convert.ToInt32(sumMoney);
+                ost.SumMoney = Convert.ToDouble(sumMoney);
                 ost.Status = "待审核";
                 ost.AuditTime = DateTime.Now;
                 ost.AuditUser = AuditUser;
@@ -247,15 +247,23 @@ namespace WarehouseWeb.TheWarehouseOperation
 
             //获取明细表最大编号
             string detailNumBig = badReportDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
-            string detailNum = "00000" + (int.Parse(detailNumBig) + 1);
-            int num1 = int.Parse(detailNumBig);
-            if (num1 >= 9)
+            string detailNum = "";
+            if (detailNumBig == null)
             {
-                detailNumBig = "0000" + (int.Parse(detailNumBig) + 1);
+                detailNumBig = "000001";
             }
-            else if (num1 >= 99)
+            else
             {
-                detailNumBig = "000" + (int.Parse(detailNumBig) + 1);
+                detailNum = "00000" + (int.Parse(detailNumBig) + 1);
+                int num1 = int.Parse(detailNumBig);
+                if (num1 >= 9)
+                {
+                    detailNumBig = "0000" + (int.Parse(detailNumBig) + 1);
+                }
+                else if (num1 >= 99)
+                {
+                    detailNumBig = "000" + (int.Parse(detailNumBig) + 1);
+                }
             }
             string msg = "";
             bool val = true;
@@ -276,7 +284,7 @@ namespace WarehouseWeb.TheWarehouseOperation
                 s.BadTypeId = BadTypeId;
                 s.Remark = Remark;
                 s.Num = Convert.ToInt32(num);
-                s.SumMoney = Convert.ToInt32(sumMoney);
+                s.SumMoney = Convert.ToDouble(sumMoney);
                 bool vall = badReport.Update(s);
                 if (vall)
                 {

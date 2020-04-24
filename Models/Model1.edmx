@@ -49,9 +49,9 @@
           <Property Name="ProductNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="UnitPrice" Type="float" Nullable="false" />
-          <Property Name="SumMoney" Type="float" Nullable="false" />
+          <Property Name="UniPrice" Type="float" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="SumMoney" Type="float" Nullable="false" />
           <Property Name="Location" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
@@ -254,6 +254,7 @@
           <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="SumMoney" Type="float" />
           <Property Name="TheCurrentLocation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="MovingLocation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
@@ -359,6 +360,8 @@
           <Property Name="ProductNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="SumMoney" Type="float" Nullable="false" />
           <Property Name="Sum" Type="int" Nullable="false" />
           <Property Name="Location" Type="varchar" MaxLength="50" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
@@ -804,9 +807,9 @@
           <Property Name="ProductNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UnitPrice" Type="Double" Nullable="false" />
-          <Property Name="SumMoney" Type="Double" Nullable="false" />
+          <Property Name="UniPrice" Type="Double" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="SumMoney" Type="Double" Nullable="false" />
           <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
@@ -1023,6 +1026,7 @@
           <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="SumMoney" Type="Double" />
           <Property Name="TheCurrentLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MovingLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
@@ -1136,6 +1140,8 @@
           <Property Name="ProductNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="SumMoney" Type="Double" Nullable="false" />
           <Property Name="Sum" Type="Int32" Nullable="false" />
           <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
@@ -1587,9 +1593,9 @@
                 <ScalarProperty Name="ProductNum" ColumnName="ProductNum" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="Size" ColumnName="Size" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
+                <ScalarProperty Name="UniPrice" ColumnName="UniPrice" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
@@ -1807,6 +1813,7 @@
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="Size" ColumnName="Size" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="TheCurrentLocation" ColumnName="TheCurrentLocation" />
                 <ScalarProperty Name="MovingLocation" ColumnName="MovingLocation" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
@@ -1919,6 +1926,8 @@
                 <ScalarProperty Name="ProductNum" ColumnName="ProductNum" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="Sum" ColumnName="Sum" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />

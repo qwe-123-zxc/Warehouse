@@ -18,8 +18,8 @@ namespace WarehouseWeb.SystemSetup
         public ActionResult Index()
         {
             List<Function> list = functionManager.GetByWhere(item=>item.IsDelete==0&&item.ParentNodeId==0);
-            list.Insert(0, new Function() { Id = 0, DisplayName = "请选择" });
-            ViewBag.list = new SelectList(list, "Id", "DisplayName");
+            list.Insert(0, new Function() { NodeId = 0, DisplayName = "请选择" });
+            ViewBag.list = new SelectList(list, "NodeId", "DisplayName");
             return View();
         }
         public int PageSize
@@ -32,7 +32,8 @@ namespace WarehouseWeb.SystemSetup
             Expression<Func<Function, bool>> where = item => item.IsDelete == 0;
             if (!string.IsNullOrEmpty(Name))
             {
-                where = where.And(item => item.DisplayName.IndexOf(Name) != -1 || item.NodeId.Equals(Name));
+                int name = int.Parse(Name);
+                where = where.And(item => item.DisplayName.IndexOf(Name) != -1 || item.NodeId==name);
             }
             var pageCount = 0;
             var count = 0;
@@ -53,7 +54,7 @@ namespace WarehouseWeb.SystemSetup
         {
             Function function = new Function();
             //获取编号
-            if (ParentNodeId == 9999999)
+            if (ParentNodeId == 0)
             {
                 int NodeId = functionManager.GetByWhere(item => item.IsDelete == 0 && item.ParentNodeId == 0).OrderByDescending(item => item.NodeId).Take(1).Select(item => item.NodeId).FirstOrDefault();
                 function.NodeId = NodeId+10000;
@@ -86,65 +87,55 @@ namespace WarehouseWeb.SystemSetup
             }
         }
 
-        //public ActionResult Delete(int customerNum)
-        //{
-        //    Customer customer = service.GetByWhere(i => i.Id == customerNum).SingleOrDefault();
-        //    customer.IsDelete = 1;
-        //    bool val = service.Update(customer);
-        //    if (val)
-        //    {
-        //        return Json("删除成功", JsonRequestBehavior.AllowGet);
-        //    }
-        //    else
-        //    {
-        //        return Json("删除失败", JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        public ActionResult Delete(int Id)
+        {
+            Function function = functionManager.GetByWhere(item => item.Id == Id).SingleOrDefault();
+            function.IsDelete = 1;
+            bool val = functionManager.Update(function);
+            if (val)
+            {
+                return Json("删除成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("删除失败", JsonRequestBehavior.AllowGet);
+            }
+        }
 
-        ////全选单选删除
-        //public ActionResult DeleteOther(List<Customer> list)
-        //{
-        //    bool val = true;
-        //    foreach (var item in list)
-        //    {
-        //        Customer customer = service.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
-        //        customer.IsDelete = 1;
-        //        val = service.Update(customer);
-        //    }
-        //    if (val)
-        //    {
-        //        return Json("删除成功", JsonRequestBehavior.AllowGet);
-        //    }
-        //    else
-        //    {
-        //        return Json("删除失败", JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
-        //public ActionResult QueryById(string customerNum)
-        //{
-        //    Customer customer = service.GetByWhere(item => item.CustomerNum.IndexOf(customerNum) != -1).SingleOrDefault();
-        //    return Json(customer, JsonRequestBehavior.AllowGet);
-        //}
-        //public ActionResult Update(string customerName, string fax, string contacts, string email, String phone, string address, String remark, string customerNum)
-        //{
-        //    Customer customer = service.GetByWhere(item => item.CustomerNum.IndexOf(customerNum) != -1).SingleOrDefault();
-        //    customer.CustomerName = customerName;
-        //    customer.Fax = fax;
-        //    customer.Contacts = contacts;
-        //    customer.Email = email;
-        //    customer.Phone = phone;
-        //    customer.Address = address;
-        //    customer.Remark = remark;
-        //    bool val = service.Update(customer);
-        //    if (val)
-        //    {
-        //        return Json("修改成功", JsonRequestBehavior.AllowGet);
-        //    }
-        //    else
-        //    {
-        //        return Json("修改失败", JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        public ActionResult QueryById(int Id)
+        {
+            Function function = functionManager.GetByWhere(item => item.Id==Id).SingleOrDefault();
+            return Json(function, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Update(string DisplayName, int ParentNodeId, string NodeURL,int NodeId)
+        {
+            Function function = functionManager.GetByWhere(item => item.NodeId == NodeId&&item.IsDelete==0).SingleOrDefault();
+            //获取编号
+            if (ParentNodeId == 0)
+            {
+                int nodeId = functionManager.GetByWhere(item => item.IsDelete == 0 && item.ParentNodeId == 0).OrderByDescending(item => item.NodeId).Take(1).Select(item => item.NodeId).FirstOrDefault();
+                function.NodeId = nodeId + 10000;
+                function.DisplayName = DisplayName;
+                function.ParentNodeId = 0;
+                function.NodeURL = NodeURL;
+            }
+            else
+            {
+                int nodeId = functionManager.GetByWhere(item => item.IsDelete == 0 && item.ParentNodeId == ParentNodeId).OrderByDescending(item => item.NodeId).Take(1).Select(item => item.NodeId).FirstOrDefault();
+                function.NodeId = nodeId + 1000;
+                function.DisplayName = DisplayName;
+                function.ParentNodeId = ParentNodeId;
+                function.NodeURL = NodeURL;
+            }
+            bool val = functionManager.Update(function);
+            if (val)
+            {
+                return Json("修改成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("修改失败", JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
