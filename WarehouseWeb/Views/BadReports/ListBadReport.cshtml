@@ -386,9 +386,9 @@
                         str += "<a title='编辑' href='/BadReports/UpdtList/" + value.id + "'><img src='../Image/Write.png' /></a>"
                     }
                     str += "<a title='删除' href='javascript:Delete(" + value.id + ");'><img src='../Image/cha.png' /></a>"
-                    str += "<a title='查看' href='javascript:ChaKan(" + value.BadNum + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
+                    str += "<a title='查看' href='javascript:ChaKan(" + value.id + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
                     if (value.Status != "审核通过") {
-                        str += "<a title='审核' href='javascript:Shenhe(" + value.BadNum + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
+                        str += "<a title='审核' href='javascript:Shenhe(" + value.id + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
                     }
                     str += "</td>";
                     str += "</tr>";
