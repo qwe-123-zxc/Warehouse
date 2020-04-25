@@ -106,7 +106,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         {
             //盘点类型
             var type = checkStockType.GetAll();
-            type.Insert(0, new CheckStockType() { Id = 9999, MoveTypeName = "请选择报损类型" });
+            type.Insert(0, new CheckStockType() { Id = 9999, MoveTypeName = "请选择盘点类型" });
             ViewBag.CheckTypeId = new SelectList(type, "Id", "MoveTypeName");
             //产品
             var product_1 = product.GetAll();

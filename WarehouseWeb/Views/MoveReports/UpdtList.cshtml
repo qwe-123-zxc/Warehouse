@@ -223,7 +223,7 @@
         //添加产品到表格
         $("#ProductAdd").click(function () {
             var stockNum = parseInt($("[name=StockNum]").val());  //现有库存
-            var numvalue_1 = parseInt($("[name=Num]").val());   //报损数
+            var numvalue_1 = parseInt($("[name=Num]").val());   //移库数
             if (numvalue_1 <= stockNum && numvalue_1 != 0) {
                 var ProductNum = $("[name=ProductNum]").val();
                 var ProductName = $("[name=Product] option:selected").text();
@@ -238,7 +238,7 @@
             }
             else
             {
-                alert("报损数不得大于现有库存！不能为零！");
+                alert("移库数不得大于现有库存！不能为零！");
             }
         });
 

@@ -427,6 +427,7 @@
     <Content Include="Views\BadReports\UpdtList.cshtml" />
     <Content Include="Views\MoveReports\UpdtList.cshtml" />
     <Content Include="Views\CheckStocks\UpdtList.cshtml" />
+    <Content Include="Views\ReturnOrderStocks\UpdtList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
