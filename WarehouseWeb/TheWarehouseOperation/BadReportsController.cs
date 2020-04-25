@@ -330,5 +330,36 @@ namespace WarehouseWeb.TheWarehouseOperation
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+        //全选单选删除
+        public ActionResult DeleteOther(List<BadReport> list)
+        {
+            string msg = "";
+            foreach (var item in list)
+            {
+                BadReport ins = badReport.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
+                List<BadReportDetail> listDetail = badReportDetail.GetByWhere(i => i.BadId == ins.BadNum);
+                bool val = true;
+                foreach (var listd in listDetail)
+                {
+                    listd.IsDelete = 1;
+                    val = badReportDetail.Update(listd);
+                }
+                if (val)
+                {
+                    ins.IsDelete = 1;
+                    bool vall = badReport.Update(ins);
+                    if (vall)
+                    {
+                        msg = "删除成功";
+                    }
+                    else
+                    {
+                        msg = "删除失败";
+                    }
+                }
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
     }
 }

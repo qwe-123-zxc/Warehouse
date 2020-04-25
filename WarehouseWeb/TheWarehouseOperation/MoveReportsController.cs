@@ -240,7 +240,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             return Json(mx, JsonRequestBehavior.AllowGet);
         }
 
-        //修改出库单
+        //修改移库单
         public ActionResult UpdtInfo(List<MoveReportDetail> detail, int MoveTypeId, string Remark, string movSNum)
         {
             //先删除明细
@@ -308,7 +308,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
-        //删除报损单
+        //删除移库单
         public ActionResult DeleteInfo(int id)
         {
             MoveReport ins = moveReport.GetByWhere(item => item.Id == id).SingleOrDefault();
@@ -331,6 +331,37 @@ namespace WarehouseWeb.TheWarehouseOperation
                 else
                 {
                     msg = "删除失败";
+                }
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+        
+        //全选单选删除
+        public ActionResult DeleteOther(List<MoveReport> list)
+        {
+            string msg = "";
+            foreach (var item in list)
+            {
+                MoveReport ins = moveReport.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
+                List<MoveReportDetail> listDetail = moveReportDetail.GetByWhere(i => i.MoveId == ins.MoveNum);
+                bool val = true;
+                foreach (var listd in listDetail)
+                {
+                    listd.IsDelete = 1;
+                    val = moveReportDetail.Update(listd);
+                }
+                if (val)
+                {
+                    ins.IsDelete = 1;
+                    bool vall = moveReport.Update(ins);
+                    if (vall)
+                    {
+                        msg = "删除成功";
+                    }
+                    else
+                    {
+                        msg = "删除失败";
+                    }
                 }
             }
             return Json(msg, JsonRequestBehavior.AllowGet);

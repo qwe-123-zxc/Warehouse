@@ -146,7 +146,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             }
 
             string checkNum = "";
-            //获取出库表最大编号
+            //获取盘点表最大编号
             string checkNumBig = checkStock.GetByWhere(i => true).OrderByDescending(i => i.CheckNum).Take(1).Select(i => i.CheckNum).FirstOrDefault();
             if (checkNumBig == null)
             {
@@ -226,7 +226,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             return Json(mx, JsonRequestBehavior.AllowGet);
         }
 
-        //修改出库单
+        //修改盘点单
         public ActionResult UpdtInfo(List<CheckStockDetail> detail, int CheckTypeId, string Remark, string checkNum)
         {
             //先删除明细
@@ -315,6 +315,37 @@ namespace WarehouseWeb.TheWarehouseOperation
                 else
                 {
                     msg = "删除失败";
+                }
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
+        //全选单选删除
+        public ActionResult DeleteOther(List<CheckStock> list)
+        {
+            string msg = "";
+            foreach (var item in list)
+            {
+                CheckStock ins = checkStock.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
+                List<CheckStockDetail> listDetail = checkStockDetail.GetByWhere(i => i.CheckId == ins.CheckNum);
+                bool val = true;
+                foreach (var listd in listDetail)
+                {
+                    listd.IsDelete = 1;
+                    val = checkStockDetail.Update(listd);
+                }
+                if (val)
+                {
+                    ins.IsDelete = 1;
+                    bool vall = checkStock.Update(ins);
+                    if (vall)
+                    {
+                        msg = "删除成功";
+                    }
+                    else
+                    {
+                        msg = "删除失败";
+                    }
                 }
             }
             return Json(msg, JsonRequestBehavior.AllowGet);

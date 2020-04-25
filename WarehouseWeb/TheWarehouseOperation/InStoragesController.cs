@@ -388,11 +388,13 @@ namespace WarehouseWeb.TheWarehouseOperation
                 bool val = true;
                 foreach (var listd in listDetail)
                 {
-                    val = inStorageDetail.Delete(listd);
+                    listd.IsDelete = 1;
+                    val = inStorageDetail.Update(listd);
                 }
                 if (val)
                 {
-                    bool vall = inStorage.Delete(ins);
+                    ins.IsDelete = 1;
+                    bool vall = inStorage.Update(ins);
                     if (vall)
                     {
                         msg = "删除成功";

@@ -309,9 +309,8 @@ namespace WarehouseWeb.TheWarehouseOperation
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
-
-
-        //删除出库单
+        
+        //删除退货单
         public ActionResult DeleteInfo(int id)
         {
             ReturnOrderStock ins = returnOrderStock.GetByWhere(item => item.Id == id).SingleOrDefault();
@@ -334,6 +333,37 @@ namespace WarehouseWeb.TheWarehouseOperation
                 else
                 {
                     msg = "删除失败";
+                }
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
+        //全选单选删除
+        public ActionResult DeleteOther(List<ReturnOrderStock> list)
+        {
+            string msg = "";
+            foreach (var item in list)
+            {
+                ReturnOrderStock ins = returnOrderStock.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
+                List<ReturnOrderDetail> listDetail = returnOrderdetail.GetByWhere(i => i.ReturnId == ins.ReturnNum);
+                bool val = true;
+                foreach (var listd in listDetail)
+                {
+                    listd.IsDelete = 1;
+                    val = returnOrderdetail.Update(listd);
+                }
+                if (val)
+                {
+                    ins.IsDelete = 1;
+                    bool vall = returnOrderStock.Update(ins);
+                    if (vall)
+                    {
+                        msg = "删除成功";
+                    }
+                    else
+                    {
+                        msg = "删除失败";
+                    }
                 }
             }
             return Json(msg, JsonRequestBehavior.AllowGet);

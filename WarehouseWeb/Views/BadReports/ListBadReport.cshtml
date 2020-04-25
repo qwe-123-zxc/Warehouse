@@ -161,7 +161,7 @@
             </div>
             <div class="col-md-3 navbar-right" style="margin:8px;padding:0px;">
                 <button class="btn btn-primary qd" onclick="insertInStorage();" type="button">新增</button>
-                <button class="btn btn-danger qd" type="button">删除</button>
+                <button class="btn btn-danger qd" type="button" id="del">删除</button>
                 <button class="btn btn-info qd" type="button">导出</button>
             </div>
         </div>
@@ -182,7 +182,7 @@
         <table id="zhubiao" class="table table-bordered table-hover table-responsive" style="table-layout:fixed;">
             <thead>
                 <tr>
-                    <th style="width:30px"><input type="checkbox" /></th>
+                    <th style="width:30px"><input type="checkbox" id="chkAll"  /></th>
                     <th>单据编号</th>
                     <th>报损类型</th>
                     <th>报损数量</th>
@@ -342,6 +342,46 @@
             UpdateStatus();
         });
         bindData(1);
+        
+        //全选加事件
+        $("#chkAll").click(function () {
+            var f = $(this).prop("checked");	 //获取自己的
+            $(".ck").prop("checked", f);
+        });
+
+        //删除
+        $("#del").click(function () {
+            var a = $("tbody input:checked").length;
+            if (a == 0) {
+                alert("请选择要删除的记录");
+            } else {
+                var b = confirm("您确定要删除选中的" + a + "条记录吗");
+                if (b == true) {
+                    var text = $("tbody input:checkbox:checked").map(function (index, elem) {
+                        return $(elem).val();
+                    }).get().join(',');
+                    //alert("选中的checkbox的值为：" + text);
+                    var arr = text.split(',');
+                    var str = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        var list = {};
+                        list.Id = arr[i];
+                        str.push(list);
+                    }
+                    //alert(JSON.stringify(str));
+                    $.ajax({
+                        url: "@Url.Action("DeleteOther")",
+                        data: { list: str },
+                        dataType: "json",
+                        type: "post",
+                        success: function (result) {
+                            alert(result);
+                            bindData(1);
+                        }
+                    });
+                }
+            }
+        });
     });
 
     //修改审核状态
@@ -374,7 +414,7 @@
                 $("[name=PageIndex]").val(result.PageIndex);
                 $.each(result.BadReportInfo, function (index, value) {
                     var str = "<tr>";
-                    str += "<td><input type='checkbox' /></td>";
+                    str += "<td><input type='checkbox' class='ck' value='" + value.id + "' /></td>";
                     str += "<td>" + value.BadNum + "</td>";
                     str += "<td>" + value.BadTypeId + "</td>";
                     str += "<td>" + value.Num + "</td>";
@@ -403,7 +443,6 @@
     function ChaKan(idvalue) {
         p.style.display = "block";
         o.style.display = "block";
-        alert(idvalue);
         $.ajax({
             url: "@Url.Action("QueryMinXi")",
             data: { id: idvalue },
