@@ -17,6 +17,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         InStorageDetailManager inStorageDetail = new InStorageDetailManager(); //入库明细
         ProductManager productManager = new ProductManager();//产品表
         LocationManager locationManager = new LocationManager();//库位表
+        AdminManager admin = new AdminManager();
 
         /// <summary>
         /// 入库管理
@@ -38,7 +39,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             return View();
         }
 
-        public ActionResult ListAjax(string zt, string InSNum, string state, string end, int SupplierId, int InSTypeId, int pageIndex)
+        public ActionResult ListAjax(string zt, string InSNum, string state, string end, int SupplierId, int InSTypeId, int pageIndex,string UserName)
         {
             var stateDate = Convert.ToDateTime(state);
             var endDate = Convert.ToDateTime(end);
@@ -62,8 +63,9 @@ namespace WarehouseWeb.TheWarehouseOperation
             var pageCount = 0;
             var count = 0;
             var s = inStorage.GetByWhereDesc(where, item => item.AuditTime, ref pageIndex, ref count, ref pageCount, 2);
+            var adm = admin.GetByWhere(i => i.UserName == UserName).SingleOrDefault();
             //格式转换
-            var newFormatList = s.Select(i => new { id=i.Id, InSNum = i.InSNum, InSTypeId = i.InStorageType.InSTypeName, SupplierId = i.Supplier.SupplierName, Num = i.Num, SumMoney = i.SumMoney, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd") });
+            var newFormatList = s.Select(i => new { id = i.Id, InSNum = i.InSNum, InSTypeId = i.InStorageType.InSTypeName, SupplierId = i.Supplier.SupplierName, Num = i.Num, SumMoney = i.SumMoney, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd"), audit = adm.RealName });
             var result = new
             {
                 PageCount = pageCount,
@@ -123,6 +125,18 @@ namespace WarehouseWeb.TheWarehouseOperation
             i.Remark = ss.Remark;
             var inStorages = new InStorageManager();
             var s = inStorages.Update(i);
+            if (status.Equals("审核通过"))
+            {
+                var d = inStorageDetail.GetByWhere(item => item.InStorageId == ss.InSNum);
+                foreach (var item in d)
+                {
+                    var pd = new ProductManager();
+                    Expression<Func<Product, bool>> where = iss => iss.ProductNum == item.ProductNum;
+                    var pdu1 = pd.GetByWhere(where).SingleOrDefault();
+                    pdu1.StockNum = Convert.ToInt32(pdu1.StockNum + item.Quantity);
+                    var pdu = productManager.Update(pdu1);
+                }
+            }
             var result = new
             {
                 ActionResult = s

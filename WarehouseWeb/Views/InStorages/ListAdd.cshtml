@@ -259,20 +259,28 @@
                 stu.IsDelete = 0;
                 sum.push(stu);//使用push方法把对象添加到数组中
             }
-            if (sum.length <= 0) {
-                alert("请添加产品");
-            }
-            else
-            {
-                $.ajax({
-                url: "@Url.Action("Insert")",
-                    data: { detail: sum, InSTypeId: InSTypeId, SupplierId: SupplierId, Remark: Remark, AuditUser: AuditUser },
-                    type: "post",
-                    dataType: "json",
-                    success: function (result) {
-                        alert(result);
+            if (InSTypeId != 9999) {
+                if (SupplierId != 99999999) {
+                    if (sum.length <= 0) {
+                        alert("请添加产品");
                     }
-                });
+                    else
+                    {
+                        $.ajax({
+                        url: "@Url.Action("Insert")",
+                            data: { detail: sum, InSTypeId: InSTypeId, SupplierId: SupplierId, Remark: Remark, AuditUser: AuditUser },
+                            type: "post",
+                            dataType: "json",
+                            success: function (result) {
+                                alert(result);
+                            }
+                        });
+                    }
+                } else {
+                    alert("供应商不能为空！");
+                }
+            } else {
+                alert("单据类型不能为空！");
             }
         });
     });

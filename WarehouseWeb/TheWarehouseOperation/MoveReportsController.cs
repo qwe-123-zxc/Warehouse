@@ -16,6 +16,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         MoveReportTypeManager moveReportType = new MoveReportTypeManager();
         ProductManager product = new ProductManager();
         LocationManager location = new LocationManager();
+        AdminManager admin = new AdminManager();
         /// <summary>
         /// 移库管理
         /// </summary>
@@ -26,7 +27,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             return View();
         }
 
-        public ActionResult ListAjax(string zt, string MoveNum, string state, string end, int pageIndex)
+        public ActionResult ListAjax(string zt, string MoveNum, string state, string end, int pageIndex, string UserName)
         {
             var stateDate = Convert.ToDateTime(state);
             var endDate = Convert.ToDateTime(end);
@@ -42,8 +43,9 @@ namespace WarehouseWeb.TheWarehouseOperation
             var pageCount = 0;
             var count = 0;
             var s = moveReport.GetByWhereDesc(where, item => item.AuditTime, ref pageIndex, ref count, ref pageCount, 2);
+            var adm = admin.GetByWhere(i => i.UserName == UserName).SingleOrDefault();
             //格式转换
-            var newFormatList = s.Select(i => new { id = i.Id, MoveNum = i.MoveNum, MoveTypeId = i.MoveReportType.MoveTypeName, Num = i.Num, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd") });
+            var newFormatList = s.Select(i => new { id = i.Id, MoveNum = i.MoveNum, MoveTypeId = i.MoveReportType.MoveTypeName, Num = i.Num, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd"), audit = adm.RealName });
             var result = new
             {
                 PageCount = pageCount,
@@ -98,6 +100,18 @@ namespace WarehouseWeb.TheWarehouseOperation
             i.Remark = ss.Remark;
             var moveReports = new MoveReportManager();
             var s = moveReports.Update(i);
+            if (status.Equals("审核通过"))
+            {
+                var d = moveReportDetail.GetByWhere(item => item.MoveId == ss.MoveNum);
+                foreach (var item in d)
+                {
+                    var pd = new ProductManager();
+                    Expression<Func<Product, bool>> where = iss => iss.ProductNum == item.ProductNum;
+                    var pdu1 = pd.GetByWhere(where).SingleOrDefault();
+                    pdu1.StockNum = Convert.ToInt32(pdu1.StockNum - item.Quantity);
+                    var pdu = product.Update(pdu1);
+                }
+            }
             var result = new
             {
                 ActionResult = s

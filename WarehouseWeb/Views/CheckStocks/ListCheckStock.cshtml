@@ -407,9 +407,10 @@
         var CheckNumvalue = $("[name=CheckNum]").val();
         var Statevalue = $("[name=State]").val();
         var Endvalue = $("[name=End]").val();
+        var UserNamevalue = "@(Session["userName"])";
         $.ajax({
             url: "@Url.Action("ListAjax")",
-            data: { zt: ztvalue, CheckNum: CheckNumvalue, state: Statevalue, end: Endvalue,pageIndex: pageIndexvalue},
+            data: { zt: ztvalue, CheckNum: CheckNumvalue, state: Statevalue, end: Endvalue, pageIndex: pageIndexvalue, UserName: UserNamevalue},
             dataType: "json",
             type: "get",
             success: function (result) {
@@ -429,7 +430,7 @@
                     }
                     str += "<a title='删除' href='javascript:Delete(" + value.id + ");'><img src='../Image/cha.png' /></a>"
                     str += "<a title='查看' href='javascript:ChaKan(" + value.id + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
-                    if (value.Status != "审核通过") {
+                    if (value.Status != "审核通过" && value.audit == "系统管理员") {
                         str += "<a title='审核' href='javascript:Shenhe(" + value.id + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
                     }
                     str += "</td>";

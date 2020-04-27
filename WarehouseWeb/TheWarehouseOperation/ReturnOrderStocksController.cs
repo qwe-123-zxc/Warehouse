@@ -16,6 +16,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         ReturnOrderTypeManager returnOrderType = new ReturnOrderTypeManager();
         ProductManager product = new ProductManager();
         CustomerManager customer = new CustomerManager();
+        AdminManager admin = new AdminManager();
         /// <summary>
         /// 退货管理
         /// </summary>
@@ -26,7 +27,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             return View();
         }
 
-        public ActionResult ListAjax(string zt, string ReturnNum, string state, string end, int pageIndex)
+        public ActionResult ListAjax(string zt, string ReturnNum, string state, string end, int pageIndex, string UserName)
         {
             var stateDate = Convert.ToDateTime(state);
             var endDate = Convert.ToDateTime(end);
@@ -42,8 +43,9 @@ namespace WarehouseWeb.TheWarehouseOperation
             var pageCount = 0;
             var count = 0;
             var s = returnOrderStock.GetByWhereDesc(where, item => item.AuditTime, ref pageIndex, ref count, ref pageCount, 2);
+            var adm = admin.GetByWhere(i => i.UserName == UserName).SingleOrDefault();
             //格式转换
-            var newFormatList = s.Select(i => new { id = i.Id, ReturnNum = i.ReturnNum, ReturnTypeId = i.ReturnOrderType.ReturnTypeName, Num = i.Num, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd") });
+            var newFormatList = s.Select(i => new { id = i.Id, ReturnNum = i.ReturnNum, ReturnTypeId = i.ReturnOrderType.ReturnTypeName, Num = i.Num, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd"), audit = adm.RealName });
             var result = new
             {
                 PageCount = pageCount,
@@ -90,6 +92,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             var ss = returnOrderStock.GetByWhere(item => item.Id == i.Id).SingleOrDefault();
             i.ReturnNum = ss.ReturnNum;
             i.ReturnTypeId = ss.ReturnTypeId;
+            i.CustomerId = ss.CustomerId;
             i.DetailNum = ss.DetailNum;
             i.Num = ss.Num;
             i.Status = status;
@@ -99,6 +102,18 @@ namespace WarehouseWeb.TheWarehouseOperation
             i.Remark = ss.Remark;
             var returnOrderStocks = new ReturnOrderStockManager();
             var s = returnOrderStocks.Update(i);
+            if (status.Equals("审核通过"))
+            {
+                var d = returnOrderdetail.GetByWhere(item => item.ReturnId == ss.ReturnNum);
+                foreach (var item in d)
+                {
+                    var pd = new ProductManager();
+                    Expression<Func<Product, bool>> where = iss => iss.ProductNum == item.ProductNum;
+                    var pdu1 = pd.GetByWhere(where).SingleOrDefault();
+                    pdu1.StockNum = Convert.ToInt32(pdu1.StockNum - item.Sum);
+                    var pdu = product.Update(pdu1);
+                }
+            }
             var result = new
             {
                 ActionResult = s

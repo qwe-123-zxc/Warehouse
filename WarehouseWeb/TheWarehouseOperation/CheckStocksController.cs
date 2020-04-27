@@ -15,6 +15,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         CheckStockDetailManager checkStockDetail = new CheckStockDetailManager();
         CheckStockTypeManager checkStockType = new CheckStockTypeManager();
         ProductManager product = new ProductManager();
+        AdminManager admin = new AdminManager();
         /// <summary>
         /// 盘点管理
         /// </summary>
@@ -25,7 +26,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             return View();
         }
 
-        public ActionResult ListAjax(string zt, string CheckNum, string state, string end, int pageIndex)
+        public ActionResult ListAjax(string zt, string CheckNum, string state, string end, int pageIndex, string UserName)
         {
             var stateDate = Convert.ToDateTime(state);
             var endDate = Convert.ToDateTime(end);
@@ -41,8 +42,9 @@ namespace WarehouseWeb.TheWarehouseOperation
             var pageCount = 0;
             var count = 0;
             var s = checkStock.GetByWhereDesc(where, item => item.AuditTime, ref pageIndex, ref count, ref pageCount, 2);
+            var adm = admin.GetByWhere(i => i.UserName == UserName).SingleOrDefault();
             //格式转换
-            var newFormatList = s.Select(i => new { id = i.Id, CheckNum = i.CheckNum, CheckTypeId = i.CheckStockType.MoveTypeName, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd") });
+            var newFormatList = s.Select(i => new { id = i.Id, CheckNum = i.CheckNum, CheckTypeId = i.CheckStockType.MoveTypeName, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd"), audit = adm.RealName });
             var result = new
             {
                 PageCount = pageCount,
