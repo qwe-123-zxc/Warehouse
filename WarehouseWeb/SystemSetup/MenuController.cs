@@ -30,10 +30,22 @@ namespace WarehouseWeb.SystemSetup
         public ActionResult Query(string Name, int pageIndex)
         {
             Expression<Func<Function, bool>> where = item => item.IsDelete == 0;
+
             if (!string.IsNullOrEmpty(Name))
             {
-                int name = int.Parse(Name);
-                where = where.And(item => item.DisplayName.IndexOf(Name) != -1 || item.NodeId==name);
+                for (int i = 0; i < Name.Length; i++)
+                {
+                    if (!Char.IsNumber(Name, i))
+                    {
+                            where = where.And(item => item.DisplayName.IndexOf(Name) != -1);
+                    
+                    }
+                    else
+                    {
+                        int name = int.Parse(Name);
+                        where = where.And(item => item.DisplayName.IndexOf(Name) != -1||item.NodeId == name);
+                    }
+                }
             }
             var pageCount = 0;
             var count = 0;

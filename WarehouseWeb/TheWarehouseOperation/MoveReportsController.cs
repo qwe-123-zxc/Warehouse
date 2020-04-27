@@ -117,7 +117,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             ViewBag.Product = new SelectList(product_1, "Id", "ProductName");
             //库位
             var location_1 = location.GetAll();
-            location_1.Insert(0, new Location() { Id = 9999, LocationName = "请选择产品" });
+            location_1.Insert(0, new Location() { Id = 9999, LocationName = "请选择库位" });
             ViewBag.Location = new SelectList(location_1, "Id", "LocationName");
             return View();
         }

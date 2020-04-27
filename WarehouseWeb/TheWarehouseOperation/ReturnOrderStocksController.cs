@@ -14,6 +14,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         ReturnOrderStockManager returnOrderStock = new ReturnOrderStockManager();
         ReturnOrderDetailManager returnOrderdetail = new ReturnOrderDetailManager();
         ReturnOrderTypeManager returnOrderType = new ReturnOrderTypeManager();
+        CustomerManager customerManager = new CustomerManager();
         /// <summary>
         /// 退货管理
         /// </summary>
@@ -106,6 +107,15 @@ namespace WarehouseWeb.TheWarehouseOperation
 
         public ActionResult ListAdd()
         {
+            //退货
+            var type = returnOrderType.GetAll();
+            type.Insert(0, new  ReturnOrderType() { Id = 99999999, ReturnTypeName = "请选择类型" });
+            ViewBag.ReturnTypeId = new SelectList(type, "Id", "ReturnTypeName");
+
+            //客户
+            var cus = customerManager.GetAll();
+            cus.Insert(0, new Customer() { Id = 99999999, CustomerName = "请选择客户" });
+            ViewBag.CustomerId = new SelectList(cus, "Id", "CustomerName");
             return View();
         }
     }

@@ -21,6 +21,7 @@ namespace Models
         public string ProductName { get; set; }
         public string Size { get; set; }
         public int Quantity { get; set; }
+        public Nullable<double> SumMoney { get; set; }
         public string TheCurrentLocation { get; set; }
         public string MovingLocation { get; set; }
         public System.DateTime CreateTime { get; set; }

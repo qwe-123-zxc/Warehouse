@@ -47,7 +47,7 @@ namespace WarehouseWeb.BasicDocument
             LocationManager service = new LocationManager();
 
             //组合条件
-            Expression<Func<Location, bool>> where = item =>item.IsDelete==0;
+            Expression<Func<Location, bool>> where = item=>true;
             
             if (!string.IsNullOrEmpty(LocationName))
             {
@@ -74,7 +74,7 @@ namespace WarehouseWeb.BasicDocument
             //Actionresult  常用响应类型  ViewResult ContentResult JsonResult
             // Json数据格式 { 名称:值 } 数组 [{},{}]
             // 格式转换
-            var newFormatList = list.Select(item => new { Id = item.Id, LocationNum = item.LocationNum, LocationName = item.LocationName, StorageId = item.StorageId, LocaTypeId = item.LocaTypeId, IsForbidden = item.IsForbidden, IsDefault = item.IsDefault,CreateTime = item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") });
+            var newFormatList = list.Select(item => new { Id = item.Id, LocationNum = item.LocationNum, LocationName = item.LocationName, StorageId = item.Storage.StorageName, LocaTypeId = item.LocationType.LocaTypeName, IsDelete = item.IsDelete, IsDefault = item.IsDefault,CreateTime = item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") });
 
             //将数据构建打包给前台
             var result = new
@@ -101,7 +101,7 @@ namespace WarehouseWeb.BasicDocument
         {
             Location location = new Location();
             //获取库位最大编号
-            string locationNum = LocationManager.GetByWhere(item => item.Id != 1).OrderByDescending(item => item.LocationNum).Take(1).Select(item => item.LocationNum).FirstOrDefault();
+            string locationNum = LocationManager.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.LocationNum).Take(1).Select(item => item.LocationNum).FirstOrDefault();
             location.LocationNum = "00000" + (int.Parse(locationNum) + 1);
 
             int num = int.Parse(locationNum);
@@ -173,7 +173,8 @@ namespace WarehouseWeb.BasicDocument
         public ActionResult Delete(int locationId)
         {
             Location location = LocationManager.GetByWhere(item => item.Id == locationId).SingleOrDefault();
-            bool val = LocationManager.Delete(location);
+            location.IsDelete = 1;
+            bool val = LocationManager.Update(location);
             if (val)
             {
                 return Json("删除成功", JsonRequestBehavior.AllowGet);

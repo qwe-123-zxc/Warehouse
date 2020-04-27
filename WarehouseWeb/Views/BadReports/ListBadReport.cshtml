@@ -394,7 +394,7 @@
                     str += "</tr>";
                     $("#zhubiao tbody").append(str);
                 });
-                $("#fenyeshu").text("当前页是第" + result.PageIndex + "页,共计" + result.Count + "条" + result.PageCount + "页");
+                $("#fenyeshu").text("当前页是第" + result.PageIndex + "页,共计" + result.Count + "条/" + result.PageCount + "页");
             }
         });
     }
@@ -403,7 +403,7 @@
     function ChaKan(idvalue) {
         p.style.display = "block";
         o.style.display = "block";
-        alert(idvalue);
+        //alert(idvalue);
         $.ajax({
             url: "@Url.Action("QueryMinXi")",
             data: { id: idvalue },

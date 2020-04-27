@@ -74,13 +74,6 @@ namespace WarehouseDAL
         public List<Function> GetByLinqParentNodeId(int roleId)
         {
             WarehouseEntities entities = new WarehouseEntities();
-
-            //var test = (from r in entities.RolePower
-            //            join fff in entities.Function
-            //             on r.NodeId equals fff.NodeId
-            //            where r.RoleId == roleId && fff.ParentNodeId!=0
-            //            select fff.NodeId);
-            //string t = test.ToString();
             var obj = from f in entities.Function
                       where (from ff in entities.Function
                               where !

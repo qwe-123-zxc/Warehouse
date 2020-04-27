@@ -77,7 +77,7 @@ namespace WarehouseWeb.SystemSetup
         {
             Depart depart = new Depart();
             //获取最大编号
-            string departNum = Departmanager.GetByWhere(item => item.Id != 1).OrderByDescending(item => item.DepartNum).Take(1).Select(item => item.DepartNum).FirstOrDefault();
+            string departNum = Departmanager.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.DepartNum).Take(1).Select(item => item.DepartNum).FirstOrDefault();
             depart.DepartNum = "00000" + (int.Parse(departNum) + 1);
 
             int num = int.Parse(departNum);

@@ -49,7 +49,7 @@ namespace WarehouseWeb.BasicDocument
         {
             ProductCategory productCategory = new ProductCategory();
             //获取最大编号
-            string PCateNum = service.GetByWhere(item => true).OrderByDescending(item => item.PCateNum).Take(1).Select(item => item.PCateNum).FirstOrDefault();
+            string PCateNum = service.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.PCateNum).Take(1).Select(item => item.PCateNum).FirstOrDefault();
             productCategory.PCateNum = "00000" + (int.Parse(PCateNum) + 1);
             int num = int.Parse(PCateNum);
             if (num >= 9)

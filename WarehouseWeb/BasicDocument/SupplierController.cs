@@ -84,7 +84,7 @@ namespace WarehouseWeb.BasicDocument
         {
             Supplier supplier = new Supplier();
             //获取最大编号
-            string SupplierNum = service.GetByWhere(item => true).OrderByDescending(item => item.SupplierNum).Take(1).Select(item => item.SupplierNum).FirstOrDefault();
+            string SupplierNum = service.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.SupplierNum).Take(1).Select(item => item.SupplierNum).FirstOrDefault();
             supplier.SupplierNum = "00000" + (int.Parse(SupplierNum) + 1);
             int num = int.Parse(SupplierNum);
             if (num >= 9)

@@ -49,7 +49,7 @@ namespace WarehouseWeb.BasicDocument
         {
             Measure measure = new Measure();
             //获取最大编号
-            string MeasureNum = service.GetByWhere(item => true).OrderByDescending(item => item.MeasureNum).Take(1).Select(item => item.MeasureNum).FirstOrDefault();
+            string MeasureNum = service.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.MeasureNum).Take(1).Select(item => item.MeasureNum).FirstOrDefault();
             measure.MeasureNum = "00000" + (int.Parse(MeasureNum) + 1);
             int num = int.Parse(MeasureNum);
             if (num >= 9)

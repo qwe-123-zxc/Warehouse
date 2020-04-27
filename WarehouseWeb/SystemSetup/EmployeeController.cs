@@ -108,7 +108,7 @@ namespace WarehouseWeb.SystemSetup
         {
             Admin admin = new Admin();
             //获取最大编号
-            string UserCode = Adminmanager.GetByWhere(item => item.Id != 1).OrderByDescending(item => item.UserCode).Take(1).Select(item => item.UserCode).FirstOrDefault();
+            string UserCode = Adminmanager.GetByWhere(item => item.Id != 1&& item.IsDelete == 0).OrderByDescending(item => item.UserCode).Take(1).Select(item => item.UserCode).FirstOrDefault();
             admin.UserCode = "00000" + (int.Parse(UserCode) + 1);
 
             int num = int.Parse(UserCode);

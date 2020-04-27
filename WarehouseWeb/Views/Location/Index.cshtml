@@ -247,7 +247,7 @@
                 success: function (result) {
                     alert(result);
                     $("insert").val("");
-                    window.location.href = "@Url.Action("Index")";
+                    hideLocation();
                     bindData(1);
                 }
             });
@@ -268,7 +268,8 @@
                 type: "get",
                 success: function (result) {
                     alert(result);
-                    window.location.href = "@Url.Action("Index")";
+                    hideLocation();
+                    bindData(1);
                 }
             });
     }
@@ -281,7 +282,7 @@
             type: "post",
             success: function (result) {
                 alert(result);
-                window.location.href = "@Url.Action("Index")";
+                bindData(1);
             }
         });
     }
@@ -382,7 +383,7 @@
                     str += "<td>" + value.LocationName + "</td>";
                     str += "<td>" + value.StorageId + "</td>";
                     str += "<td>" + value.LocaTypeId + "</td>";
-                    str += "<td>" + value.IsForbidden  + "</td>";
+                    str += "<td>" + value.IsDelete  + "</td>";
                     str += "<td>" + value.IsDefault + "</td>";
                     str += "<td>" + value.CreateTime + "</td>";
                     str += "<td><a href = 'javascript:bianJiLocation(" + value.Id + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:DeleteLocation(" + value.Id + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";

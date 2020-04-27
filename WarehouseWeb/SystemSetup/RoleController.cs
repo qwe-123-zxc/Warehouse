@@ -72,7 +72,7 @@ namespace WarehouseWeb.SystemSetup
         {
             Role role = new Role();
             //获取最大编号
-            string roleNum = Rolemanager.GetByWhere(item => item.Id != 1).OrderByDescending(item => item.RoleNum).Take(1).Select(item => item.RoleNum).FirstOrDefault();
+            string roleNum = Rolemanager.GetByWhere(item => item.Id != 1&&item.IsDelete==0).OrderByDescending(item => item.RoleNum).Take(1).Select(item => item.RoleNum).FirstOrDefault();
             role.RoleNum = "00000" + (int.Parse(roleNum) + 1);
 
             int num = int.Parse(roleNum);
