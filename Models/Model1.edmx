@@ -374,6 +374,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ReturnNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ReturnTypeId" Type="int" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
@@ -632,6 +633,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ReturnOrderStock_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="ReturnOrderStock" Type="Self.ReturnOrderStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReturnOrderStock">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ReturnOrderStock_ReturnOrderType">
           <End Role="ReturnOrderType" Type="Self.ReturnOrderType" Multiplicity="1" />
           <End Role="ReturnOrderStock" Type="Self.ReturnOrderStock" Multiplicity="*" />
@@ -745,6 +758,10 @@
           <AssociationSet Name="FK_Product_ProductCategory" Association="Self.FK_Product_ProductCategory">
             <End Role="ProductCategory" EntitySet="ProductCategory" />
             <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReturnOrderStock_Customer" Association="Self.FK_ReturnOrderStock_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="ReturnOrderStock" EntitySet="ReturnOrderStock" />
           </AssociationSet>
           <AssociationSet Name="FK_ReturnOrderStock_ReturnOrderType" Association="Self.FK_ReturnOrderStock_ReturnOrderType">
             <End Role="ReturnOrderType" EntitySet="ReturnOrderType" />
@@ -885,6 +902,7 @@
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="OutStorage" Relationship="Self.FK_OutStorage_Customer" FromRole="Customer" ToRole="OutStorage" />
+          <NavigationProperty Name="ReturnOrderStock" Relationship="Self.FK_ReturnOrderStock_Customer" FromRole="Customer" ToRole="ReturnOrderStock" />
         </EntityType>
         <EntityType Name="Depart">
           <Key>
@@ -1154,6 +1172,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ReturnNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReturnTypeId" Type="Int32" Nullable="false" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -1161,6 +1180,7 @@
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_ReturnOrderStock_Customer" FromRole="ReturnOrderStock" ToRole="Customer" />
           <NavigationProperty Name="ReturnOrderType" Relationship="Self.FK_ReturnOrderStock_ReturnOrderType" FromRole="ReturnOrderStock" ToRole="ReturnOrderType" />
         </EntityType>
         <EntityType Name="ReturnOrderType">
@@ -1307,6 +1327,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OutStorage">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReturnOrderStock_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="ReturnOrderStock" Type="Self.ReturnOrderStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReturnOrderStock">
               <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1496,6 +1528,10 @@
           <AssociationSet Name="FK_OutStorage_Customer" Association="Self.FK_OutStorage_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="OutStorage" EntitySet="OutStorage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReturnOrderStock_Customer" Association="Self.FK_ReturnOrderStock_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="ReturnOrderStock" EntitySet="ReturnOrderStock" />
           </AssociationSet>
           <AssociationSet Name="FK_InStorage_InStorageType" Association="Self.FK_InStorage_InStorageType">
             <End Role="InStorageType" EntitySet="InStorageType" />
@@ -1941,6 +1977,7 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ReturnNum" ColumnName="ReturnNum" />
                 <ScalarProperty Name="ReturnTypeId" ColumnName="ReturnTypeId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="Status" ColumnName="Status" />

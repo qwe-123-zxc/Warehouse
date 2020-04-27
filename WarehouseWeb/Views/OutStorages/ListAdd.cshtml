@@ -273,20 +273,28 @@
                 stu.IsDelete = 0;
                 sum.push(stu);
             }
-            if (sum.length <= 0) {
-                alert("请添加产品");
-            }
-            else
-            {
-                 $.ajax({
-                    url: "@Url.Action("Insert")",
-                     data: { detail: sum, OutSTypeId: OutSTypeIdvalue, CustomerId: CustomerIdvalue, Remark: Remarkvalue, AuditUser: AuditUservalue },
-                    type: "post",
-                    dataType: "json",
-                    success: function (result) {
-                        alert(result);
+            if (OutSTypeIdvalue != 9999) {
+                if (CustomerIdvalue != 9999) {
+                    if (sum.length <= 0) {
+                        alert("请添加产品");
                     }
-                });
+                    else
+                    {
+                         $.ajax({
+                            url: "@Url.Action("Insert")",
+                             data: { detail: sum, OutSTypeId: OutSTypeIdvalue, CustomerId: CustomerIdvalue, Remark: Remarkvalue,        AuditUser: AuditUservalue },
+                            type: "post",
+                            dataType: "json",
+                            success: function (result) {
+                                alert(result);
+                            }
+                        });
+                    }
+                } else {
+                    alert("客户不能为空！");
+                }
+            } else {
+                alert("出库类型不能为空！");
             }
         });
     });

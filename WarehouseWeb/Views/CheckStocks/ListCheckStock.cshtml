@@ -161,7 +161,7 @@
             </div>
             <div class="col-md-3 navbar-right" style="margin:8px;padding:0px;">
                 <button class="btn btn-primary qd" onclick="insertInStorage();" type="button">新增</button>
-                <button class="btn btn-danger qd" type="button">删除</button>
+                <button class="btn btn-danger qd" type="button" id="del">删除</button>
                 <button class="btn btn-info qd" type="button">导出</button>
             </div>
         </div>
@@ -172,7 +172,7 @@
             </div>
             <div class="col-md-5 form-group form-inline">
                 <label class="control-label">时间</label>
-                <input type="date" name="State" value="2020-02-03" class="form-control" style="width:150px;" /> 到 <input type="date" name="End" value="2020-04-16" class="form-control" style="width:150px;" />
+                <input type="date" name="State" value="2020-02-03" class="form-control" style="width:150px;" /> 到 <input type="date" name="End" value="2020-05-16" class="form-control" style="width:150px;" />
             </div>
             <div class="col-md-3 form-group form-inline" style="margin-left:-90px;">
                 <button class="btn btn-primary btnQuery" type="button" style="width: 70px;">搜索</button>
@@ -182,7 +182,7 @@
         <table id="zhubiao" class="table table-bordered table-hover table-responsive">
             <thead>
                 <tr>
-                    <th style="width:30px;"><input type="checkbox" /></th>
+                    <th style="width:30px;"><input type="checkbox" id="chkAll" /></th>
                     <th>盘点单号</th>
                     <th>盘点类型</th>
                     <th>状态</th>
@@ -345,6 +345,46 @@
             UpdateStatus();
         });
         bindData(1);
+         
+        //全选加事件
+        $("#chkAll").click(function () {
+            var f = $(this).prop("checked");	 //获取自己的
+            $(".ck").prop("checked", f);
+        });
+
+        //删除
+        $("#del").click(function () {
+            var a = $("tbody input:checked").length;
+            if (a == 0) {
+                alert("请选择要删除的记录");
+            } else {
+                var b = confirm("您确定要删除选中的" + a + "条记录吗");
+                if (b == true) {
+                    var text = $("tbody input:checkbox:checked").map(function (index, elem) {
+                        return $(elem).val();
+                    }).get().join(',');
+                    //alert("选中的checkbox的值为：" + text);
+                    var arr = text.split(',');
+                    var str = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        var list = {};
+                        list.Id = arr[i];
+                        str.push(list);
+                    }
+                    //alert(JSON.stringify(str));
+                    $.ajax({
+                        url: "@Url.Action("DeleteOther")",
+                        data: { list: str },
+                        dataType: "json",
+                        type: "post",
+                        success: function (result) {
+                            alert(result);
+                            bindData(1);
+                        }
+                    });
+                }
+            }
+        });
     });
 
     //修改审核状态
@@ -367,9 +407,10 @@
         var CheckNumvalue = $("[name=CheckNum]").val();
         var Statevalue = $("[name=State]").val();
         var Endvalue = $("[name=End]").val();
+        var UserNamevalue = "@(Session["userName"])";
         $.ajax({
             url: "@Url.Action("ListAjax")",
-            data: { zt: ztvalue, CheckNum: CheckNumvalue, state: Statevalue, end: Endvalue,pageIndex: pageIndexvalue},
+            data: { zt: ztvalue, CheckNum: CheckNumvalue, state: Statevalue, end: Endvalue, pageIndex: pageIndexvalue, UserName: UserNamevalue},
             dataType: "json",
             type: "get",
             success: function (result) {
@@ -377,20 +418,20 @@
                 $("[name=PageIndex]").val(result.PageIndex);
                 $.each(result.CheckStockInfo, function (index, value) {
                     var str = "<tr>";
-                    str += "<td><input type='checkbox' /></td>";
+                    str += "<td><input type='checkbox' class='ck' value='" + value.id + "' /></td>";
                     str += "<td>" + value.CheckNum + "</td>";
                     str += "<td>" + value.CheckTypeId + "</td>";
                     str += "<td>" + value.Status + "</td>";
                     str += "<td>" + value.AuditUser + "</td>";
                     str += "<td>" + value.AuditTime + "</td>";
                     str += "<td>";
-                    if (value.Status!="审核通过") {
-                        str += "<a title='编辑' href='@Url.Action("ListAdd")'><img src='../Image/Write.png' /></a>"
-                    }
-                    str += "<a title='删除' href='javascript:void(0)'><img src='../Image/cha.png' /></a>"
-                    str += "<a title='查看' href='javascript:ChaKan(" + value.CheckNum + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
                     if (value.Status != "审核通过") {
-                        str += "<a title='审核' href='javascript:Shenhe(" + value.CheckNum + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
+                        str += "<a title='编辑' href='/CheckStocks/UpdtList/" + value.id + "'><img src='../Image/Write.png' /></a>"
+                    }
+                    str += "<a title='删除' href='javascript:Delete(" + value.id + ");'><img src='../Image/cha.png' /></a>"
+                    str += "<a title='查看' href='javascript:ChaKan(" + value.id + ")'><img src='../Image/chakan.png' style='margin-top:2px;width:22px' /></a>"
+                    if (value.Status != "审核通过" && value.audit == "系统管理员") {
+                        str += "<a title='审核' href='javascript:Shenhe(" + value.id + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
                     }
                     str += "</td>";
                     str += "</tr>";
@@ -506,6 +547,24 @@
     //新增盘点单
     function insertInStorage() {
         window.location.href = "@Url.Action("ListAdd")";
+    }
+    
+    //删除入库单
+    function Delete(num) {
+        if (confirm("是否删除？")) {
+            $.ajax({
+                url: "@Url.Action("DeleteInfo")",
+                data: { id: num },
+                dataType: "json",
+                type: "post",
+                success: function (result) {
+                    alert(result);
+                    bindData(1);
+                }
+            });
+        } else {
+            window.event.returnValue = false;
+        }
     }
 </script>
 

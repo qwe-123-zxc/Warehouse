@@ -279,20 +279,24 @@
                 stu.IsDelete = 0;
                 sum.push(stu);
             }
-            if (sum.length <= 0) {
-                alert("请添加产品");
-            }
-            else
-            {
-                 $.ajax({
-                    url: "@Url.Action("Insert")",
-                     data: { detail: sum, BadTypeId: BadTypeIdvalue, Remark: Remarkvalue, AuditUser: AuditUservalue },
-                    type: "post",
-                    dataType: "json",
-                    success: function (result) {
-                        alert(result);
-                    }
-                });
+            if (BadTypeIdvalue != 9999) {
+                if (sum.length <= 0) {
+                    alert("请添加产品");
+                }
+                else
+                {
+                     $.ajax({
+                        url: "@Url.Action("Insert")",
+                         data: { detail: sum, BadTypeId: BadTypeIdvalue, Remark: Remarkvalue, AuditUser: AuditUservalue },
+                        type: "post",
+                        dataType: "json",
+                        success: function (result) {
+                            alert(result);
+                        }
+                    });
+                }
+            } else {
+                alert("报损类型不能为空！");
             }
         });
     });

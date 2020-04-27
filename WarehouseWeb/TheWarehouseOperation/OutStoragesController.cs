@@ -37,7 +37,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             return View();
         }
 
-        public ActionResult ListAjax(string zt, string OutSNum, string state, string end, int CustomerId, int OutSTypeId, int pageIndex)
+        public ActionResult ListAjax(string zt, string OutSNum, string state, string end, int CustomerId, int OutSTypeId, int pageIndex, string UserName)
         {
             var stateDate = Convert.ToDateTime(state);
             var endDate = Convert.ToDateTime(end);
@@ -61,8 +61,9 @@ namespace WarehouseWeb.TheWarehouseOperation
             var pageCount = 0;
             var count = 0;
             var s = outStorage.GetByWhereDesc(where, item => item.AuditTime, ref pageIndex, ref count, ref pageCount, 2);
+            var adm = admin.GetByWhere(i => i.UserName == UserName).SingleOrDefault();
             //格式转换
-            var newFormatList = s.Select(i => new { id = i.Id, OutSNum = i.OutSNum, OutSTypeId = i.OutStorageType.OutSTypeName, CustomerId = i.Customer.CustomerName, Num = i.Num, SumMoney = i.SumMoney, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd") });
+            var newFormatList = s.Select(i => new { id = i.Id, OutSNum = i.OutSNum, OutSTypeId = i.OutStorageType.OutSTypeName, CustomerId = i.Customer.CustomerName, Num = i.Num, SumMoney = i.SumMoney, Status = i.Status, AuditUser = i.AuditUser, AuditTime = i.AuditTime.ToString("yyyy-MM-dd"), audit = adm.RealName });
             var result = new
             {
                 PageCount = pageCount,
@@ -124,6 +125,18 @@ namespace WarehouseWeb.TheWarehouseOperation
             i.Remark = ss.Remark;
             var outStorages = new OutStorageManager();
             var s = outStorages.Update(i);
+            if (status.Equals("审核通过"))
+            {
+                var d = outStorageDetail.GetByWhere(item => item.OutStorageId == ss.OutSNum);
+                foreach (var item in d)
+                {
+                    var pd = new ProductManager();
+                    Expression<Func<Product, bool>> where = iss => iss.ProductNum == item.ProductNum;
+                    var pdu1 = pd.GetByWhere(where).SingleOrDefault();
+                    pdu1.StockNum = Convert.ToInt32(pdu1.StockNum - item.Quantity);
+                    var pdu = productManager.Update(pdu1);
+                }
+            }
             var result = new
             {
                 ActionResult = s
@@ -362,6 +375,37 @@ namespace WarehouseWeb.TheWarehouseOperation
                 else
                 {
                     msg = "删除失败";
+                }
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
+        //全选单选删除
+        public ActionResult DeleteOther(List<OutStorage> list)
+        {
+            string msg = "";
+            foreach (var item in list)
+            {
+                OutStorage ins = outStorage.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
+                List<OutStorageDetail> listDetail = outStorageDetail.GetByWhere(i => i.OutStorageId == ins.OutSNum);
+                bool val = true;
+                foreach (var listd in listDetail)
+                {
+                    listd.IsDelete = 1;
+                    val = outStorageDetail.Update(listd);
+                }
+                if (val)
+                {
+                    ins.IsDelete = 1;
+                    bool vall = outStorage.Update(ins);
+                    if (vall)
+                    {
+                        msg = "删除成功";
+                    }
+                    else
+                    {
+                        msg = "删除失败";
+                    }
                 }
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
