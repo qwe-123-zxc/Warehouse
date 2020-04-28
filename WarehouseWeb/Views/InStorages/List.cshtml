@@ -450,6 +450,9 @@
                     if (value.Status != "审核通过" && value.audit == "系统管理员") {
                         str += "<a title='审核' href='javascript:Shenhe(" + value.id + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
                     }
+                    if (value.Status == "审核通过") {
+                        str += "<a title='退货' href='/ReturnOrderStocks/ListAdd/" + value.id+"'><img src='../Image/tuihuo.png' style='width:21px' /></a>"
+                    }
                     str += "</td>";
                     str += "</tr>";
                     $("#zhubiao tbody").append(str);

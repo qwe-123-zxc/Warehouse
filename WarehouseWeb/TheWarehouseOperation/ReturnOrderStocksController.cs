@@ -17,6 +17,10 @@ namespace WarehouseWeb.TheWarehouseOperation
         ProductManager product = new ProductManager();
         CustomerManager customer = new CustomerManager();
         AdminManager admin = new AdminManager();
+        InStorageManager instorage = new InStorageManager();
+        InStorageDetailManager instoragedetail = new InStorageDetailManager();
+        InStorageTypeManager instoragetype = new InStorageTypeManager();
+        SupplierManager GonYinShang = new SupplierManager();    //供应商
         /// <summary>
         /// 退货管理
         /// </summary>
@@ -84,15 +88,14 @@ namespace WarehouseWeb.TheWarehouseOperation
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
-
+        
         //修改审核状态
         public ActionResult UpdtStatus(ReturnOrderStock i, string status)
         {
             var ss = returnOrderStock.GetByWhere(item => item.Id == i.Id).SingleOrDefault();
             i.ReturnNum = ss.ReturnNum;
             i.ReturnTypeId = ss.ReturnTypeId;
-            i.CustomerId = ss.CustomerId;
+            i.SupplierId = ss.SupplierId;
             i.DetailNum = ss.DetailNum;
             i.Num = ss.Num;
             i.Status = status;
@@ -112,6 +115,10 @@ namespace WarehouseWeb.TheWarehouseOperation
                     var pdu1 = pd.GetByWhere(where).SingleOrDefault();
                     pdu1.StockNum = Convert.ToInt32(pdu1.StockNum - item.Sum);
                     var pdu = product.Update(pdu1);
+                    var instora = new InStorageDetailManager();
+                    var ins = instora.GetByWhere(inss => inss.InStorageId == item.InSNum && inss.ProductNum == item.ProductNum).SingleOrDefault();
+                    ins.IsReturnOrder = 1;
+                    var insta = instoragedetail.Update(ins);
                 }
             }
             var result = new
@@ -121,8 +128,14 @@ namespace WarehouseWeb.TheWarehouseOperation
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ListAdd()
+        public ActionResult ListAdd(int id)
         {
+            Expression<Func<InStorage, bool>> where = i => i.Id == id;
+            var s = instorage.GetByWhere(where).SingleOrDefault();
+            //供应商
+            var gys = GonYinShang.GetAll();
+            gys.Insert(0, new Supplier() { Id = 9999, SupplierName = "请选择供应商" });
+            ViewBag.SupplierId = new SelectList(gys, "Id", "SupplierName", s.SupplierId);
             //退货类型
             var type = returnOrderType.GetAll();
             type.Insert(0, new ReturnOrderType() { Id = 9999, ReturnTypeName = "请选择退货类型" });
@@ -131,21 +144,18 @@ namespace WarehouseWeb.TheWarehouseOperation
             var product_1 = product.GetAll();
             product_1.Insert(0, new Product() { Id = 9999, ProductName = "请选择产品" });
             ViewBag.Product = new SelectList(product_1, "Id", "ProductName");
-            //客户
-            var customer_1 = customer.GetAll();
-            customer_1.Insert(0, new Customer() { Id = 9999, CustomerName = "请选择客户" });
-            ViewBag.CustomerId = new SelectList(customer_1, "Id", "CustomerName");
-            return View();
-        }
-        
-        public ActionResult QueryByProductId(int Id)
-        {
-            var productInfo = product.GetByWhere(i => i.Id == Id);
-            var newFormatList = productInfo.Select(item => new { Id = item.Id, ProductNum = item.ProductNum, ProductName = item.ProductName, Size = item.Size, LocationId = item.LocationId, StockNum = item.StockNum });
-            return Json(newFormatList, JsonRequestBehavior.AllowGet);
+            return View(s);
         }
 
-        public ActionResult Insert(List<ReturnOrderDetail> detail, int ReturnTypeId, int CustomerId, string Remark, string AuditUser)
+        //根据id获取退货产品详细
+        public ActionResult QueryByIdTUIHUOMinXiInfo(int id)
+        {
+            InStorage ins = instorage.GetByWhere(i => i.Id == id).SingleOrDefault();
+            var mx = instoragedetail.GetByWhere(i => i.InStorageId == ins.InSNum && i.IsDelete == 0);
+            return Json(mx, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Insert(List<ReturnOrderDetail> detail, int ReturnTypeId, int SupplierId, string Remark, string AuditUser)
         {
             string detailNum = "";
             //获取明细表最大编号
@@ -204,7 +214,7 @@ namespace WarehouseWeb.TheWarehouseOperation
                 ReturnOrderStock ost = new ReturnOrderStock();
                 ost.ReturnNum = returnNum;
                 ost.ReturnTypeId = ReturnTypeId;
-                ost.CustomerId = CustomerId;
+                ost.SupplierId = SupplierId;
                 ost.DetailNum = detailNum;
                 ost.Num = Convert.ToInt32(num);
                 ost.Status = "待审核";
@@ -234,6 +244,10 @@ namespace WarehouseWeb.TheWarehouseOperation
         {
             Expression<Func<ReturnOrderStock, bool>> where = i => i.Id == id;
             var s = returnOrderStock.GetByWhere(where).SingleOrDefault();
+            //供应商
+            var gys = GonYinShang.GetAll();
+            gys.Insert(0, new Supplier() { Id = 99999999, SupplierName = "请选择供应商" });
+            ViewBag.SupplierId = new SelectList(gys, "Id", "SupplierName", s.SupplierId);
             //退货类型
             var type = returnOrderType.GetAll();
             type.Insert(0, new ReturnOrderType() { Id = 9999, ReturnTypeName = "请选择退货类型" });
@@ -242,10 +256,6 @@ namespace WarehouseWeb.TheWarehouseOperation
             var product_1 = product.GetAll();
             product_1.Insert(0, new Product() { Id = 9999, ProductName = "请选择产品" });
             ViewBag.Product = new SelectList(product_1, "Id", "ProductName");
-            //客户
-            var customer_1 = customer.GetAll();
-            customer_1.Insert(0, new Customer() { Id = 9999, CustomerName = "请选择客户" });
-            ViewBag.CustomerId = new SelectList(customer_1, "Id", "CustomerName",s.CustomerId);
             return View(s);
         }
 
@@ -257,7 +267,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         }
 
         //修改退货单
-        public ActionResult UpdtInfo(List<ReturnOrderDetail> detail, int ReturnTypeId, int CustomerId, string Remark, string ReturnNum)
+        public ActionResult UpdtInfo(List<ReturnOrderDetail> detail, int ReturnTypeId, int SupplierId, string Remark, string ReturnNum)
         {
             //先删除明细
             bool val_1 = true;
@@ -304,7 +314,7 @@ namespace WarehouseWeb.TheWarehouseOperation
                 var s = returnOrderStock_1.GetByWhere(i => i.ReturnNum == ReturnNum).SingleOrDefault();
                 s.DetailNum = detailNum;
                 s.ReturnTypeId = ReturnTypeId;
-                s.CustomerId = CustomerId;
+                s.SupplierId = SupplierId;
                 s.Remark = Remark;
                 s.Num = Convert.ToInt32(num);
                 bool vall = returnOrderStock.Update(s);

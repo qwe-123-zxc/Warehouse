@@ -49,9 +49,9 @@
           <Property Name="ProductNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="UniPrice" Type="float" Nullable="false" />
-          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="UnitPrice" Type="float" Nullable="false" />
           <Property Name="SumMoney" Type="float" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
           <Property Name="Location" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
@@ -181,6 +181,7 @@
           <Property Name="Location" Type="varchar" MaxLength="50" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
+          <Property Name="IsReturnOrder" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="InStorageType">
           <Key>
@@ -254,7 +255,6 @@
           <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
-          <Property Name="SumMoney" Type="float" />
           <Property Name="TheCurrentLocation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="MovingLocation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
@@ -357,11 +357,10 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ReturnId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="InSNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ProductNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Quantity" Type="int" Nullable="false" />
-          <Property Name="SumMoney" Type="float" Nullable="false" />
           <Property Name="Sum" Type="int" Nullable="false" />
           <Property Name="Location" Type="varchar" MaxLength="50" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
@@ -374,7 +373,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ReturnNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ReturnTypeId" Type="int" Nullable="false" />
-          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="SupplierId" Type="int" Nullable="false" />
           <Property Name="DetailNum" Type="varchar" MaxLength="50" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
@@ -633,18 +632,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ReturnOrderStock_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
-          <End Role="ReturnOrderStock" Type="Self.ReturnOrderStock" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ReturnOrderStock">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ReturnOrderStock_ReturnOrderType">
           <End Role="ReturnOrderType" Type="Self.ReturnOrderType" Multiplicity="1" />
           <End Role="ReturnOrderStock" Type="Self.ReturnOrderStock" Multiplicity="*" />
@@ -759,10 +746,6 @@
             <End Role="ProductCategory" EntitySet="ProductCategory" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
-          <AssociationSet Name="FK_ReturnOrderStock_Customer" Association="Self.FK_ReturnOrderStock_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="ReturnOrderStock" EntitySet="ReturnOrderStock" />
-          </AssociationSet>
           <AssociationSet Name="FK_ReturnOrderStock_ReturnOrderType" Association="Self.FK_ReturnOrderStock_ReturnOrderType">
             <End Role="ReturnOrderType" EntitySet="ReturnOrderType" />
             <End Role="ReturnOrderStock" EntitySet="ReturnOrderStock" />
@@ -824,9 +807,9 @@
           <Property Name="ProductNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UniPrice" Type="Double" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UnitPrice" Type="Double" Nullable="false" />
           <Property Name="SumMoney" Type="Double" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
           <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
@@ -902,7 +885,6 @@
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="OutStorage" Relationship="Self.FK_OutStorage_Customer" FromRole="Customer" ToRole="OutStorage" />
-          <NavigationProperty Name="ReturnOrderStock" Relationship="Self.FK_ReturnOrderStock_Customer" FromRole="Customer" ToRole="ReturnOrderStock" />
         </EntityType>
         <EntityType Name="Depart">
           <Key>
@@ -964,6 +946,7 @@
           <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
+          <Property Name="IsReturnOrder" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="InStorageType">
           <Key>
@@ -1044,7 +1027,6 @@
           <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="SumMoney" Type="Double" />
           <Property Name="TheCurrentLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MovingLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
@@ -1155,11 +1137,10 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReturnId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="InSNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ProductNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="SumMoney" Type="Double" Nullable="false" />
           <Property Name="Sum" Type="Int32" Nullable="false" />
           <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
@@ -1172,7 +1153,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ReturnNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReturnTypeId" Type="Int32" Nullable="false" />
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="SupplierId" Type="Int32" Nullable="false" />
           <Property Name="DetailNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -1180,7 +1161,6 @@
           <Property Name="AuditTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_ReturnOrderStock_Customer" FromRole="ReturnOrderStock" ToRole="Customer" />
           <NavigationProperty Name="ReturnOrderType" Relationship="Self.FK_ReturnOrderStock_ReturnOrderType" FromRole="ReturnOrderStock" ToRole="ReturnOrderType" />
         </EntityType>
         <EntityType Name="ReturnOrderType">
@@ -1327,18 +1307,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OutStorage">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ReturnOrderStock_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
-          <End Role="ReturnOrderStock" Type="Self.ReturnOrderStock" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ReturnOrderStock">
               <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1529,10 +1497,6 @@
             <End Role="Customer" EntitySet="Customer" />
             <End Role="OutStorage" EntitySet="OutStorage" />
           </AssociationSet>
-          <AssociationSet Name="FK_ReturnOrderStock_Customer" Association="Self.FK_ReturnOrderStock_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="ReturnOrderStock" EntitySet="ReturnOrderStock" />
-          </AssociationSet>
           <AssociationSet Name="FK_InStorage_InStorageType" Association="Self.FK_InStorage_InStorageType">
             <End Role="InStorageType" EntitySet="InStorageType" />
             <End Role="InStorage" EntitySet="InStorage" />
@@ -1629,9 +1593,9 @@
                 <ScalarProperty Name="ProductNum" ColumnName="ProductNum" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="Size" ColumnName="Size" />
-                <ScalarProperty Name="UniPrice" ColumnName="UniPrice" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
                 <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
@@ -1770,6 +1734,7 @@
                 <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="IsReturnOrder" ColumnName="IsReturnOrder" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1849,7 +1814,6 @@
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="Size" ColumnName="Size" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="TheCurrentLocation" ColumnName="TheCurrentLocation" />
                 <ScalarProperty Name="MovingLocation" ColumnName="MovingLocation" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
@@ -1959,11 +1923,10 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="ReturnId" ColumnName="ReturnId" />
+                <ScalarProperty Name="InSNum" ColumnName="InSNum" />
                 <ScalarProperty Name="ProductNum" ColumnName="ProductNum" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="Size" ColumnName="Size" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="Sum" ColumnName="Sum" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
@@ -1977,7 +1940,7 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ReturnNum" ColumnName="ReturnNum" />
                 <ScalarProperty Name="ReturnTypeId" ColumnName="ReturnTypeId" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
                 <ScalarProperty Name="DetailNum" ColumnName="DetailNum" />
                 <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="Status" ColumnName="Status" />

@@ -160,7 +160,6 @@
                 </div>
             </div>
             <div class="col-md-3 navbar-right" style="margin:8px;padding:0px;">
-                <button class="btn btn-primary qd" onclick="insertInStorage();" type="button">新增</button>
                 <button class="btn btn-danger qd" type="button" id="del">删除</button>
                 <button class="btn btn-info qd" type="button">导出</button>
             </div>
@@ -385,7 +384,7 @@
     });
      //修改审核状态
     function UpdateStatus() {
-        var ids = $("[name=xgztid]").val();
+        var ids = $("[name=xgztid]").val(); 
         $.ajax({
             url: "@Url.Action("UpdtStatus")",
             data: { status: ztvalue, Id: ids },
