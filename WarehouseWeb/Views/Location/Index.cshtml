@@ -164,11 +164,11 @@
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">所在仓库</span>
-        @Html.DropDownList("StorageId", null, htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
+        @Html.DropDownList("StorageId", null, htmlAttributes: new { @class = "form-control", @style = "width:150px;    margin-left: 5px;" })
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">库位类型</span>
-        @Html.DropDownList("LocationTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
+        @Html.DropDownList("LocationTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:150px;    margin-left: 5px;" })
     </div>
     <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
         <button  onclick="btnAdd();" style="margin:6px 10px 0px 180px;">确定</button>
@@ -188,11 +188,11 @@
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">所在仓库</span>
-        @Html.DropDownList("storageId", null, htmlAttributes: new { @class = "form-control LocationId", @style = "width:150px;" })
+        @Html.DropDownList("storageId", null, htmlAttributes: new { @class = "form-control LocationId", @style = "width:150px;    margin-left: 5px;" })
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">库位类型</span>
-        @Html.DropDownList("LocationTypeId", null, htmlAttributes: new { @class = "form-control LocationId", @style = "width:150px;" })
+        @Html.DropDownList("LocationTypeId", null, htmlAttributes: new { @class = "form-control LocationId", @style = "width:150px;    margin-left: 5px;" })
     </div>
     <div style="height:40px;background-color:#eeeeee;border-top:1px solid #ddd">
         <button onclick="updateLocation();" style="margin:6px 10px 0px 180px;">确定</button>
@@ -222,7 +222,8 @@
             dataType: "json",
             type: "post",
             success: function (result) {
-                alert(JSON.stringify(result))
+                //alert(JSON.stringify(result))
+                $("[name=locationNum]").val(result.LocationNum);
                 $("[name=locationName]").val(result.LocationName);
                 $("[name=storageId]").val(result.StorageId);
                 $("[name=LocationTypeId]").val(result.LocaTypeId);

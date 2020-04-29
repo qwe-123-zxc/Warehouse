@@ -78,18 +78,23 @@ namespace WarehouseWeb.SystemSetup
             Depart depart = new Depart();
             //获取最大编号
             string departNum = Departmanager.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.DepartNum).Take(1).Select(item => item.DepartNum).FirstOrDefault();
-            depart.DepartNum = "00000" + (int.Parse(departNum) + 1);
-
-            int num = int.Parse(departNum);
-            if (num >= 9)
+            if (!string.IsNullOrEmpty(departNum))
             {
-                depart.DepartNum = "0000" + (int.Parse(departNum) + 1);
+                depart.DepartNum = "000001";
             }
-            else if (num >= 99)
+            else
             {
-                depart.DepartNum = "000" + (int.Parse(departNum) + 1);
+                depart.DepartNum = "00000" + (int.Parse(departNum) + 1);
+                int num = int.Parse(departNum);
+                if (num >= 9)
+                {
+                    depart.DepartNum = "0000" + (int.Parse(departNum) + 1);
+                }
+                else if (num >= 99)
+                {
+                    depart.DepartNum = "000" + (int.Parse(departNum) + 1);
+                }
             }
-
             depart.DepartName = DepartName;
             depart.IsDelete = 0;
             depart.CreateTime = DateTime.Now;

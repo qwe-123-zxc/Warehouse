@@ -50,15 +50,22 @@ namespace WarehouseWeb.BasicDocument
             Measure measure = new Measure();
             //获取最大编号
             string MeasureNum = service.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.MeasureNum).Take(1).Select(item => item.MeasureNum).FirstOrDefault();
-            measure.MeasureNum = "00000" + (int.Parse(MeasureNum) + 1);
-            int num = int.Parse(MeasureNum);
-            if (num >= 9)
+            if (!string.IsNullOrEmpty(MeasureNum))
             {
-                measure.MeasureNum = "0000" + (int.Parse(MeasureNum) + 1);
+                measure.MeasureNum = "000001";
             }
-            else if (num >= 99)
+            else
             {
-                measure.MeasureNum = "000" + (int.Parse(MeasureNum) + 1);
+                measure.MeasureNum = "00000" + (int.Parse(MeasureNum) + 1);
+                int num = int.Parse(MeasureNum);
+                if (num >= 9)
+                {
+                    measure.MeasureNum = "0000" + (int.Parse(MeasureNum) + 1);
+                }
+                else if (num >= 99)
+                {
+                    measure.MeasureNum = "000" + (int.Parse(MeasureNum) + 1);
+                }
             }
             measure.MeasureName = measureName;
             measure.IsDelete = 0;

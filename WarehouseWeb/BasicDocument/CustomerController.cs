@@ -50,15 +50,21 @@ namespace WarehouseWeb.BasicDocument
             Customer customer = new Customer();
             //获取最大编号
             string CustomerNum = service.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.CustomerNum).Take(1).Select(item => item.CustomerNum).FirstOrDefault();
-            customer.CustomerNum = "00000" + (int.Parse(CustomerNum) + 1);
-            int num = int.Parse(CustomerNum);
-            if (num >= 9)
+            if (!string.IsNullOrEmpty(CustomerNum))
             {
-                customer.CustomerNum = "0000" + (int.Parse(CustomerNum) + 1);
+                customer.CustomerNum = "000001";
             }
-            else if(num>=99)
-            {
-                customer.CustomerNum = "000" + (int.Parse(CustomerNum) + 1);
+            else { 
+                customer.CustomerNum = "00000" + (int.Parse(CustomerNum) + 1);
+                int num = int.Parse(CustomerNum);
+                if (num >= 9)
+                {
+                    customer.CustomerNum = "0000" + (int.Parse(CustomerNum) + 1);
+                }
+                else if(num>=99)
+                {
+                    customer.CustomerNum = "000" + (int.Parse(CustomerNum) + 1);
+                }
             }
             customer.CustomerName = customerName;
             customer.Fax = fax;

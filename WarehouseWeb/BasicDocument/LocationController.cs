@@ -102,18 +102,23 @@ namespace WarehouseWeb.BasicDocument
             Location location = new Location();
             //获取库位最大编号
             string locationNum = LocationManager.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.LocationNum).Take(1).Select(item => item.LocationNum).FirstOrDefault();
-            location.LocationNum = "00000" + (int.Parse(locationNum) + 1);
-
-            int num = int.Parse(locationNum);
-            if (num>=9)
+            if (!string.IsNullOrEmpty(locationNum))
             {
-                location.LocationNum = "0000" + (int.Parse(LocationNum) + 1);
+                location.LocationNum = "000001";
             }
-            else if (num>=99)
+            else
             {
-                location.LocationNum = "000" + (int.Parse(LocationNum) + 1);
+                location.LocationNum = "00000" + (int.Parse(locationNum) + 1);
+                int num = int.Parse(locationNum);
+                if (num >= 9)
+                {
+                    location.LocationNum = "0000" + (int.Parse(LocationNum) + 1);
+                }
+                else if (num >= 99)
+                {
+                    location.LocationNum = "000" + (int.Parse(LocationNum) + 1);
+                }
             }
-
             location.LocationName = LocationName;
             location.StorageId = StorageId;
             location.LocaTypeId = LocationTypeId;

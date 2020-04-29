@@ -43,5 +43,43 @@ namespace WarehouseWeb.SystemSetup
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Insert(int RoleId,int NodeId,int ParentNodeId)
+        {
+            RolePower role = rolePowerManager.GetByWhere(item=>item.RoleId==RoleId&&item.NodeId==ParentNodeId).SingleOrDefault();
+            if (role==null)
+            {
+                RolePower r = new RolePower();
+                r.RoleId = RoleId;
+                r.NodeId = ParentNodeId;
+                r.CreateTime = DateTime.Now;
+                r.IsDelete = 0;
+                bool vall = rolePowerManager.Add(r);
+            }
+            RolePower rolePower = new RolePower();
+            rolePower.RoleId = RoleId;
+            rolePower.NodeId = NodeId;
+            rolePower.CreateTime = DateTime.Now;
+            rolePower.IsDelete = 0;
+            bool val = rolePowerManager.Add(rolePower);
+            return Json(val, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Update(int RoleId, int NodeId, int ParentNodeId)
+        {
+            RolePower role = rolePowerManager.GetByWhere(item => item.RoleId == RoleId && item.NodeId == ParentNodeId).SingleOrDefault();
+            if (role == null)
+            {
+                RolePower r = new RolePower();
+                r.RoleId = RoleId;
+                r.NodeId = ParentNodeId;
+                r.CreateTime = DateTime.Now;
+                r.IsDelete = 0;
+                bool vall = rolePowerManager.Add(r);
+            }
+            RolePower rolePower = rolePowerManager.GetByWhere(item => item.RoleId == RoleId && item.NodeId == NodeId).SingleOrDefault();
+            bool val = rolePowerManager.Delete(rolePower);
+            return Json(val, JsonRequestBehavior.AllowGet);
+        }
     }
 }

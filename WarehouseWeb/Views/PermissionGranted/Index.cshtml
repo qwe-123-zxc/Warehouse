@@ -44,10 +44,7 @@
         </div>
         <div style="margin: 10px 0px 10px -20px;">
             <ul class="tree" type="none">
-                <li class="tree_li left_tree">
-                    <a href="javascript:void(0);" style="margin-left: 20px;color:black;">系统模块</a>
 
-                </li>
             </ul>
         </div>
     </div>
@@ -55,10 +52,10 @@
         <div style="height:35px;background-color:#efefef;">
             <img src="~/Image/yunfenpei.png" style="float: left;margin-top: 10px;margin-left: 15px;" />
             <span style="margin: 7px 5px;float: left;font-weight: bold;">已分配的权限</span>
-            <button id="conserve" style="background-color:white;border:1px solid #ddd;float:right;margin:5px 10px;">保存</button>
         </div>
         <div style="margin: 10px 0px 10px -20px;">
             <ul class="tree" type="none">
+
             </ul>
         </div>
     </div>
@@ -66,9 +63,10 @@
 <link href="~/Content/bootstrap-treeview.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-treeview.js"></script>
 <script type="text/javascript">
+    var roleId = 0;
     $(function () {
         var url = location.search; //获取url中"?"符后的字串
-        var roleId = 0;
+
         if (url.indexOf("?") != -1) {
             var str = url.substr(1);
             strs = str.split("&");
@@ -77,7 +75,165 @@
             }
         }
         if (url != "") {
+            BindData();
+        }
+        else {
             $.ajax({
+                url: "@Url.Action("ShowData")",
+                data: { roleId: 0 },
+                dataType: "json",
+                type: "post",
+                success: function (result) {
+                    //已存在的权限
+                    $(".right_tree").remove();
+                    var defaultdata = [];
+                    $.each(result.rightListRoot, function (index, value) {
+                        var d = {};
+                        d.text = value.DisplayName;
+                        d.href = "#parent2";
+                        d.tags = value.NodeId;
+                        d.nodes = [];
+                        $.each(result.rightList, function (index, data) {
+                            if (data.ParentNodeId == value.NodeId && data.IsDelete == 0) {
+                                var dd = {};
+                                dd.text = data.DisplayName;
+                                dd.href = "#parent2";
+                                dd.tags = data.NodeId;
+                                dd.icon = "../Image/V.png";
+                                d.nodes.push(dd);
+                            }
+                        });
+                        defaultdata.push(d);
+                    });
+                    //alert(JSON.stringify(defaultdata))
+                    $('.tree_right .tree').treeview({
+                        data: defaultdata
+                    });
+                    //未拥有的权限
+                    $(".left_tree").remove();
+                    var defaultdatas = [];
+                    $.each(result.listParentNodeId, function (index, value) {
+                        var de = {};
+                        de.text = value.DisplayName;
+                        de.href = "#parent2";
+                        de.tags = value.NodeId;
+                        de.nodes = [];
+                        $.each(result.leftListRoot, function (index, data) {
+                            if (data.ParentNodeId == value.NodeId && data.IsDelete == 0) {
+                                var des = {};
+                                des.text = data.DisplayName;
+                                des.href = "#parent2";
+                                des.tags = data.NodeId;
+                                de.nodes.push(des);
+                            }
+                        });
+                        defaultdatas.push(de);
+                    });
+                    //alert(JSON.stringify(defaultdatas));
+                    $('.tree_left .tree').treeview({
+                        data: defaultdatas
+                    });
+                }
+            });
+        }
+    });
+    //最后一次触发节点Id
+    var lastSelectedNodeId = null;
+    //最后一次触发时间
+    var lastSelectTime = null;
+
+    //自定义业务方法
+    function customBusiness(data) {
+       // console.log("数据："+data);
+        var node = $('.tree_left .tree').treeview('getSelected');
+        $('.tree_left .tree').treeview('removeNode', [node, { silent: true }]);
+        $.ajax({
+            url: "@Url.Action("Insert")",
+            data: { RoleId: roleId, NodeId: data.tags, ParentNodeId: data.href },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                if (result) {
+                    alert("ok");
+                    BindData();
+                }
+            }
+        });
+        //console.log(childArray);
+    }
+
+    function clickNode(event, data) {
+         //console.log("数据："+data);
+        if (lastSelectedNodeId && lastSelectTime) {
+            var time = new Date().getTime();
+            var t = time - lastSelectTime;
+            if (lastSelectedNodeId == data.nodeId && t < 300) {
+                customBusiness(data);
+            }
+        }
+        lastSelectedNodeId = data.nodeId;
+        lastSelectTime = new Date().getTime();
+    }
+
+    //自定义双击事件
+    function customDblClickFun() {
+        //节点选中时触发
+        $('.tree_left .tree').on('nodeSelected', function (event, data) {
+            clickNode(event, data)
+            //console.log($(this));
+        });
+        //节点取消选中时触发
+        $('.tree_left .tree').on('nodeUnselected', function (event, data) {
+            clickNode(event, data)
+        });
+    }
+
+    //自定义业务方法
+    function customBusinessR(data) {
+        var node = $('.tree_right .tree').treeview('getSelected');
+        $('.tree_right .tree').treeview('removeNode', [node, { silent: true }]);
+        $.ajax({
+            url: "@Url.Action("Update")",
+            data: { RoleId: roleId, NodeId: data.tags, ParentNodeId: data.href },
+            dataType: "json",
+            type: "post",
+            success: function (result) {
+                if (result) {
+                    alert("okk");
+                    BindData();
+                }
+            }
+        });
+        //console.log(childArray);
+    }
+
+    function clickNodeR(event, data) {
+         //console.log("数据："+data);
+        if (lastSelectedNodeId && lastSelectTime) {
+            var time = new Date().getTime();
+            var t = time - lastSelectTime;
+            if (lastSelectedNodeId == data.nodeId && t < 300) {
+                customBusinessR(data);
+            }
+        }
+        lastSelectedNodeId = data.nodeId;
+        lastSelectTime = new Date().getTime();
+    }
+
+    //自定义双击事件
+    function customDblClickFunR() {
+        //节点选中时触发
+        $('.tree_right .tree').on('nodeSelected', function (event, data) {
+            clickNodeR(event, data)
+        });
+        //节点取消选中时触发
+        $('.tree_right .tree').on('nodeUnselected', function (event, data) {
+            clickNodeR(event, data)
+        });
+    }
+
+    function BindData() {
+        $.ajax({
                 url: "@Url.Action("ShowData")",
                 data: { roleId: roleId },
                 dataType: "json",
@@ -107,10 +263,8 @@
                     $('.tree_right .tree').treeview({
                         data: defaultdata
                     });
-                    //node的单击节点事件
-                    $('.tree_right .tree').on('nodeSelected', function (event, data) {
-                        alert(data.tags)
-                    });
+                    //node的双击节点事件
+                    customDblClickFunR();
 
                     //未拥有的权限
                     $(".left_tree").remove();
@@ -120,13 +274,15 @@
                         de.text = value.DisplayName;
                         de.href = "#parent2";
                         de.tags = value.NodeId;
+                       // console.log("父节点:" + value.NodeId);
                         de.nodes = [];
                         $.each(result.leftListRoot, function (index, data) {
                             if (data.ParentNodeId == value.NodeId && data.IsDelete == 0) {
                                 var des = {};
                                 des.text = data.DisplayName;
-                                des.href = "#parent2";
+                                des.href = data.ParentNodeId;
                                 des.tags = data.NodeId;
+                                //console.log("子节点:" + data.NodeId);
                                 de.nodes.push(des);
                             }
                         });
@@ -136,142 +292,8 @@
                     $('.tree_left .tree').treeview({
                         data: defaultdatas
                     });
-
-                    //最后一次触发节点Id
-                    var lastSelectedNodeId = null;
-                    //最后一次触发时间
-                    var lastSelectTime = null;
-
-                    //自定义业务方法
-                    function customBusiness(data) {
-                        alert("双击获得节点名字： " + data.tags);
-                    }
-
-                    function clickNode(event, data) {
-                        if (lastSelectedNodeId && lastSelectTime) {
-                            var time = new Date().getTime();
-                            var t = time - lastSelectTime;
-                            if (lastSelectedNodeId == data.nodeId && t < 300) {
-                                customBusiness(data);
-                            }
-                        }
-                        lastSelectedNodeId = data.nodeId;
-                        lastSelectTime = new Date().getTime();
-                    }
-
-                    //自定义双击事件
-                    function customDblClickFun() {
-                        //节点选中时触发
-                        $('.tree_left .tree').on('nodeSelected', function (event, data) {
-                            clickNode(event, data)
-                        });
-                        //节点取消选中时触发
-                        $('.tree_left .tree').on('nodeUnselected', function (event, data) {
-                            clickNode(event, data)
-                        });
-                    }
                     customDblClickFun();
                 }
             });
-        }
-        else {
-            $("#conserve").css("display", "none");
-            $.ajax({
-                url: "@Url.Action("ShowData")",
-                data: { roleId: 0 },
-                dataType: "json",
-                type: "post",
-                success: function (result) {
-                    //已存在的权限
-                    $(".right_tree").remove();
-                    var defaultdata = [];
-                    $.each(result.rightListRoot, function (index, value) {
-                        var d = {};
-                        d.text = value.DisplayName;
-                        d.href = "#parent2";
-                        d.tags = value.NodeId;
-                        d.nodes = [];
-                        $.each(result.rightList, function (index, data) {
-                            if (data.ParentNodeId == value.NodeId && data.IsDelete == 0) {
-                                var dd = {};
-                                dd.text = data.DisplayName;
-                                dd.href = "#parent2";
-                                dd.tags = data.NodeId;
-                                d.nodes.push(dd);
-                            }
-                        });
-                        defaultdata.push(d);
-                    });
-                    //alert(JSON.stringify(defaultdata))
-                    $('.tree_right .tree').treeview({
-                        data: defaultdata
-                    });
-                    //node的单击节点事件
-                    $('.tree_right .tree').on('nodeSelected', function (event, data) {
-                        alert(data.tags)
-                    });
-
-                    //未拥有的权限
-                    $(".left_tree").remove();
-                    var defaultdatas = [];
-                    $.each(result.listParentNodeId, function (index, value) {
-                        var de = {};
-                        de.text = value.DisplayName;
-                        de.href = "#parent2";
-                        de.tags = value.NodeId;
-                        de.nodes = [];
-                        $.each(result.leftListRoot, function (index, data) {
-                            if (data.ParentNodeId == value.NodeId && data.IsDelete == 0) {
-                                var des = {};
-                                des.text = data.DisplayName;
-                                des.href = "#parent2";
-                                des.tags = data.NodeId;
-                                de.nodes.push(des);
-                            }
-                        });
-                        defaultdatas.push(de);
-                    });
-                    //alert(JSON.stringify(defaultdatas));
-                    $('.tree_left .tree').treeview({
-                        data: defaultdatas
-                    });
-
-                    //最后一次触发节点Id
-                    var lastSelectedNodeId = null;
-                    //最后一次触发时间
-                    var lastSelectTime = null;
-
-                    //自定义业务方法
-                    function customBusiness(data) {
-                        alert("双击获得节点名字： " + data.tags);
-                    }
-
-                    function clickNode(event, data) {
-                        if (lastSelectedNodeId && lastSelectTime) {
-                            var time = new Date().getTime();
-                            var t = time - lastSelectTime;
-                            if (lastSelectedNodeId == data.nodeId && t < 300) {
-                                customBusiness(data);
-                            }
-                        }
-                        lastSelectedNodeId = data.nodeId;
-                        lastSelectTime = new Date().getTime();
-                    }
-
-                    //自定义双击事件
-                    function customDblClickFun() {
-                        //节点选中时触发
-                        $('.tree_left .tree').on('nodeSelected', function (event, data) {
-                            clickNode(event, data)
-                        });
-                        //节点取消选中时触发
-                        $('.tree_left .tree').on('nodeUnselected', function (event, data) {
-                            clickNode(event, data)
-                        });
-                    }
-                    customDblClickFun();
-                }
-            });
-        }
-    });
+    }
 </script>

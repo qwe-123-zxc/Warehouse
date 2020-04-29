@@ -73,18 +73,23 @@ namespace WarehouseWeb.SystemSetup
             Role role = new Role();
             //获取最大编号
             string roleNum = Rolemanager.GetByWhere(item => item.Id != 1&&item.IsDelete==0).OrderByDescending(item => item.RoleNum).Take(1).Select(item => item.RoleNum).FirstOrDefault();
-            role.RoleNum = "00000" + (int.Parse(roleNum) + 1);
-
-            int num = int.Parse(roleNum);
-            if (num >= 9)
+            if (!string.IsNullOrEmpty(roleNum))
             {
-                role.RoleNum = "0000" + (int.Parse(roleNum) + 1);
+                role.RoleNum = "000001";
             }
-            else if (num >= 99)
+            else
             {
-                role.RoleNum = "000" + (int.Parse(roleNum) + 1);
+                role.RoleNum = "00000" + (int.Parse(roleNum) + 1);
+                int num = int.Parse(roleNum);
+                if (num >= 9)
+                {
+                    role.RoleNum = "0000" + (int.Parse(roleNum) + 1);
+                }
+                else if (num >= 99)
+                {
+                    role.RoleNum = "000" + (int.Parse(roleNum) + 1);
+                }
             }
-
             role.RoleName = RoleName;
             role.Remark = Remark;
             role.IsDelete = 0;

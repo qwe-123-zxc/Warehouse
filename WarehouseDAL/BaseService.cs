@@ -53,7 +53,7 @@ namespace WarehouseDAL
             var obj = from r in entities.RolePower
                       join f in entities.Function
                       on r.NodeId equals f.NodeId
-                      where r.RoleId==roleId
+                      where r.RoleId==roleId && r.IsDelete==0
                       select f;
             return obj.ToList();
         }
