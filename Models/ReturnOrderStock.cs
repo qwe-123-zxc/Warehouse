@@ -17,7 +17,7 @@ namespace Models
         public int Id { get; set; }
         public string ReturnNum { get; set; }
         public int ReturnTypeId { get; set; }
-        public int CustomerId { get; set; }
+        public int SupplierId { get; set; }
         public string DetailNum { get; set; }
         public int Num { get; set; }
         public string Status { get; set; }
@@ -26,7 +26,6 @@ namespace Models
         public int IsDelete { get; set; }
         public string Remark { get; set; }
     
-        public virtual Customer Customer { get; set; }
         public virtual ReturnOrderType ReturnOrderType { get; set; }
     }
 }

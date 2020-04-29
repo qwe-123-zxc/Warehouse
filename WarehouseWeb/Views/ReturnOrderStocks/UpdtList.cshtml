@@ -91,8 +91,8 @@
                     @Html.DropDownList("ReturnTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
                 </div>
                 <div class="col-md-3 form-group">
-                    客户
-                    @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+                    供应商
+                    @Html.DropDownList("SupplierId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
                 </div>
                 <div class="col-md-3 form-group">
                     制单人
@@ -115,6 +115,7 @@
                 <tr>
                     <td>产品编号</td>
                     <td>产品名称</td>
+                    <td>退货入库编号</td>
                     <td>规格</td>
                     <td>库位名称</td>
                     <td>退货数量</td>
@@ -125,71 +126,8 @@
         </table>
         <div class="row ChanPinTianJia">
             <div class="col-md-4">
-                <a href="javascript:ChaKan()">
-                    <span class="btn btn-primary">新增产品</span>
-                </a>
                 <button class="btn btn-primary" id="OK">保存</button>
                 <button class="btn btn-default">取消</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-@*新增产品*@
-<div id="o"></div>
-<div id="p">
-    <div class="container">
-        <div class="row ChaKanBiaoTi">
-            <div class="col-md-6">
-                <span style="color:white">退货产品</span>
-            </div>
-            <div class="col-md-6 text-right">
-                <a href="javascript:ChaKanGuanBi()" title="关闭"><img style="background-color:white;" src="~/Image/cha.png" /></a>
-            </div>
-        </div>
-        <div style="margin:8px;">
-            <div class="row form-inline form-group">
-                <div class="col-md-12">
-                    <label class="control-label">产品编码</label>&nbsp;&nbsp;
-                    <input disabled="disabled" name="ProductNum" class="form-control" style="width:200px;" />
-                </div>
-            </div>
-            <div class="row form-inline form-group">
-                <div class="col-md-12">
-                    <label class="control-label">产品名称</label>&nbsp;&nbsp;
-                    @Html.DropDownList("Product", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
-                </div>
-            </div>
-            <div class="row form-inline form-group">
-                <div class="col-md-12">
-                    <label class="control-label">产品规格</label>&nbsp;&nbsp;
-                    <input disabled="disabled" name="Size" class="form-control" style="width:200px;" />
-                </div>
-            </div>
-            <div class="row form-inline form-group">
-                <div class="col-md-12">
-                    <label class="control-label">库<span style="margin-left:28px;">位</span></label>&nbsp;&nbsp;
-                    <input disabled="disabled" name="LocationId" class="form-control" style="width:200px;" />
-                </div>
-            </div>
-            <div class="row form-inline form-group">
-                <div class="col-md-12">
-                    <label class="control-label">现有库存</label>&nbsp;&nbsp;
-                    <input disabled="disabled" name="StockNum" class="form-control" style="width:200px;" />
-                </div>
-            </div>
-            <div class="row form-inline form-group">
-                <div class="col-md-12">
-                    <label class="control-label">退货数量</label>&nbsp;&nbsp;
-                    <input type="text" name="Num" class="form-control" style="width:200px;" />
-                </div>
-            </div>
-        </div>
-        <div class="row XinZenChanPingDiBu">
-            <div class="col-md-12 text-right">
-                <button style="margin-top: 3px;" id="ProductAdd">确认</button>
-                <button style="margin-top: 3px;" onclick="ChaKanGuanBi();">关闭</button>
             </div>
         </div>
     </div>
@@ -199,52 +137,12 @@
 <script>
 
     $(function () {
-        //选中产品获取产品信息
-        $("#Product").change(function () {
-            var productId = $("#Product").val();
-            $.ajax({
-                url: "@Url.Action("QueryByProductId")",
-                data: { Id: productId },
-                type: "post",
-                dataType: "json",
-                success: function (result) {
-                    $.each(result, function (index, value) {
-                        $("[name=ProductNum]").val(value.ProductNum);
-                        $("[name=Size]").val(value.Size);
-                        $("[name=StockNum]").val(value.StockNum);
-                        $("[name=LocationId]").val(value.LocationId)
-                    });
-                }
-            });
-        });
-
-        //添加产品到表格
-        $("#ProductAdd").click(function () {
-            var stockNum = parseInt($("[name=StockNum]").val());  //现有库存
-            var numvalue_1 = parseInt($("[name=Num]").val());   //退货数
-            if (numvalue_1 <= stockNum && numvalue_1 != 0) {
-                var ProductNum = $("[name=ProductNum]").val();
-                var ProductName = $("[name=Product] option:selected").text();
-                var Size = $("[name=Size]").val();
-                var LocationId = $("[name=LocationId]").val();
-                var numvalue = $("[name=Num]").val();
-                var str = "<tr><td>" + ProductNum + "</td><td>" + ProductName + "</td><td>" + Size + "</td><td>" + LocationId + "</td><td>" + numvalue + "</td><td onclick='Delete(this);'><a href='javascript:void(0);'>删除</a></td></tr >";
-                $("tbody").append(str);
-                //关闭弹窗
-                ChaKanGuanBi();
-            }
-            else
-            {
-                alert("退货数不得大于现有库存！不能为零！");
-            }
-        });
-        
         QueryXiangXi(@Model.Id);
 
         //保存
         $("#OK").click(function () {
             var ReturnTypeIdvalue = $("#ReturnTypeId").val();
-            var CustomerIdvalue = $("#CustomerId").val();
+            var SupplierIdvalue = $("#SupplierId").val();
             var Remarkvalue = $("[name=Remark]").val();
             var ReturnNumvalue = $("[name=ReturnNum]").val();
 
@@ -255,31 +153,26 @@
                 var tds = trs[i].cells;
                 var stu = {};
                 stu.DetailNum = "";
-                stu.CheckId = "";
+                stu.ReturnId = "";
                 stu.ProductNum = tds[0].innerHTML;
                 stu.ProductName = tds[1].innerHTML;
-                stu.Size = tds[2].innerHTML;
-                stu.Location = tds[3].innerHTML;
-                stu.Sum = tds[4].innerHTML;
+                stu.InSNum = tds[2].innerHTML;
+                stu.Size = tds[3].innerHTML;
+                stu.Location = tds[4].innerHTML;
+                stu.Sum = tds[5].innerHTML;
                 stu.CreateTime = "";
                 stu.IsDelete = 0;
                 sum.push(stu);
             }
-            if (sum.length <= 0) {
-                alert("请添加产品");
-            }
-            else
-            {
-                 $.ajax({
-                    url: "@Url.Action("UpdtInfo")",
-                     data: { detail: sum, ReturnTypeId: ReturnTypeIdvalue, CustomerId: CustomerIdvalue, Remark: Remarkvalue, ReturnNum: ReturnNumvalue },
-                    type: "post",
-                    dataType: "json",
-                    success: function (result) {
-                        alert(result);
-                    }
-                });
-            }
+            $.ajax({
+                url: "@Url.Action("UpdtInfo")",
+                 data: { detail: sum, ReturnTypeId: ReturnTypeIdvalue, SupplierId: SupplierIdvalue,Remark:Remarkvalue,ReturnNum:ReturnNumvalue },
+                type: "post",
+                dataType: "json",
+                success: function (result) {
+                    alert(result);
+                }
+            });
         });
     })
     
@@ -292,7 +185,7 @@
             type: "get",
             success: function (result) {
                 $.each(result, function (index, value) {
-                    var str = "<tr><td>" + value.ProductNum + "</td><td>" + value.ProductName + "</td><td>" + value.Size + "</td><td>" + value.Location + "</td><td>" + value.Sum + "</td><td onclick='Delete(this);'><a href='javascript:void(0);'>删除</a></td></tr >";
+                    var str = "<tr><td>" + value.ProductNum + "</td><td>" + value.ProductName + "</td><td>" + value.InSNum + "</td><td>" + value.Size + "</td><td>" + value.Location + "</td><td>" + value.Sum + "</td><td onclick='Delete(this);'><a href='javascript:void(0);'>删除</a></td></tr >";
                     $("tbody").append(str);
                 });
             }
@@ -301,15 +194,6 @@
 
     function Delete(obj) {
         $(obj).parent().remove();
-    }
-    function ChaKan() {
-        $("#p").show();
-        $("#o").show();
-    }
-
-    function ChaKanGuanBi() {
-        $("#p").hide();
-        $("#o").hide();
     }
 </script>
 

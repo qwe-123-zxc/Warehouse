@@ -26,5 +26,6 @@ namespace Models
         public string Location { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
+        public int IsReturnOrder { get; set; }
     }
 }

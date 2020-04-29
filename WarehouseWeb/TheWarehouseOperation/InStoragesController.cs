@@ -80,7 +80,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         {
             Expression<Func<InStorage, bool>> where = i => i.Id == id;
             var s = inStorage.GetByWhere(where).SingleOrDefault();
-            var d = inStorageDetail.GetByWhere(i => i.InStorageId == s.InSNum);
+            var d = inStorageDetail.GetByWhere(i => i.InStorageId == s.InSNum && i.IsReturnOrder == 0);
             var t = inStorageType.GetByWhere(i => i.Id == s.InSTypeId).SingleOrDefault();
             var g = GonYinShang.GetByWhere(i => i.Id == s.SupplierId).SingleOrDefault();
             //主表显示
@@ -288,7 +288,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         public ActionResult QueryByIdMinXiInfo(int id)
         {
             InStorage ins = inStorage.GetByWhere(i => i.Id == id).SingleOrDefault();
-            var mx = inStorageDetail.GetByWhere(i => i.InStorageId==ins.InSNum && i.IsDelete == 0);
+            var mx = inStorageDetail.GetByWhere(i => i.InStorageId==ins.InSNum && i.IsDelete == 0 && i.IsReturnOrder == 0);
             return Json(mx, JsonRequestBehavior.AllowGet);
         }
 

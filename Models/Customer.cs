@@ -18,7 +18,6 @@ namespace Models
         public Customer()
         {
             this.OutStorage = new HashSet<OutStorage>();
-            this.ReturnOrderStock = new HashSet<ReturnOrderStock>();
         }
     
         public int Id { get; set; }
@@ -36,7 +35,5 @@ namespace Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OutStorage> OutStorage { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ReturnOrderStock> ReturnOrderStock { get; set; }
     }
 }
