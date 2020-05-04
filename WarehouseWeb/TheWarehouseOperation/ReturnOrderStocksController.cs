@@ -115,9 +115,17 @@ namespace WarehouseWeb.TheWarehouseOperation
                     var pdu1 = pd.GetByWhere(where).SingleOrDefault();
                     pdu1.StockNum = Convert.ToInt32(pdu1.StockNum - item.Sum);
                     var pdu = product.Update(pdu1);
+
                     var instora = new InStorageDetailManager();
                     var ins = instora.GetByWhere(inss => inss.InStorageId == item.InSNum && inss.ProductNum == item.ProductNum).SingleOrDefault();
-                    ins.IsReturnOrder = 1;
+                    if (ins.THQuantity != 0)
+                    {
+                        ins.THQuantity = Convert.ToInt32(ins.THQuantity - item.Sum);
+                        if (ins.THQuantity==0)
+                        {
+                            ins.IsReturnOrder = 1;
+                        }
+                    }
                     var insta = instoragedetail.Update(ins);
                 }
             }
@@ -160,7 +168,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             string detailNum = "";
             //获取明细表最大编号
             string detailNumBig = returnOrderdetail.GetByWhere(i => true).OrderByDescending(i => i.DetailNum).Take(1).Select(i => i.DetailNum).FirstOrDefault();
-            if (detailNumBig == null)
+            if (string.IsNullOrEmpty(detailNumBig))
             {
                 detailNum = "000001";
             }

@@ -159,7 +159,7 @@
                 stu.InSNum = tds[2].innerHTML;
                 stu.Size = tds[3].innerHTML;
                 stu.Location = tds[4].innerHTML;
-                stu.Sum = tds[5].innerHTML;
+                stu.Sum = tds[5].getElementsByTagName("INPUT")[0].value;
                 stu.CreateTime = "";
                 stu.IsDelete = 0;
                 sum.push(stu);
@@ -193,7 +193,7 @@
             type: "get",
             success: function (result) {
                 $.each(result, function (index, value) {
-                    var str = "<tr><td>" + value.ProductNum + "</td><td>" + value.ProductName + "</td><td>" + value.InStorageId + "</td><td>" + value.Size + "</td><td>" + value.Location + "</td><td>" + value.Quantity + "</td><td onclick='Delete(this);'><a href='javascript:void(0);'>删除</a></td></tr >";
+                    var str = "<tr><td>" + value.ProductNum + "</td><td>" + value.ProductName + "</td><td>" + value.InStorageId + "</td><td>" + value.Size + "</td><td>" + value.Location + "</td><td><input value='" + value.THQuantity + "' class='form-control' type='text' /></td><td onclick='Delete(this);'><a href='javascript:void(0);'>删除</a></td></tr >";
                     $("tbody").append(str);
                 });
             }

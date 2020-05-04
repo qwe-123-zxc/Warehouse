@@ -177,6 +177,7 @@
           <Property Name="Size" Type="varchar" MaxLength="50" />
           <Property Name="UnitPrice" Type="float" />
           <Property Name="Quantity" Type="int" />
+          <Property Name="THQuantity" Type="int" />
           <Property Name="SumMoney" Type="float" />
           <Property Name="Location" Type="varchar" MaxLength="50" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
@@ -942,6 +943,7 @@
           <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UnitPrice" Type="Double" />
           <Property Name="Quantity" Type="Int32" />
+          <Property Name="THQuantity" Type="Int32" />
           <Property Name="SumMoney" Type="Double" />
           <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
@@ -1730,6 +1732,7 @@
                 <ScalarProperty Name="Size" ColumnName="Size" />
                 <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="THQuantity" ColumnName="THQuantity" />
                 <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
