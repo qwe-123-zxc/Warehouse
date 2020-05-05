@@ -120,12 +120,12 @@
                     <th style="width:30px"><input type="checkbox" id="chkAll" /></th>
                     <th>产品条码</th>
                     <th>产品名称</th>
-                    <th>上限</th>
-                    <th>下限</th>
+                    <th>库位</th>
                     <th>价格</th>
                     <th>规格</th>
                     <th>类别</th>
                     <th>单位</th>
+                    <th>库存数</th>
                     <th>备注</th>
                     <th>操作</th>
                 </tr>
@@ -307,12 +307,12 @@
                     str += "<td><input type='checkbox' class='ck' value='" + value.Id + "'/></td>";
                     str += "<td>" + value.ProductNum + "</td>";
                     str += "<td>" + value.ProductName + "</td>";
-                    str += "<td>" + value.MaxNum + "</td>";
-                    str += "<td>" + value.MinNum + "</td>";
+                    str += "<td>" + value.LocationId + "</td>";
                     str += "<td>" + value.OutPrice + "</td>";
                     str += "<td>" + value.Size + "</td>";
                     str += "<td>" + value.PCateId + "</td>";
                     str += "<td>" + value.MeasureId + "</td>";
+                    str += "<td>" + value.StockNum + "</td>";
                     str += "<td>" + value.Remark + "</td>";
                     str += "<td><a href = 'javascript:bianJiProduct(" + value.Id + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:Delete(" + value.Id + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";
                     str += "</tr>";
@@ -387,7 +387,7 @@
     function Delete(num) {
         $.ajax({
             url: "@Url.Action("Delete")",
-            data: { customerNum: num },
+            data: { measureNum: num },
             dataType: "json",
             type: "post",
             success: function (result) {

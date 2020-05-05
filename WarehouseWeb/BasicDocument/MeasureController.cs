@@ -50,7 +50,7 @@ namespace WarehouseWeb.BasicDocument
             Measure measure = new Measure();
             //获取最大编号
             string MeasureNum = service.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.MeasureNum).Take(1).Select(item => item.MeasureNum).FirstOrDefault();
-            if (!string.IsNullOrEmpty(MeasureNum))
+            if (string.IsNullOrEmpty(MeasureNum))
             {
                 measure.MeasureNum = "000001";
             }
@@ -120,7 +120,7 @@ namespace WarehouseWeb.BasicDocument
         }
         public ActionResult Update(string measureName,int measureNum)
         {
-            Measure measure = service.GetByWhere(item => item.Id==measureNum).SingleOrDefault();
+            Measure measure = service.GetByWhere(item => item.Id==measureNum&&item.IsDelete==0).SingleOrDefault();
             measure.MeasureName = measureName;
             bool val = service.Update(measure);
             if (val)

@@ -21,11 +21,12 @@ namespace Models
         public string ProductName { get; set; }
         public string Size { get; set; }
         public Nullable<double> UnitPrice { get; set; }
+        public Nullable<int> THQuantity { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<double> SumMoney { get; set; }
         public string Location { get; set; }
+        public Nullable<int> IsReturnOrder { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }
-        public int IsReturnOrder { get; set; }
     }
 }

@@ -47,12 +47,12 @@ namespace WarehouseWeb.BasicDocument
             LocationManager service = new LocationManager();
 
             //组合条件
-            Expression<Func<Location, bool>> where = item=>true;
+            Expression<Func<Location, bool>> where = item=>item.IsDelete==0;
             
             if (!string.IsNullOrEmpty(LocationName))
             {
                 //库位名条件查询
-                where = where.And(item => item.LocationName == LocationName);
+                where = where.And(item => item.LocationName.IndexOf(LocationName)!=-1);
             }
             if (LocaTypeId != 0)
             {
@@ -102,7 +102,7 @@ namespace WarehouseWeb.BasicDocument
             Location location = new Location();
             //获取库位最大编号
             string locationNum = LocationManager.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.LocationNum).Take(1).Select(item => item.LocationNum).FirstOrDefault();
-            if (!string.IsNullOrEmpty(locationNum))
+            if (string.IsNullOrEmpty(locationNum))
             {
                 location.LocationNum = "000001";
             }
@@ -151,11 +151,11 @@ namespace WarehouseWeb.BasicDocument
         /// </summary>
         /// <param name="USerId"></param>
         /// <returns></returns>
-        public ActionResult Update(string LocationNum, string LocationName, string locationName,int StorageId,int storageId, int LocationTypeId, int locaTypeId)
+        public ActionResult Update(string LocationNum, string LocationName, string locationName,int StorageId,int LocationTypeId)
         {
-            Location location = LocationManager.GetByWhere(item => item.LocationNum == LocationNum).SingleOrDefault();
+            Location location = LocationManager.GetByWhere(item => item.LocationNum == LocationNum&&item.IsDelete==0).SingleOrDefault();
             location.LocationName = LocationName;
-            location.StorageId = storageId;
+            location.StorageId = StorageId;
             location.LocaTypeId = LocationTypeId;
             location.IsDelete = 0;
             location.CreateTime = DateTime.Now;
@@ -180,6 +180,24 @@ namespace WarehouseWeb.BasicDocument
             Location location = LocationManager.GetByWhere(item => item.Id == locationId).SingleOrDefault();
             location.IsDelete = 1;
             bool val = LocationManager.Update(location);
+            if (val)
+            {
+                return Json("删除成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("删除失败", JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult DeleteOther(List<Location> list)
+        {
+            bool val = true;
+            foreach (var item in list)
+            {
+                Location location = LocationManager.GetByWhere(i => i.Id == item.Id).SingleOrDefault();
+                location.IsDelete = 1;
+                val = LocationManager.Update(location);
+            }
             if (val)
             {
                 return Json("删除成功", JsonRequestBehavior.AllowGet);

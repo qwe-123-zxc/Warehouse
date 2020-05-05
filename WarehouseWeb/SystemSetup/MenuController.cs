@@ -17,7 +17,7 @@ namespace WarehouseWeb.SystemSetup
         // GET: Menu
         public ActionResult Index()
         {
-            List<Function> list = functionManager.GetByWhere(item=>item.IsDelete==0&&item.ParentNodeId==0);
+            List<Function> list = functionManager.GetByWhere(item => item.IsDelete == 0 && item.ParentNodeId == 0);
             list.Insert(0, new Function() { NodeId = 0, DisplayName = "请选择" });
             ViewBag.list = new SelectList(list, "NodeId", "DisplayName");
             return View();
@@ -33,24 +33,12 @@ namespace WarehouseWeb.SystemSetup
 
             if (!string.IsNullOrEmpty(Name))
             {
-                for (int i = 0; i < Name.Length; i++)
-                {
-                    if (!Char.IsNumber(Name, i))
-                    {
-                            where = where.And(item => item.DisplayName.IndexOf(Name) != -1);
-                    
-                    }
-                    else
-                    {
-                        int name = int.Parse(Name);
-                        where = where.And(item => item.DisplayName.IndexOf(Name) != -1||item.NodeId == name);
-                    }
-                }
+                where = where.And(item => item.DisplayName.IndexOf(Name) != -1);
             }
             var pageCount = 0;
             var count = 0;
             var list = functionManager.GetByWhereDesc(where, item => item.CreateTime, ref pageIndex, ref count, ref pageCount, PageSize);
-            
+
             var newFormatList = list.Select(item => new { Id = item.Id, DisplayName = item.DisplayName, ParentNodeId = item.ParentNodeId, NodeId = item.NodeId, NodeURL = item.NodeURL, CreateTime = item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") });
             var result = new
             {
@@ -69,7 +57,7 @@ namespace WarehouseWeb.SystemSetup
             if (ParentNodeId == 0)
             {
                 int NodeId = functionManager.GetByWhere(item => item.IsDelete == 0 && item.ParentNodeId == 0).OrderByDescending(item => item.NodeId).Take(1).Select(item => item.NodeId).FirstOrDefault();
-                function.NodeId = NodeId+10000;
+                function.NodeId = NodeId + 10000;
                 function.DisplayName = DisplayName;
                 function.ParentNodeId = 0;
                 function.CreateTime = DateTime.Now;
@@ -80,7 +68,7 @@ namespace WarehouseWeb.SystemSetup
             else
             {
                 int NodeId = functionManager.GetByWhere(item => item.IsDelete == 0 && item.ParentNodeId == ParentNodeId).OrderByDescending(item => item.NodeId).Take(1).Select(item => item.NodeId).FirstOrDefault();
-                function.NodeId = NodeId+1000;
+                function.NodeId = NodeId + 1000;
                 function.DisplayName = DisplayName;
                 function.ParentNodeId = ParentNodeId;
                 function.CreateTime = DateTime.Now;
@@ -116,12 +104,12 @@ namespace WarehouseWeb.SystemSetup
 
         public ActionResult QueryById(int Id)
         {
-            Function function = functionManager.GetByWhere(item => item.Id==Id).SingleOrDefault();
+            Function function = functionManager.GetByWhere(item => item.Id == Id).SingleOrDefault();
             return Json(function, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Update(string DisplayName, int ParentNodeId, string NodeURL,int NodeId)
+        public ActionResult Update(string DisplayName, int ParentNodeId, string NodeURL, int NodeId)
         {
-            Function function = functionManager.GetByWhere(item => item.NodeId == NodeId&&item.IsDelete==0).SingleOrDefault();
+            Function function = functionManager.GetByWhere(item => item.NodeId == NodeId && item.IsDelete == 0).SingleOrDefault();
             //获取编号
             if (ParentNodeId == 0)
             {

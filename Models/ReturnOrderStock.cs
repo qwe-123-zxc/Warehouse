@@ -27,5 +27,6 @@ namespace Models
         public string Remark { get; set; }
     
         public virtual ReturnOrderType ReturnOrderType { get; set; }
+        public virtual Supplier Supplier { get; set; }
     }
 }

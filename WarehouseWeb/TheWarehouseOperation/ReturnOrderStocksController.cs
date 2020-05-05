@@ -151,7 +151,7 @@ namespace WarehouseWeb.TheWarehouseOperation
         public ActionResult QueryByIdTUIHUOMinXiInfo(int id)
         {
             InStorage ins = instorage.GetByWhere(i => i.Id == id).SingleOrDefault();
-            var mx = instoragedetail.GetByWhere(i => i.InStorageId == ins.InSNum && i.IsDelete == 0);
+            var mx = instoragedetail.GetByWhere(i => i.InStorageId == ins.InSNum && i.IsDelete == 0 && i.IsReturnOrder == 0);
             return Json(mx, JsonRequestBehavior.AllowGet);
         }
 

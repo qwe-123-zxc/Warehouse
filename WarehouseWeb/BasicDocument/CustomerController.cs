@@ -50,7 +50,7 @@ namespace WarehouseWeb.BasicDocument
             Customer customer = new Customer();
             //获取最大编号
             string CustomerNum = service.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.CustomerNum).Take(1).Select(item => item.CustomerNum).FirstOrDefault();
-            if (!string.IsNullOrEmpty(CustomerNum))
+            if (string.IsNullOrEmpty(CustomerNum))
             {
                 customer.CustomerNum = "000001";
             }
@@ -122,13 +122,13 @@ namespace WarehouseWeb.BasicDocument
             }
         }
 
-        public ActionResult QueryById(string customerNum) {
-            Customer customer = service.GetByWhere(item => item.CustomerNum.IndexOf(customerNum)!=-1).SingleOrDefault();
+        public ActionResult QueryById(int customerNum) {
+            Customer customer = service.GetByWhere(item => item.Id==customerNum).SingleOrDefault();
             return Json(customer,JsonRequestBehavior.AllowGet);
         }
         public ActionResult Update(string customerName, string fax, string contacts, string email, String phone, string address, String remark,string customerNum)
         {
-            Customer customer = service.GetByWhere(item => item.CustomerNum.IndexOf(customerNum) != -1).SingleOrDefault();
+            Customer customer = service.GetByWhere(item => item.CustomerNum == customerNum && item.IsDelete == 0).SingleOrDefault();
             customer.CustomerName = customerName;
             customer.Fax = fax;
             customer.Contacts = contacts;

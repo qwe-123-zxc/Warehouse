@@ -379,9 +379,6 @@
         var Fax = $("#bianJi [name=fax]").val();
         var Address = $("#bianJi [name=address]").val();
         var Describe = $("#bianJi [name=describe]").val();
-        alert(SupplierName);
-        alert(SupplierNum);
-        alert(SupTypeId);
         $.ajax({
             url: "@Url.Action("Update")",
             data: { supplierName: SupplierName, supplierNum: SupplierNum,supTypeId: SupTypeId, phone: Phone, contacts: Contacts, email: Email, fax: Fax, address: Address, describe: Describe },

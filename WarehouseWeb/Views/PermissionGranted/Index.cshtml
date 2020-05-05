@@ -154,7 +154,7 @@
             type: "post",
             success: function (result) {
                 if (result) {
-                    alert("ok");
+                    //alert("ok");
                     BindData();
                 }
             }
@@ -192,6 +192,7 @@
     function customBusinessR(data) {
         var node = $('.tree_right .tree').treeview('getSelected');
         $('.tree_right .tree').treeview('removeNode', [node, { silent: true }]);
+        //alert(data.href)
         $.ajax({
             url: "@Url.Action("Update")",
             data: { RoleId: roleId, NodeId: data.tags, ParentNodeId: data.href },
@@ -199,7 +200,7 @@
             type: "post",
             success: function (result) {
                 if (result) {
-                    alert("okk");
+                    //alert("okk");
                     BindData();
                 }
             }
@@ -252,7 +253,7 @@
                             if (data.ParentNodeId == value.NodeId && data.IsDelete == 0) {
                                 var dd = {};
                                 dd.text = data.DisplayName;
-                                dd.href = "#parent2";
+                                dd.href = data.ParentNodeId;
                                 dd.tags = data.NodeId;
                                 d.nodes.push(dd);
                             }

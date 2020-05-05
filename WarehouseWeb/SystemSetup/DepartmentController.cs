@@ -39,8 +39,8 @@ namespace WarehouseWeb.SystemSetup
 
             if (!string.IsNullOrEmpty(DepartNum))
             {
-                //条件查询
-                where = where.And(item => item.DepartNum.Equals(DepartNum) || item.DepartName == DepartNum);
+                //当类型不是全部选中项，则按照类型组合条件
+                where = where.And(item => item.DepartNum.IndexOf(DepartNum) != -1 || item.DepartName.IndexOf(DepartNum) != -1);
             }
 
 
@@ -78,7 +78,7 @@ namespace WarehouseWeb.SystemSetup
             Depart depart = new Depart();
             //获取最大编号
             string departNum = Departmanager.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.DepartNum).Take(1).Select(item => item.DepartNum).FirstOrDefault();
-            if (!string.IsNullOrEmpty(departNum))
+            if (string.IsNullOrEmpty(departNum))
             {
                 depart.DepartNum = "000001";
             }
@@ -127,7 +127,7 @@ namespace WarehouseWeb.SystemSetup
         /// <returns></returns>
         public ActionResult Update(string departNum, string DepartName)
         {
-            Depart depart = Departmanager.GetByWhere(item => item.DepartNum ==departNum).SingleOrDefault();
+            Depart depart = Departmanager.GetByWhere(item => item.DepartNum == departNum && item.IsDelete == 0).SingleOrDefault();
             depart.DepartName = DepartName;
 
             bool val = Departmanager.Update(depart);

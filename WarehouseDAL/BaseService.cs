@@ -83,7 +83,7 @@ namespace WarehouseDAL
                                where r.RoleId == roleId && fff.ParentNodeId != 0
                                select fff.NodeId).Contains(ff.NodeId)
                               select ff.ParentNodeId).Contains(f.ParentNodeId)
-                               && f.ParentNodeId == 0
+                               && f.ParentNodeId == 0 && f.IsDelete==0
                       select f;
             string s = obj.ToString();
             return obj.ToList();

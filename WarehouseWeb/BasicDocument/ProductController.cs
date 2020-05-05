@@ -54,7 +54,7 @@ namespace WarehouseWeb.BasicDocument
             var count = 0;
             var list = productManager.GetByWhereDesc(where, item => item.CreateTime, ref pageIndex, ref count, ref pageCount, PageSize);
 
-            var newFormatList = list.Select(item => new { Id = item.Id, ProductNum = item.ProductNum, ProductName = item.ProductName, MaxNum = item.MaxNum, MinNum = item.MinNum, OutPrice = item.OutPrice, Size = item.Size, PCateId = item.ProductCategory.PCateName, MeasureId = item.Measure.MeasureName, Remark = item.Remark });
+            var newFormatList = list.Select(item => new { Id = item.Id, ProductNum = item.ProductNum, ProductName = item.ProductName, MaxNum = item.MaxNum, MinNum = item.MinNum, OutPrice = item.OutPrice, Size = item.Size, PCateId = item.ProductCategory.PCateName, MeasureId = item.Measure.MeasureName, StockNum = item.StockNum, Remark = item.Remark,LocationId=item.Location.LocationName });
 
             var result = new
             {
@@ -87,6 +87,7 @@ namespace WarehouseWeb.BasicDocument
             product.IsDelete = 0;
             product.CreateTime = DateTime.Now;
             product.CreateUser = "DA_0000";
+            product.StockNum = 0;
             bool val = productManager.Add(product);
             if (val)
             {
@@ -111,7 +112,7 @@ namespace WarehouseWeb.BasicDocument
                 return Json("删除失败", JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult DeleteOther(List<Measure> list)
+        public ActionResult DeleteOther(List<Product> list)
         {
             bool val = true;
             foreach (var item in list)
@@ -136,7 +137,7 @@ namespace WarehouseWeb.BasicDocument
         }
         public ActionResult Update(string ProductName, int MaxNum, int MinNum, double OutPrice, string Size, string Color, int PCateId, int MeasureId, int LocationId, int productNum)
         {
-            Product product = productManager.GetByWhere(item => item.Id == productNum).SingleOrDefault();
+            Product product = productManager.GetByWhere(item => item.Id == productNum&&item.IsDelete==0).SingleOrDefault();
             product.ProductName = ProductName;
             product.MaxNum = MaxNum;
             product.MinNum = MinNum;

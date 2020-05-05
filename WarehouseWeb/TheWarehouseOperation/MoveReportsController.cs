@@ -105,11 +105,11 @@ namespace WarehouseWeb.TheWarehouseOperation
                 var d = moveReportDetail.GetByWhere(item => item.MoveId == ss.MoveNum);
                 foreach (var item in d)
                 {
-                    var pd = new ProductManager();
-                    Expression<Func<Product, bool>> where = iss => iss.ProductNum == item.ProductNum;
-                    var pdu1 = pd.GetByWhere(where).SingleOrDefault();
-                    pdu1.StockNum = Convert.ToInt32(pdu1.StockNum - item.Quantity);
-                    var pdu = product.Update(pdu1);
+                    //var pd = new ProductManager();
+                    //Expression<Func<Product, bool>> where = iss => iss.ProductNum == item.ProductNum;
+                    //var pdu1 = pd.GetByWhere(where).SingleOrDefault();
+                    //pdu1.StockNum = Convert.ToInt32(pdu1.StockNum - item.Quantity);
+                    //var pdu = product.Update(pdu1);
                 }
             }
             var result = new

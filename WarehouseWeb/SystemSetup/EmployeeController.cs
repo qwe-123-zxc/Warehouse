@@ -109,7 +109,7 @@ namespace WarehouseWeb.SystemSetup
             Admin admin = new Admin();
             //获取最大编号
             string UserCode = Adminmanager.GetByWhere(item => item.Id != 1&& item.IsDelete == 0).OrderByDescending(item => item.UserCode).Take(1).Select(item => item.UserCode).FirstOrDefault();
-            if (!string.IsNullOrEmpty(UserCode))
+            if (string.IsNullOrEmpty(UserCode))
             {
                 admin.UserCode = "000001";
             }
@@ -164,7 +164,7 @@ namespace WarehouseWeb.SystemSetup
         /// <returns></returns>
         public ActionResult Update(string UserCode, string userName, string UserName,string RealName, string realName, string Email, string email, string Phone, string phone, int DepartId, int departId, int RoleId, int roleId)
         {
-            Admin admin = Adminmanager.GetByWhere(item => item.UserCode == UserCode).SingleOrDefault();
+            Admin admin = Adminmanager.GetByWhere(item => item.UserCode == UserCode && item.IsDelete == 0).SingleOrDefault();
             admin.UserName = UserName;
             admin.RealName = RealName;
             admin.Email = Email;

@@ -50,7 +50,7 @@ namespace WarehouseWeb.BasicDocument
             ProductCategory productCategory = new ProductCategory();
             //获取最大编号
             string PCateNum = service.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.PCateNum).Take(1).Select(item => item.PCateNum).FirstOrDefault();
-            if (!string.IsNullOrEmpty(PCateNum))
+            if (string.IsNullOrEmpty(PCateNum))
             {
                 productCategory.PCateNum = "000001";
             }
@@ -95,7 +95,7 @@ namespace WarehouseWeb.BasicDocument
                 return Json("删除失败", JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult DeleteOther(List<Measure> list)
+        public ActionResult DeleteOther(List<ProductCategory> list)
         {
             bool val = true;
             foreach (var item in list)
@@ -120,7 +120,7 @@ namespace WarehouseWeb.BasicDocument
         }
         public ActionResult Update(string pcateName, int pcateNum)
         {
-            ProductCategory productCategory = service.GetByWhere(item => item.Id==pcateNum).SingleOrDefault();
+            ProductCategory productCategory = service.GetByWhere(item => item.Id==pcateNum&&item.IsDelete==0).SingleOrDefault();
             productCategory.PCateName = pcateName;
             bool val = service.Update(productCategory);
             if (val)

@@ -176,7 +176,7 @@
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">传<span style="margin-left:27px">真</span></span><input  name="fax"class="form-control" style="width:150px;margin-left:11px" />
-        <span style="margin-left:25px">联&nbsp;&nbsp;系&nbsp;&nbsp;人</span><input class="form-control" style="width:150px;margin-left:10px" />
+        <span style="margin-left:25px">联&nbsp;&nbsp;系&nbsp;&nbsp;人</span><input class="form-control" name="contacts" style="width:150px;margin-left:10px" />
     </div>
     <div class="form-inline" style="margin:20px">
         <span style="margin-left:10px">E&nbsp;m&nbsp;a&nbsp;i&nbsp;&nbsp;l&nbsp;&nbsp;</span><input name="email" class="form-control" style="width:150px;margin-left:5px" />
@@ -286,7 +286,7 @@
                     str += "<td>" + value.Phone + "</td>";
                     str += "<td>" + value.Fax + "</td>";
                     str += "<td>" + value.CreateTime + "</td>";
-                    str += "<td><a href = 'javascript:bianJiCustomer(" + value.CustomerNum + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:Delete(" + value.CustomerNum + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";
+                    str += "<td><a href = 'javascript:bianJiCustomer(" + value.Id + ");' title = '编辑' ><img src='../Image/Write.png' /></a><a href='javascript:Delete(" + value.Id + ");' title='删除'><img src='../Image/cha.png' /> </a></td>";
                     str += "</tr>";
                     $("table tbody").append(str);
                 });
@@ -360,7 +360,6 @@
         var Address = $("[name=address]").val();
         var Remark = $("[name=remark]").val();
         var CustomerNum = $("[name=customerNum]").val();
-
         $.ajax({
             url: "@Url.Action("Update")",
             data: { customerName: CustomerName, fax: Fax, contacts: Contacts, email: Email, phone: Phone, address: Address, remark: Remark, customerNum: CustomerNum },

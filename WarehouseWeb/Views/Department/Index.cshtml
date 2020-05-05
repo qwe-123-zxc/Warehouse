@@ -219,7 +219,7 @@
     function btnAdd() {
         //取值
         var DepartNameValue = $("[name=DepartName]").val();
-        alert(DepartNameValue);
+        //alert(DepartNameValue);
             $.ajax({
                 url: "@Url.Action("AddAjax")",
                 data: { DepartName: DepartNameValue},

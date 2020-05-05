@@ -85,7 +85,7 @@ namespace WarehouseWeb.BasicDocument
             Supplier supplier = new Supplier();
             //获取最大编号
             string SupplierNum = service.GetByWhere(item => item.IsDelete == 0).OrderByDescending(item => item.SupplierNum).Take(1).Select(item => item.SupplierNum).FirstOrDefault();
-            if (!string.IsNullOrEmpty(SupplierNum))
+            if (string.IsNullOrEmpty(SupplierNum))
             {
                 supplier.SupplierNum = "000001";
             }
@@ -130,7 +130,7 @@ namespace WarehouseWeb.BasicDocument
         }
         public ActionResult Update(string supplierName, int supplierNum, int supTypeId, string phone, string contacts, string email, string fax, string address, string describe)
         {
-            Supplier supplier = service.GetByWhere(item => item.Id == supplierNum).SingleOrDefault();
+            Supplier supplier = service.GetByWhere(item => item.Id == supplierNum&&item.IsDelete==0).SingleOrDefault();
             supplier.SupplierName = supplierName;
             supplier.SupTypeId = supTypeId;
             supplier.Phone = phone;

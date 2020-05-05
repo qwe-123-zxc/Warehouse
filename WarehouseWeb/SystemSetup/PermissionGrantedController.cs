@@ -65,19 +65,19 @@ namespace WarehouseWeb.SystemSetup
             return Json(val, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Update(int RoleId, int NodeId, int ParentNodeId)
+        public ActionResult Update(int roleId, int NodeId, int ParentNodeId)
         {
-            RolePower role = rolePowerManager.GetByWhere(item => item.RoleId == RoleId && item.NodeId == ParentNodeId).SingleOrDefault();
+            RolePower role = rolePowerManager.GetByWhere(item => item.RoleId == roleId && item.NodeId == ParentNodeId).SingleOrDefault();
             if (role == null)
             {
                 RolePower r = new RolePower();
-                r.RoleId = RoleId;
+                r.RoleId = roleId;
                 r.NodeId = ParentNodeId;
                 r.CreateTime = DateTime.Now;
                 r.IsDelete = 0;
                 bool vall = rolePowerManager.Add(r);
             }
-            RolePower rolePower = rolePowerManager.GetByWhere(item => item.RoleId == RoleId && item.NodeId == NodeId).SingleOrDefault();
+            RolePower rolePower = rolePowerManager.GetByWhere(item => item.RoleId == roleId && item.NodeId == NodeId).SingleOrDefault();
             bool val = rolePowerManager.Delete(rolePower);
             return Json(val, JsonRequestBehavior.AllowGet);
         }

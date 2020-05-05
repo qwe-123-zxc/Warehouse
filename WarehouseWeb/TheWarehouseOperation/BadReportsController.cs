@@ -144,7 +144,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             string detailNum = "";
             //获取明细表最大编号
             string detailNumBig = badReportDetail.GetByWhere(i => true).OrderByDescending(i => i.DetailNum).Take(1).Select(i => i.DetailNum).FirstOrDefault();
-            if (detailNumBig == null)
+            if (!string.IsNullOrEmpty(detailNumBig))
             {
                 detailNum = "000001";
             }
