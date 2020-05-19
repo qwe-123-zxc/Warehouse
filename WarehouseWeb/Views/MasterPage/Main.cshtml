@@ -316,14 +316,14 @@
             <button class="btn" onclick="hideRevise();" style="float: right;background-image: url('../../Image/guanbi.png');background-repeat:no-repeat;background-color:white;height:20px;background-position: 4px 1px;margin: 5px;"></button>
         </div>
         <div class="form-inline" style="margin:20px;">
-            <span style="margin-left:40px">当前密码</span><input name="Password" class="form-control" placeholder="请输入当前密码" style="width:150px;margin-left:10px" />
+            <span style="margin-left:40px">当前密码</span><input name="password" class="form-control" placeholder="请输入当前密码" style="width:150px;margin-left:10px" type="password"/>
             <span class="tishi_1" style="color:red;"></span>
         </div>
         <div class="form-inline" style="margin:20px;">
-            <span style="margin-left:40px">密<span style="margin-left:28px">码</span></span><input name="Pwd" class="form-control" placeholder="请输入密码" style="width:150px;margin-left:10px" />
+            <span style="margin-left:40px">密<span style="margin-left:28px">码</span></span><input name="Pwd" class="form-control" placeholder="请输入密码" style="width:150px;margin-left:10px" type="password"/>
         </div>
         <div class="form-inline" style="margin:20px">
-            <span style="margin-left:40px">确认密码</span><input name="ConfirmPwd" class="form-control" placeholder="请输入确认密码" style="width:150px;margin-left:10px" />
+            <span style="margin-left:40px">确认密码</span><input name="ConfirmPwd" class="form-control" placeholder="请输入确认密码" style="width:150px;margin-left:10px" type="password" />
             <span class="tishi_2" style="color:red;"></span>
         </div>
         <div style="height:40px;background-color:#eeeeee;margin-top:35px;border-top:1px solid #ddd">
@@ -354,6 +354,7 @@
                 success: function (result) {
                     var str = "";
                     $.each(result.rootMeun, function (index, value) {
+                        //alert(JSON.stringify(result.rootMeun))
                         str += "<li>";
                         str += "<span></span>";
                         str += "<a href='javascript:id_" + value.NodeId + "();'>" + value.DisplayName + "</a>";
@@ -422,7 +423,7 @@
         }
         function UpdatePwd() {
             var userNAME = "@(Session["userName"])";
-            var password = $("[name=Password]").val();
+            var password = $("[name=password]").val();
             var pwd = $("[name=Pwd]").val();
             var confirmPwd = $("[name=ConfirmPwd]").val();
             if (pwd != confirmPwd) {
@@ -441,7 +442,7 @@
                         }
                         else {
                             alert(result);
-                            hideRevise();
+                            window.location.href = "@Url.Action("LoginPage", "Warehouse")";
                         }
                     }
                 });

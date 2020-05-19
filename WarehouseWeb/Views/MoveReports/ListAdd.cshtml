@@ -81,26 +81,20 @@
             </div>
         </div>
         <div class="ZhuTiXinZen">
-            <div class="row">
+            <div class="row" style="margin-top: 10px;margin-left: 10px;">
                 <div class="col-md-3 form-group">
                     移库单编号
                     <input class="form-control" disabled="disabled" placeholder="自动生成" type="text" />
                 </div>
-                <div class="col-md-3 form-group">
+                <div class="col-md-2 form-group" style="margin-left: 20px;">
                     移库类型
                     @Html.DropDownList("MoveTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
                 </div>
-                <div class="col-md-3 form-group">
+                <div class="col-md-2 form-group" style="margin-left: 50px;">
                     制单人
                     <input value="@(Session["userName"])" disabled="disabled" class="form-control" type="text" />
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3 form-group">
-                    制单时间
-                    <input class="form-control" type="datetime" />
-                </div>
-                <div class="col-md-5 form-group">
+                <div class="col-md-3 form-group" style="margin-left: 40px;">
                     备注
                     <input name="Remark" class="form-control" type="text" />
                 </div>
@@ -112,9 +106,9 @@
                     <td>产品编号</td>
                     <td>产品名称</td>
                     <td>规格</td>
-                    <td>数量</td>
                     <td>当前库位</td>
                     <td>移入库位</td>
+                    <td style="display:none"></td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -154,7 +148,7 @@
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">产品名称</label>&nbsp;&nbsp;
-                    @Html.DropDownList("Product", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+                    @Html.DropDownList("Product", null, htmlAttributes: new { @class = "form-control", @style = "width:200px;" })
                 </div>
             </div>
             <div class="row form-inline form-group">
@@ -172,21 +166,21 @@
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">移入库位</label>&nbsp;&nbsp;
-                    @Html.DropDownList("Location", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+                    @Html.DropDownList("Location", null, htmlAttributes: new { @class = "form-control", @style = "width:200px;" })
                 </div>
             </div>
             <div class="row form-inline form-group">
-                <div class="col-md-12">
+                <div class="col-md-12" style="display:none">
                     <label class="control-label">现有库存</label>&nbsp;&nbsp;
                     <input disabled="disabled" name="StockNum" class="form-control" style="width:200px;" />
                 </div>
             </div>
-            <div class="row form-inline form-group">
-                <div class="col-md-12">
-                    <label class="control-label">移库数量</label>&nbsp;&nbsp;
-                    <input type="text" name="Num" class="form-control" style="width:200px;" />
-                </div>
-            </div>
+            @*<div class="row form-inline form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">移库数量</label>&nbsp;&nbsp;
+                        <input type="text" name="Num" class="form-control" style="width:200px;" />
+                    </div>
+                </div>*@
         </div>
         <div class="row XinZenChanPingDiBu">
             <div class="col-md-12 text-right">
@@ -221,24 +215,25 @@
 
         //添加产品到表格
         $("#ProductAdd").click(function () {
-            var stockNum = parseInt($("[name=StockNum]").val());  //现有库存
-            var numvalue_1 = parseInt($("[name=Num]").val());   //移库数
-            if (numvalue_1 <= stockNum && numvalue_1 != 0) {
+            //var stockNum = parseInt($("[name=StockNum]").val());  //现有库存
+            //var numvalue_1 = parseInt($("[name=Num]").val());   //移库数
+            //if (numvalue_1 <= stockNum && numvalue_1 != 0) {
                 var ProductNum = $("[name=ProductNum]").val();
                 var ProductName = $("[name=Product] option:selected").text();
                 var Size = $("[name=Size]").val();
                 var location = $("[name=LocationId]").val();
-                var movingLocation = $("[name=Location] option:selected").text();
-                var numvalue = $("[name=Num]").val();
-                var str = "<tr><td>" + ProductNum + "</td><td>" + ProductName + "</td><td>" + Size + "</td><td>" + numvalue + "</td><td>" + location + "</td><td>" + movingLocation + "</td><td onclick='Delete(this);'><a href='javascript:void(0);'>删除</a></td></tr >";
+            var movingLocation = $("[name=Location] option:selected").text();
+            var locationId = $("[name=Location]").val();
+                //var numvalue = $("[name=Num]").val();
+            var str = "<tr><td>" + ProductNum + "</td><td>" + ProductName + "</td><td>" + Size + "</td><td>" + location + "</td><td>" + movingLocation + "</td><td>" + locationId + "</td><td onclick='Delete(this);'><a href='javascript:void(0);'>删除</a></td></tr >";
                 $("tbody").append(str);
                 //关闭弹窗
                 ChaKanGuanBi();
-            }
-            else
-            {
-                alert("移库数不得大于现有库存！不能为零！");
-            }
+            //}
+            //else
+            //{
+            //    alert("移库数不得大于现有库存！不能为零！");
+            //}
         });
 
         //保存
@@ -246,6 +241,7 @@
             var AuditUservalue = "@(Session["userName"])";
             var MoveTypeIdvalue = $("#MoveTypeId").val();
             var Remarkvalue = $("[name=Remark]").val();
+            var stockNum = parseInt($("[name=StockNum]").val());  //现有库存
 
             //入库明细表
             var trs = document.getElementsByTagName("tr");  //获取表格所有行
@@ -258,9 +254,10 @@
                 stu.ProductNum = tds[0].innerHTML;
                 stu.ProductName = tds[1].innerHTML;
                 stu.Size = tds[2].innerHTML;
-                stu.Quantity = tds[3].innerHTML;
-                stu.TheCurrentLocation = tds[4].innerHTML;
-                stu.MovingLocation = tds[5].innerHTML;
+                stu.Quantity = stockNum;
+                stu.TheCurrentLocation = tds[3].innerHTML;
+                stu.MovingLocation = tds[4].innerHTML;
+                stu.MoveLocationId = tds[5].innerHTML;
                 stu.CreateTime = "";
                 stu.IsDelete = 0;
                 sum.push(stu);

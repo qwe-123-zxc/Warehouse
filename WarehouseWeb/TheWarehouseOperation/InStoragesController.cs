@@ -180,7 +180,7 @@ namespace WarehouseWeb.TheWarehouseOperation
             //获取明细表最大编号
             string detailNumBig = inStorageDetail.GetByWhere(item => true).OrderByDescending(item => item.DetailNum).Take(1).Select(item => item.DetailNum).FirstOrDefault();
             string detailNum = "";
-            if (detailNumBig==null)
+            if (string.IsNullOrEmpty(detailNumBig))
             {
                 detailNum = "000001";
             }
@@ -420,6 +420,14 @@ namespace WarehouseWeb.TheWarehouseOperation
                 }
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
+        //跳转退货单
+        public ActionResult ReturnOrder(int id)
+        {
+            InStorage ins = inStorage.GetByWhere(i => i.Id == id).SingleOrDefault();
+            var mx = inStorageDetail.GetByWhere(i => i.InStorageId == ins.InSNum && i.IsDelete == 0 && i.IsReturnOrder == 0);
+            return Json(mx, JsonRequestBehavior.AllowGet);
         }
     }
 }

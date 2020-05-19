@@ -24,14 +24,14 @@ namespace WarehouseWeb.Controllers
         FunctionManager functionManager = new FunctionManager();
         AdminManager adminManger = new AdminManager();
         RolePowerManager rolePowerManager = new RolePowerManager();
-        RoleManeger roleManeger = new RoleManeger();
+        RoleManeger roleManeger = new RoleManeger(); 
         
 
         //侧边栏——判断用户是否存在
         public ActionResult GetSidebarData(string userName, string pwd)
         {
             Admin admin = adminManger.GetByWhere(item => item.UserName == userName && item.Password == pwd).SingleOrDefault();
-            if (pwd==null)
+            if (pwd == null)
             {
                 admin = adminManger.GetByWhere(item => item.UserName == userName).SingleOrDefault();
             }
@@ -45,6 +45,8 @@ namespace WarehouseWeb.Controllers
                     rootMeun = rootMeun,
                     msg="登陆成功"
                 };
+                admin.LoginCount = admin.LoginCount + 1;
+                bool val = adminManger.Update(admin);
                 this.HttpContext.Session["userName"] = admin.UserName;
                 return Json(newList, JsonRequestBehavior.AllowGet);
             }

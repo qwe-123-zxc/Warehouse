@@ -313,21 +313,30 @@
     var pageIndexvalue = 1;//提取当前页为全局变量
     var ztvalue = "";
     $(function () {
+        $("[name=suoyou]").css("background-color", "#ededed");
         $("#GJSS").click(function () {
             $(".GaoJiChaXun").slideToggle();
         });
         //状态按钮
         $("[name=suoyou]").click(function () {
             ztvalue = "";
+            $("[name=suoyou]").css("background-color", "#ededed");
+            $("[name=dsh],[name=shtg],[name=shsb]").css("background-color", "#dddddd");
         });
         $("[name=dsh]").click(function () {
             ztvalue = "待审核";
+            $("[name=dsh]").css("background-color", "#ededed");
+            $("[name=suoyou],[name=shtg],[name=shsb]").css("background-color", "#dddddd");
         });
         $("[name=shtg]").click(function () {
             ztvalue = "审核通过";
+            $("[name=shtg]").css("background-color", "#ededed");
+            $("[name=suoyou],[name=dsh],[name=shsb]").css("background-color", "#dddddd");
         });
         $("[name=shsb]").click(function () {
             ztvalue = "审核失败";
+            $("[name=shsb]").css("background-color", "#ededed");
+            $("[name=suoyou],[name=shtg],[name=dsh]").css("background-color", "#dddddd");
         });
 
         //分页按钮
@@ -451,7 +460,7 @@
                         str += "<a title='审核' href='javascript:Shenhe(" + value.id + ")'><img src='../Image/dui.png' style='width:21px' /></a>"
                     }
                     if (value.Status == "审核通过") {
-                        str += "<a title='退货' href='/ReturnOrderStocks/ListAdd/" + value.id+"'><img src='../Image/tuihuo.png' style='width:21px' /></a>"
+                        str += "<a title='退货' onclick='tuihuo(" + value.id +");' ><img src='../Image/tuihuoguanli.png' style='width:20px;margin-left:3px' /></a>"
                     }
                     str += "</td>";
                     str += "</tr>";
@@ -459,6 +468,23 @@
                 });
                 $("#fenyeshu").text("当前页是第" + result.PageIndex + "页,共计" + result.Count + "条" + result.PageCount + "页");
                 $("[name=PageIndex]").val(result.PageIndex);
+            }
+        });
+    }
+
+    function tuihuo(num) {
+        $.ajax({
+            url: "@Url.Action("ReturnOrder")",
+            data: { id: num },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                if (result == "") {
+                    alert("此单号的产品已退货完！");
+                }
+                else {
+                    window.location.href = "/ReturnOrderStocks/ListAdd/"+num+"";
+                }
             }
         });
     }

@@ -308,18 +308,27 @@
         $(".btnClose").click(function () {
             $("#personal_1").hide();
         });
+        $("[name=suoyou]").css("background-color", "#ededed");
         //状态按钮
         $("[name=suoyou]").click(function () {
             ztvalue = "";
+            $("[name=suoyou]").css("background-color", "#ededed");
+            $("[name=dsh],[name=shtg],[name=shsb]").css("background-color", "#dddddd");
         });
         $("[name=dsh]").click(function () {
             ztvalue = "待审核";
+            $("[name=dsh]").css("background-color", "#ededed");
+            $("[name=suoyou],[name=shtg],[name=shsb]").css("background-color", "#dddddd");
         });
         $("[name=shtg]").click(function () {
             ztvalue = "审核通过";
+            $("[name=shtg]").css("background-color", "#ededed");
+            $("[name=dsh],[name=suoyou],[name=shsb]").css("background-color", "#dddddd");
         });
         $("[name=shsb]").click(function () {
             ztvalue = "审核失败";
+            $("[name=shsb]").css("background-color", "#ededed");
+            $("[name=dsh],[name=shtg],[name=suoyou]").css("background-color", "#dddddd");
         });
         //分页按钮
         $("[name=first]").click(function () {

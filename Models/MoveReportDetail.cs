@@ -23,6 +23,7 @@ namespace Models
         public int Quantity { get; set; }
         public Nullable<double> SumMoney { get; set; }
         public string TheCurrentLocation { get; set; }
+        public Nullable<int> MoveLocationId { get; set; }
         public string MovingLocation { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int IsDelete { get; set; }

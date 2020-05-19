@@ -93,26 +93,20 @@
             </div>
         </div>
         <div class="ZhuTiXinZen">
-            <div class="row">
-                <div class="col-md-3 form-group">
+            <div class="row" style="margin-top: 10px;margin-left: 10px;">
+                <div class="col-md-2 form-group">
                     盘点单号
                     <input class="form-control" disabled="disabled" placeholder="自动生成" type="text" />
                 </div>
-                <div class="col-md-3 form-group">
+                <div class="col-md-2 form-group" style="margin-left: 20px;">
                     盘点类型
                     @Html.DropDownList("CheckTypeId", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
                 </div>
-                <div class="col-md-3 form-group">
+                <div class="col-md-2 form-group" style="margin-left: 50px;">
                     制单人
                     <input value="@(Session["userName"])" disabled="disabled" class="form-control" type="text" />
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3 form-group">
-                    制单时间
-                    <input class="form-control" type="datetime" />
-                </div>
-                <div class="col-md-5 form-group">
+                <div class="col-md-3 form-group" style="margin-left: 40px;">
                     备注
                     <input name="Remark" class="form-control" type="text" />
                 </div>
@@ -166,7 +160,7 @@
             <div class="row form-inline form-group">
                 <div class="col-md-12">
                     <label class="control-label">产品名称</label>&nbsp;&nbsp;
-                    @Html.DropDownList("Product", null, htmlAttributes: new { @class = "form-control", @style = "width:180px;" })
+                    @Html.DropDownList("Product", null, htmlAttributes: new { @class = "form-control", @style = "width:200px;" })
                 </div>
             </div>
             <div class="row form-inline form-group">
